@@ -11,30 +11,32 @@ class GrimDawnItem(Item):
 class GrimDawnItemData(NamedTuple):
     code: Optional[int] = None
     type: ItemClassification = ItemClassification.filler
+    quantity: int = 1
     can_create: Callable[[MultiWorld, int], bool] = lambda multiworld, player: True
 
 
 item_data_table: Dict[str, GrimDawnItemData] = {
-    "Isaac's Knowledge": GrimDawnItemData(
+    "Cultist Orders": GrimDawnItemData(
         code=baseId,
         type=ItemClassification.progression,
     ),
-    "Cultist Orders": GrimDawnItemData(
+    "Strange Key": GrimDawnItemData(
         code=baseId+1,
         type=ItemClassification.progression,
     ),
-    "Menhir": GrimDawnItemData(
+    "Dynamite": GrimDawnItemData(
         code=baseId+2,
         type=ItemClassification.progression,
-    ),
-    "Strange Key": GrimDawnItemData(
-        code=baseId+3,
-        type=ItemClassification.progression,
+        quantity=2
     ),
     "Scrap": GrimDawnItemData(
+        code=baseId+3,
+        type=ItemClassification.progression,
+        quantity=11
+    ),
+    "Iron Bits": GrimDawnItemData(
         code=baseId+4,
         type=ItemClassification.filler,
-        can_create=lambda multiworld, player: False
     ),
 }
 

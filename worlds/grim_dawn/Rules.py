@@ -28,24 +28,24 @@ class GrimDawnRules:
 
         
         self.location_rules = {
-            "Retrieve Isaac's Stash": lambda state:
-                self.has_isaac_knowledge(state),
-            "Confront Direni": lambda state:
+            "Repair Waterpump": lambda state:
+                self.has_scrap(state,5),
+            "A Cultist in the Midst": lambda state:
                 self.has_cultist_orders(state),
-            "Deliver Menhir": lambda state:
-                self.has_menhir(state),
-            "Depraved Sanctuary Chest": lambda state:
+            "Sunken Reliquary Exalted Stash": lambda state:
+                self.has_dynamite(state,2),
+            "Depraved Sanctuary Exalted Stash": lambda state:
                 self.has_strange_key(state),
         }
 
-    def has_isaac_knowledge(self, state) -> bool:
-        return state.has("Isaac's Knowledge", self.player)
     def has_cultist_orders(self, state) -> bool:
         return state.has("Cultist Orders", self.player)
-    def has_menhir(self, state) -> bool:
-        return state.has("Menhir", self.player)
     def has_strange_key(self, state) -> bool:
         return state.has("Strange Key", self.player)
+    def has_scrap(self,state,q) -> bool:
+        return state.count("Scrap",self.player) >= q
+    def has_dynamite(self,state,q) -> bool:
+        return state.count("Dynamite",self.player) >= q
 
     def set_grim_dawn_rules(self) -> None:
         multiworld = self.world.multiworld

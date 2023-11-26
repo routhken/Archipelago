@@ -36,63 +36,63 @@ location_data_table: Dict[str, GrimDawnLocationData] = {
         region="Act 1",
         address=baseId+4,
     ),
-    "Rescue Survivor": GrimDawnLocationData(
+    "Rescue Faldis": GrimDawnLocationData(
         region="Act 1",
         address=baseId+5,
     ),
-    "Avenge Isaac": GrimDawnLocationData(
+    "Isaac's Stash": GrimDawnLocationData(
         region="Act 1",
         address=baseId+6,
     ),
-    "Retrieve Isaac's Stash": GrimDawnLocationData(
+    "Rescue Luther Graves": GrimDawnLocationData(
         region="Act 1",
         address=baseId+7,
     ),
-    "Rescue Luther Graves": GrimDawnLocationData(
+    "Sunken Reliquary Exalted Stash": GrimDawnLocationData(
         region="Act 1",
         address=baseId+8,
     ),
-    "Repair Wightmire Bridge": GrimDawnLocationData(
+    "A Cultist in the Midst": GrimDawnLocationData(
         region="Act 1",
         address=baseId+9,
     ),
-    "Secure Burrwitch Portal": GrimDawnLocationData(
+    "Depraved Sanctuary Exalted Stash": GrimDawnLocationData(
         region="Act 1",
         address=baseId+10,
     ),
-    "Confront Direni": GrimDawnLocationData(
+    "Rescue Ulgrim": GrimDawnLocationData(
         region="Act 1",
         address=baseId+11,
     ),
-    "Rescue Ulgrim": GrimDawnLocationData(
+    "Rescue Darlet": GrimDawnLocationData(
         region="Act 1",
         address=baseId+12,
     ),
-    "Destroy Debris Blocking East Marsh": GrimDawnLocationData(
+    "Deal with the Hermit": GrimDawnLocationData(
         region="Act 1",
         address=baseId+13,
     ),
-    "Repair Bridge to East Marsh": GrimDawnLocationData(
+    "A Tale of Two Blacksmiths": GrimDawnLocationData(
         region="Act 1",
         address=baseId+14,
     ),
-    "Rescue Darlet": GrimDawnLocationData(
+    "The Seamstress": GrimDawnLocationData(
         region="Act 1",
         address=baseId+15,
     ),
-    "Deal with the Hermit": GrimDawnLocationData(
+    "Monster's Hoard": GrimDawnLocationData(
         region="Act 1",
         address=baseId+16,
     ),
-    "Obtain Hart's Amulet": GrimDawnLocationData(
+    "Kill Warden Krieg": GrimDawnLocationData(
         region="Act 1",
         address=baseId+17,
     ),
-    "Harmond's Request": GrimDawnLocationData(
+    "Hallowed Hill Exalted Stash": GrimDawnLocationData(
         region="Act 1",
         address=baseId+18,
     ),
-    "Deliver Menhir": GrimDawnLocationData(
+    "Ominous Lair Exalted Stash": GrimDawnLocationData(
         region="Act 1",
         address=baseId+19,
     ),
@@ -100,17 +100,9 @@ location_data_table: Dict[str, GrimDawnLocationData] = {
         region="Act 1",
         address=baseId+20,
     ),
-    "Open Krieg's Exalted Stash": GrimDawnLocationData(
+    "Warden Krieg Exalted Stash": GrimDawnLocationData(
         region="Act 1",
         address=baseId+21,
-    ),
-    "Depraved Sanctuary Chest": GrimDawnLocationData(
-        region="Act 1",
-        address=baseId+22,
-    ),
-    "Bring Fabric to Constance": GrimDawnLocationData(
-        region="Act 1",
-        address=baseId+23,
     ),
 }
 

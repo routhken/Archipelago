@@ -1,6 +1,6 @@
 from typing import List
 
-from BaseClasses import Region, Tutorial
+from BaseClasses import Region, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import GrimDawnItem, item_data_table, item_table
 from .Locations import GrimDawnLocation, location_data_table, location_table, locked_locations
@@ -26,17 +26,21 @@ class CliqueWorld(World):
 
     def create_item(self, name: str) -> GrimDawnItem:
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
+    
+    def create_filler_item(self) -> GrimDawnItem:
+        return GrimDawnItem(self.get_filler_item_name(), ItemClassification.filler, item_data_table[self.get_filler_item_name()].code,self.player)
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
         for name, item in item_data_table.items():
             if item.code and item.can_create(self.multiworld, self.player):
-                item_pool.append(self.create_item(name))
+                for i in range(item.quantity):
+                    item_pool.append(self.create_item(name)) #create item.quantity items by default
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
-            item_pool.append(self.create_item(self.get_filler_item_name()))
+            item_pool.append(self.create_filler_item())
 
         self.multiworld.itempool += item_pool
 
@@ -65,12 +69,12 @@ class CliqueWorld(World):
         #    self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def get_filler_item_name(self) -> str:
-        return "Scrap"
+        return "Iron Bits"
 
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
-        self.multiworld.completion_condition[self.player] = lambda state: True
+        self.multiworld.completion_condition[self.player] = lambda state: grimDawnRules.has_scrap(state,11)
 
     def fill_slot_data(self):
         return None
