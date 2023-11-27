@@ -57,16 +57,16 @@ class CliqueWorld(World):
                 location_name: location_data.address for location_name, location_data in location_data_table.items()
                 if location_data.region == region_name and location_data.can_create(self.multiworld, self.player)
             }, GrimDawnLocation)
-            region.add_exits(region_data_table[region_name].connecting_regions)
+            region.add_exits(region_data.connecting_regions)
 
         # Place locked locations.
-        #for location_name, location_data in locked_locations.items():
-        #    # Ignore locations we never created.
-        #    if not location_data.can_create(self.multiworld, self.player):
-        #        continue
-        #
-        #    locked_item = self.create_item(location_data_table[location_name].locked_item)
-        #    self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
+        for location_name, location_data in locked_locations.items():
+            # Ignore locations we never created.
+            if not location_data.can_create(self.multiworld, self.player):
+                continue
+        
+            locked_item = self.create_item(location_data.locked_item)
+            self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def get_filler_item_name(self) -> str:
         return "Iron Bits"
@@ -74,7 +74,7 @@ class CliqueWorld(World):
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
-        self.multiworld.completion_condition[self.player] = lambda state: grimDawnRules.has_scrap(state,11)
+        self.multiworld.completion_condition[self.player] = lambda state: grimDawnRules.has_scrap(state,6)
 
     def fill_slot_data(self):
         return None

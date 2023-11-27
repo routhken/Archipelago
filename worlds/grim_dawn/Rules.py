@@ -23,17 +23,34 @@ class GrimDawnRules:
         self.player = world.player
 
         self.region_rules = {
-
+            "Act 1 -> Post Water Pump": lambda state:
+                state.has("Draining the Flooded Passage",self.player),
+            "Act 1 -> Burial Cave": lambda state:
+                state.has("Burial Cave Door",self.player),
+            "Act 1 -> Rover Cavern": lambda state:
+                state.has("Rover Cavern Door",self.player),
+            "Act 1 -> Warden's Cellar": lambda state:
+                state.has("Warden's Cellar Door",self.player),
+            "Act 1 -> Post Flooded Passage": lambda state:
+                state.has("Flooded Passage Door",self.player) or self.has_scrap(state,6),
+            "Post Flooded Passage -> Dank Cellar": lambda state:
+                state.has("Dank Cellar Door", self.player),
+            "Post Flooded Passage -> Festering Lair": lambda state:
+                state.has("Festering Lair Door", self.player),
+            "Post Flooded Passage -> River Passage": lambda state:
+                state.has("River Passage Door", self.player),
         }
 
         
         self.location_rules = {
             "Repair Waterpump": lambda state:
-                self.has_scrap(state,5),
+                self.has_scrap(state,6),
+            "Draining the Flooded Passage": lambda state:
+                self.has_scrap(state,6),
             "A Cultist in the Midst": lambda state:
                 self.has_cultist_orders(state),
             "Sunken Reliquary Exalted Stash": lambda state:
-                self.has_dynamite(state,2),
+                self.has_dynamite(state,3),
             "Depraved Sanctuary Exalted Stash": lambda state:
                 self.has_strange_key(state),
         }
