@@ -4,7 +4,7 @@ from BaseClasses import Region, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Items import GrimDawnItem, item_data_table, item_table
 from .Locations import GrimDawnLocation, location_data_table, location_table, locked_locations
-from .Options import grim_dawn_options
+from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
 
@@ -20,7 +20,8 @@ class CliqueWorld(World):
     game = "Grim Dawn"
     data_version = 3
     web = GrimDawnWebWorld()
-    option_definitions = grim_dawn_options
+    options_dataclass = GrimDawnOptions
+    options: GrimDawnOptions
     location_name_to_id = location_table
     item_name_to_id = item_table
 
@@ -38,6 +39,29 @@ class CliqueWorld(World):
                     item_pool.append(self.create_item(name)) #create item.quantity items by default
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
+
+        if self.options.devotion_shrines == 1:
+            for i in range(3):
+                item_pool.append(self.create_item("Aether Crystals"))
+            for i in range(2):
+                item_pool.append(self.create_item("Extra EXP"))
+            item_pool.append(self.create_item("Dynamite"))
+            item_pool.append(self.create_item("Level Up"))
+            item_pool.append(self.create_item("Skill Points"))
+
+        if self.options.lore == 1:
+            for i in range(14):
+                item_pool.append(self.create_item("Aether Crystals"))
+            for i in range(6):
+                item_pool.append(self.create_item("Extra EXP"))
+            for i in range(2):
+                item_pool.append(self.create_item("Dynamite"))
+            for i in range(2):
+                item_pool.append(self.create_item("Level Up"))
+            for i in range(3):
+                item_pool.append(self.create_item("Skill Points"))
+
+
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
             item_pool.append(self.create_filler_item())
@@ -69,12 +93,12 @@ class CliqueWorld(World):
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def get_filler_item_name(self) -> str:
-        return "Iron Bits"
+        return "Aether Crystals"
 
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
-        self.multiworld.completion_condition[self.player] = lambda state: grimDawnRules.has_scrap(state,6)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Warden's Cellar Door",self.player)
 
     def fill_slot_data(self):
         return None

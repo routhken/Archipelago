@@ -23,36 +23,30 @@ class GrimDawnRules:
         self.player = world.player
 
         self.region_rules = {
-            "Act 1 -> Post Water Pump": lambda state:
-                state.has("Draining the Flooded Passage",self.player),
-            "Act 1 -> Burial Cave": lambda state:
-                state.has("Burial Cave Door",self.player),
-            "Act 1 -> Rover Cavern": lambda state:
-                state.has("Rover Cavern Door",self.player),
+            "Act 1 -> Flooded Passage Blockade": lambda state:
+                state.has("Flooded Passage Destroy Blockade",self.player),
             "Act 1 -> Warden's Cellar": lambda state:
                 state.has("Warden's Cellar Door",self.player),
-            "Act 1 -> Post Flooded Passage": lambda state:
-                state.has("Flooded Passage Door",self.player) or self.has_scrap(state,6),
-            "Post Flooded Passage -> Dank Cellar": lambda state:
-                state.has("Dank Cellar Door", self.player),
-            "Post Flooded Passage -> Festering Lair": lambda state:
-                state.has("Festering Lair Door", self.player),
-            "Post Flooded Passage -> River Passage": lambda state:
-                state.has("River Passage Door", self.player),
+            "Act 1 -> East Marsh Bridge": lambda state:
+                state.has("East Marsh Bridge Repair",self.player),
+
         }
 
         
         self.location_rules = {
             "Repair Waterpump": lambda state:
-                self.has_scrap(state,6),
-            "Draining the Flooded Passage": lambda state:
-                self.has_scrap(state,6),
+                self.has_scrap(state,5),
+            "Cleanse Slith Infestation": lambda state:
+                self.has_scrap(state,5),
             "A Cultist in the Midst": lambda state:
                 self.has_cultist_orders(state),
-            "Sunken Reliquary Exalted Stash": lambda state:
-                self.has_dynamite(state,3),
             "Depraved Sanctuary Exalted Stash": lambda state:
                 self.has_strange_key(state),
+            "Devotion Shrine - Devil's Aquifer": lambda state:
+                self.has_scrap(state,5),
+            "The Hidden Path - Dreeg": lambda state:
+                state.has("Lower Crossing Destroy Blockade",self.player),
+
         }
 
     def has_cultist_orders(self, state) -> bool:

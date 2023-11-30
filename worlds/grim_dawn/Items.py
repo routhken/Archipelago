@@ -26,52 +26,59 @@ item_data_table: Dict[str, GrimDawnItemData] = {
     ),
     "Dynamite": GrimDawnItemData(
         code=baseId+2,
-        type=ItemClassification.progression,
-        quantity=3
+        type=ItemClassification.useful,
+        quantity=2
     ),
     "Scrap": GrimDawnItemData(
         code=baseId+3,
         type=ItemClassification.progression,
-        quantity=6
+        quantity=5
     ),
-    "Burial Cave Door": GrimDawnItemData(
+    "Flooded Passage Destroy Blockade": GrimDawnItemData(
         code=baseId+4,
         type=ItemClassification.progression,
     ),
-    "Rover Cavern Door": GrimDawnItemData(
+    "Lower Crossing Destroy Blockade": GrimDawnItemData(
         code=baseId+5,
         type=ItemClassification.progression,
     ),
-    "Flooded Passage Door": GrimDawnItemData(
+    "East Marsh Bridge Repair": GrimDawnItemData(
         code=baseId+6,
         type=ItemClassification.progression,
     ),
-    "River Passage Door": GrimDawnItemData(
+    "Arkovia Bridge Repair": GrimDawnItemData(
         code=baseId+7,
         type=ItemClassification.progression,
     ),
-    "Festering Lair Door": GrimDawnItemData(
+    "Warden's Cellar Door": GrimDawnItemData(
         code=baseId+8,
         type=ItemClassification.progression,
     ),
-    "Dank Cellar Door": GrimDawnItemData(
+    "Wightmire Bridge Repair": GrimDawnItemData(
         code=baseId+9,
-        type=ItemClassification.progression,
+        type=ItemClassification.useful
     ),
-    "Warden's Cellar Door": GrimDawnItemData(
+    "Level Up": GrimDawnItemData(
         code=baseId+10,
-        type=ItemClassification.progression,
+        type=ItemClassification.useful,
+        quantity=2
     ),
-    "Iron Bits": GrimDawnItemData(
+    "Skill Points": GrimDawnItemData(
         code=baseId+11,
+        type=ItemClassification.useful,
+        quantity=2
+    ),
+    "Aether Crystals": GrimDawnItemData(
+        code=baseId+12,
         type=ItemClassification.filler,
-        can_create=lambda multiworld, player: False
-    ), #only create as overflow, we don't need any
-    "Draining the Flooded Passage": GrimDawnItemData(
-        code=None,
-        type=ItemClassification.progression,
-        quantity=1
-    )
+        quantity=2
+    ),
+    "Extra EXP": GrimDawnItemData(
+        code=baseId+13,
+        type=ItemClassification.filler,
+        quantity=2
+    ),
+
 }
 
 item_table = {name: data.code for name, data in item_data_table.items() if data.code is not None}
