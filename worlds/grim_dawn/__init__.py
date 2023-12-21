@@ -2,7 +2,7 @@ from typing import List
 
 from BaseClasses import Region, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-from .Items import GrimDawnItem, item_data_table, item_table
+from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic
 from .Locations import GrimDawnLocation, location_data_table, location_table, locked_locations
 from .Options import GrimDawnOptions
 from .Regions import region_data_table
@@ -14,7 +14,7 @@ class GrimDawnWebWorld(WebWorld):
 
 
 
-class CliqueWorld(World):
+class GrimDawnWorld(World):
     """It's Grim Dawn"""
 
     game = "Grim Dawn"
@@ -39,28 +39,6 @@ class CliqueWorld(World):
                     item_pool.append(self.create_item(name)) #create item.quantity items by default
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-
-        if self.options.devotion_shrines == 1:
-            for i in range(3):
-                item_pool.append(self.create_item("Aether Crystals"))
-            for i in range(2):
-                item_pool.append(self.create_item("Extra EXP"))
-            item_pool.append(self.create_item("Dynamite"))
-            item_pool.append(self.create_item("Level Up"))
-            item_pool.append(self.create_item("Skill Points"))
-
-        if self.options.lore == 1:
-            for i in range(14):
-                item_pool.append(self.create_item("Aether Crystals"))
-            for i in range(6):
-                item_pool.append(self.create_item("Extra EXP"))
-            for i in range(2):
-                item_pool.append(self.create_item("Dynamite"))
-            for i in range(2):
-                item_pool.append(self.create_item("Level Up"))
-            for i in range(3):
-                item_pool.append(self.create_item("Skill Points"))
-
 
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
@@ -93,7 +71,12 @@ class CliqueWorld(World):
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def get_filler_item_name(self) -> str:
-        return "Aether Crystals"
+        filler_name = self.multiworld.per_slot_randoms[self.player].choices(["Relic","Skill Points","Aether Crystals","EXP Boost"], weights=[5,10,20,65])
+        if filler_name == "Relic":
+            filler_name = get_unique_relic(self.multiworld.per_slot_randoms[self.player])
+            if filler_name == "":
+                return "EXP Boost"
+        return filler_name
 
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)

@@ -26,14 +26,31 @@ class GrimDawnRules:
             "Act 1 -> Flooded Passage Blockade": lambda state:
                 state.has("Flooded Passage Destroy Blockade",self.player),
             "Act 1 -> Warden's Cellar": lambda state:
-                state.has("Warden's Cellar Door",self.player),
+                state.has("Warden's Cellar Unlock",self.player),
             "Act 1 -> East Marsh Bridge": lambda state:
                 state.has("East Marsh Bridge Repair",self.player),
+            "Act 1 -> Act 2": lambda state:
+                state.has("Arkovia Bridge Repair"),
+            "Act 2 -> Act 3": lambda state:
+                state.has("Arkovian Foothills Destroy Barricade"),
+            "Act 3 -> New Harbor": lambda state:
+                state.has("New Harbor Destroy Barricade"),
+            "Act 3 -> Desert": lambda state:
+                state.has("Prospector's Trail Destroy Barricade") or state.has("Twin Falls Bridge Repair"),
+            "Act 3 -> Homestead Side Doors": lambda state:
+                state.has("Homestead Side Doors Unlock"),
+            "Act 3 -> Conflagration": lambda state:
+                state.has("Conflagration Destroy Barricade"),
+            "Act 3 -> Act 4": lambda state:
+                state.has("Homestead Main Doors"),
+            "Act 4 -> Darkvale Gate": lambda state:
+                state.has("Darkvale Gate Boss Door Unlock"),
 
         }
 
         
         self.location_rules = {
+            #Act 1 Locations
             "Repair Waterpump": lambda state:
                 self.has_scrap(state,5),
             "Cleanse Slith Infestation": lambda state:
@@ -42,6 +59,10 @@ class GrimDawnRules:
                 self.has_cultist_orders(state),
             "Depraved Sanctuary Exalted Stash": lambda state:
                 self.has_strange_key(state),
+            "Rotting Croplands Exalted Stash": lambda state:
+                state.has("Rotting Croplands Destroy North Blockade",self.player),
+            "Trapped and Alone": lambda state:
+                state.has("Rotting Croplands Destroy South Blockade",self.player),
             "Devotion Shrine - Devil's Aquifer": lambda state:
                 self.has_scrap(state,5),
             "The Hidden Path - Dreeg": lambda state:
