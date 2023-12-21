@@ -29,7 +29,8 @@ class GrimDawnWorld(World):
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
     
     def create_filler_item(self) -> GrimDawnItem:
-        return GrimDawnItem(self.get_filler_item_name(), ItemClassification.filler, item_data_table[self.get_filler_item_name()].code,self.player)
+        name = self.get_filler_item_name()
+        return GrimDawnItem(name, ItemClassification.filler, item_data_table[name].code,self.player)
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
@@ -71,17 +72,22 @@ class GrimDawnWorld(World):
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def get_filler_item_name(self) -> str:
-        filler_name = self.multiworld.per_slot_randoms[self.player].choices(["Relic","Skill Points","Aether Crystals","EXP Boost"], weights=[5,10,20,65])
+        filler_name = self.multiworld.per_slot_randoms[self.player].choices(["Relic","Skill Points","Aether Crystals","Extra EXP"], weights=[5,10,20,65]).pop()
         if filler_name == "Relic":
             filler_name = get_unique_relic(self.multiworld.per_slot_randoms[self.player])
             if filler_name == "":
-                return "EXP Boost"
+                return "Extra EXP"
         return filler_name
 
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Warden's Cellar Door",self.player)
+        if self.multiworld.worlds[self.player].options.goal.value == 0:
+            self.multiworld.completion_condition[self.player] = lambda state: state.has("Warden's Cellar Unlock",self.player)
+        elif self.multiworld.worlds[self.player].options.goal.value == 1:
+            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+        elif self.multiworld.worlds[self.player].options.goal.value == 2:
+            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Darkvale Gate Boss Door Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
 
     def fill_slot_data(self):
         return None

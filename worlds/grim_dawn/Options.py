@@ -44,5 +44,5 @@ class GrimDawnOptions(PerGameCommonOptions):
     forbidden_dungeons: GrimDawnForbiddenDungeons
     one_shot: GrimDawnOneShot
     secret_chest: GrimDawnSecretChest
-    devotion_shrines: GrimDawnDevotionShrines
+    devotion_shrine: GrimDawnDevotionShrines
     lore: GrimDawnLore

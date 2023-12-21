@@ -30,21 +30,21 @@ class GrimDawnRules:
             "Act 1 -> East Marsh Bridge": lambda state:
                 state.has("East Marsh Bridge Repair",self.player),
             "Act 1 -> Act 2": lambda state:
-                state.has("Arkovia Bridge Repair"),
+                state.has("Arkovia Bridge Repair",self.player),
             "Act 2 -> Act 3": lambda state:
-                state.has("Arkovian Foothills Destroy Barricade"),
+                state.has("Arkovian Foothills Destroy Barricade",self.player),
             "Act 3 -> New Harbor": lambda state:
-                state.has("New Harbor Destroy Barricade"),
+                state.has("New Harbor Destroy Barricade",self.player),
             "Act 3 -> Desert": lambda state:
-                state.has("Prospector's Trail Destroy Barricade") or state.has("Twin Falls Bridge Repair"),
+                state.has("Prospector's Trail Destroy Barricade",self.player) or state.has("Twin Falls Bridge Repair",self.player),
             "Act 3 -> Homestead Side Doors": lambda state:
-                state.has("Homestead Side Doors Unlock"),
+                state.has("Homestead Side Doors Unlock",self.player),
             "Act 3 -> Conflagration": lambda state:
-                state.has("Conflagration Destroy Barricade"),
+                state.has("Conflagration Destroy Barricade",self.player),
             "Act 3 -> Act 4": lambda state:
-                state.has("Homestead Main Doors"),
+                state.has("Homestead Main Doors",self.player),
             "Act 4 -> Darkvale Gate": lambda state:
-                state.has("Darkvale Gate Boss Door Unlock"),
+                state.has("Darkvale Gate Boss Door Unlock",self.player),
 
         }
 
