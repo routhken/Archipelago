@@ -55,7 +55,7 @@ class GrimDawnRules:
                 self.has_scrap(state,5),
             "Cleanse Slith Infestation": lambda state:
                 self.has_scrap(state,5),
-            "A Cultist in the Midst": lambda state:
+            "Cultist in the Midst": lambda state:
                 self.has_cultist_orders(state),
             "Depraved Sanctuary Exalted Stash": lambda state:
                 self.has_strange_key(state),
