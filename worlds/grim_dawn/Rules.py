@@ -23,11 +23,11 @@ class GrimDawnRules:
         self.player = world.player
 
         self.region_rules = {
-            "Act 1 -> Flooded Passage Blockade": lambda state:
+            "Act 1 -> Flooded Passage": lambda state:
                 state.has("Flooded Passage Destroy Blockade",self.player),
             "Act 1 -> Warden's Cellar": lambda state:
                 state.has("Warden's Cellar Unlock",self.player),
-            "Act 1 -> East Marsh Bridge": lambda state:
+            "Act 1 -> East Marsh": lambda state:
                 state.has("East Marsh Bridge Repair",self.player),
             "Act 1 -> Act 2": lambda state:
                 state.has("Arkovia Bridge Repair",self.player),
@@ -40,7 +40,7 @@ class GrimDawnRules:
             "Act 3 -> Homestead Side Doors": lambda state:
                 state.has("Homestead Side Doors Unlock",self.player),
             "Act 3 -> Conflagration": lambda state:
-                state.has("Conflagration Destroy Barricade",self.player),
+                state.has_all(["Conflagration Destroy Barricade","Skeleton Key"],self.player),
             "Act 3 -> Act 4": lambda state:
                 state.has("Homestead Main Doors",self.player),
             "Act 4 -> Darkvale Gate": lambda state:
@@ -67,6 +67,18 @@ class GrimDawnRules:
                 self.has_scrap(state,5),
             "The Hidden Path - Dreeg": lambda state:
                 state.has("Lower Crossing Destroy Blockade",self.player),
+            "Kill Swarm Queen Ravna": lambda state:
+                state.has("Royal Hive Queen Door Unlock",self.player),
+            "Chamber of Souls": lambda state:
+                state.has("Skeleton Key", self.player),
+            "Kill Alkamos, Lord Executioner": lambda state:
+                state.has("Skeleton Key", self.player),
+            "Suffering West Secret Chest": lambda state:
+                state.has("Skeleton Key", self.player),
+            "Suffering North Secret Chest": lambda state:
+                state.has("Skeleton Key", self.player),
+            "Anguish Secret Chest": lambda state:
+                state.has("Skeleton Key", self.player),
 
         }
 
