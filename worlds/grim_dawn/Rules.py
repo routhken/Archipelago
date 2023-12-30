@@ -42,7 +42,7 @@ class GrimDawnRules:
             "Act 3 -> Conflagration": lambda state:
                 state.has_all(["Conflagration Destroy Barricade","Skeleton Key"],self.player),
             "Act 3 -> Act 4": lambda state:
-                state.has("Homestead Main Doors",self.player),
+                state.has("Homestead Main Doors Unlock",self.player),
             "Act 4 -> Darkvale Gate": lambda state:
                 state.has("Darkvale Gate Boss Door Unlock",self.player),
 
