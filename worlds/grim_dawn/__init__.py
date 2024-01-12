@@ -87,7 +87,7 @@ class GrimDawnWorld(World):
         elif self.multiworld.worlds[self.player].options.goal.value == 1:
             self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 2:
-            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Darkvale Gate Boss Door Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
 
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
