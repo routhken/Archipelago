@@ -39,7 +39,6 @@ item_data_table: Dict[str, GrimDawnItemData] = {
     "Conflagration Destroy Barricade":          GrimDawnItemData( code=baseId+16, type=ItemClassification.progression, can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 1 and multiworld.worlds[player].options.forbidden_dungeons.value == 1) ),
     #Act 4 items
     "Homestead Main Doors Unlock":              GrimDawnItemData( code=baseId+17, type=ItemClassification.progression, can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2) ),
-    "Darkvale Gate Boss Door Unlock":           GrimDawnItemData( code=baseId+18, type=ItemClassification.progression, can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2) ),
 
 
     "Wightmire Bridge Repair":                  GrimDawnItemData( code=baseId+19, type=ItemClassification.useful ),

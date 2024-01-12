@@ -43,8 +43,6 @@ class GrimDawnRules:
                 state.has_all(["Conflagration Destroy Barricade","Skeleton Key"],self.player),
             "Act 3 -> Act 4": lambda state:
                 state.has("Homestead Main Doors Unlock",self.player),
-            "Act 4 -> Darkvale Gate": lambda state:
-                state.has("Darkvale Gate Boss Door Unlock",self.player),
 
         }
 
@@ -59,6 +57,8 @@ class GrimDawnRules:
                 self.has_cultist_orders(state),
             "Depraved Sanctuary Exalted Stash": lambda state:
                 self.has_strange_key(state),
+            "Find Elsa": lambda state:
+                self.has_scrap(state,5) and state.has("Warden's Cellar Unlock",self.player),
             "Rotting Croplands Exalted Stash": lambda state:
                 state.has("Rotting Croplands Destroy North Blockade",self.player),
             "Trapped and Alone": lambda state:
@@ -79,6 +79,8 @@ class GrimDawnRules:
                 state.has("Skeleton Key", self.player),
             "Anguish Secret Chest": lambda state:
                 state.has("Skeleton Key", self.player),
+            "Prison Dungeons Secret Chest": lambda state:
+                self.has_scrap(state,5),
 
         }
 
