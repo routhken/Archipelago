@@ -1,6 +1,6 @@
 from typing import Dict
 
-from Options import Choice, Option, Toggle, PerGameCommonOptions
+from Options import Choice, Option, Toggle, PerGameCommonOptions,DeathLink
 from dataclasses import dataclass
 
 class GrimDawnGoal(Choice):
@@ -46,3 +46,4 @@ class GrimDawnOptions(PerGameCommonOptions):
     secret_chest: GrimDawnSecretChest
     devotion_shrine: GrimDawnDevotionShrines
     lore: GrimDawnLore
+    death_link: DeathLink

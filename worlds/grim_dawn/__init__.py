@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any, Dict
 
 from BaseClasses import Region, ItemClassification
 from worlds.AutoWorld import WebWorld, World
@@ -89,5 +89,10 @@ class GrimDawnWorld(World):
         elif self.multiworld.worlds[self.player].options.goal.value == 2:
             self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Darkvale Gate Boss Door Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
 
-    def fill_slot_data(self):
-        return None
+    def fill_slot_data(self) -> Dict[str,Any]:
+        dReturn = {
+            "goal":self.options.goal.value,
+            "deathlink":self.options.death_link.value
+        }
+
+        return dReturn
