@@ -23,75 +23,98 @@ class GrimDawnRules:
         self.player = world.player
 
         self.region_rules = {
-            "Act 1 -> Flooded Passage": lambda state:
+            "Act 1 -> Devil's Aquifer": lambda state:
+                state.has("Cellar Door Unlock",self.player) and self.has_scrap(state,5),
+            "Act 1 -> Sunken Reliquary": lambda state:
                 state.has("Flooded Passage Destroy Blockade",self.player),
-            "Act 1 -> Warden's Cellar": lambda state:
-                state.has("Warden's Cellar Unlock",self.player),
             "Act 1 -> East Marsh": lambda state:
                 state.has("East Marsh Bridge Repair",self.player),
+            "Act 1 -> Warden's Cellar": lambda state:
+                state.has("Cellar Door Unlock",self.player),
             "Act 1 -> Act 2": lambda state:
                 state.has("Arkovia Bridge Repair",self.player),
+
             "Act 2 -> Act 3": lambda state:
                 state.has("Arkovian Foothills Destroy Barricade",self.player),
-            "Act 3 -> New Harbor": lambda state:
+
+            "Act 3 -> Four Hills Secret": lambda state:
                 state.has("New Harbor Destroy Barricade",self.player),
-            "Act 3 -> Desert": lambda state:
+            "Act 3 -> Tyrant's Hold": lambda state:
                 state.has("Prospector's Trail Destroy Barricade",self.player) or state.has("Twin Falls Bridge Repair",self.player),
+            "Act 3 -> Port Valbury": lambda state:
+                state.has_all(["Conflagration Destroy Barricade","Skeleton Keys"],self.player),
             "Act 3 -> Homestead Side Doors": lambda state:
                 state.has("Homestead Side Doors Unlock",self.player),
-            "Act 3 -> Conflagration": lambda state:
-                state.has_all(["Conflagration Destroy Barricade","Skeleton Key"],self.player),
             "Act 3 -> Act 4": lambda state:
                 state.has("Homestead Main Doors Unlock",self.player),
+            
+            "Homestead Side Doors -> Royal Hive": lambda state:
+                state.has("Royal Hive Queen Door Unlock",self.player),
+            
+            "East Marsh -> Temple of the Three": lambda state:
+                state.has("Witch Gods Temple Unlock",self.player),
+
+            "Act 4 -> Act 5": lambda state:
+                state.has_all(["Homestead Side Doors Unlock","Fort Ikon Gate Unlock"],self.player),
+
+            "Act 5 -> Act 6": lambda state:
+                state.has("Fort Ikon Destroy Blockade",self.player),
+
+            "Act 6 -> Bastion of Chaos": lambda state:
+                state.has_all(["Necropolis Bridge Repair","Skeleton Keys"],self.player),
+            "Act 6 -> Tomb of the Watchers": lambda state:
+                state.has("Tomb of the Watchers Door Unlock",self.player),
+
+            "Tomb of the Watchers -> Edge of Madness": lambda state:
+                state.has("Loghorrean Seal Unlock",self.player),
+            
+            "Act 1 -> Act 7": lambda state:
+                state.has("Burrwitch Destroy Blockade",self.player),
+            
+            "Act 7 -> Nane's Hideout": lambda state:
+                state.has("Gloomwald Destroy Barricade",self.player),
+            "Act 7 -> Ancient Grove": lambda state:
+                state.has("Skeleton Keys",self.player),
+            "Act 7 -> Forlorn Cellar": lambda state:
+                state.has("Forlorn Cellar Unlock",self.player),
+            "Act 7 -> Act 8": lambda state:
+                state.has("Altar of Rattosh Portal",self.player),
+            "Act 8 -> Act 9": lambda state:
+                state.has("Candle District Door Unlock",self.player),
+            
+            "Act 9 -> Harbor Stash": lambda state:
+                state.has("Malmouth Harbor Destroy Barricade",self.player),
+            "Act 9 -> Crown Hill": lambda state:
+                state.has("Crown Hill Destroy Gates",self.player),
+            "Crown Hill -> Fleshworks": lambda state:
+                state.has("Crown Hill Open Flesh Barrier",self.player),
+            "Fleshworks -> Sanctum of Flesh": lambda state:
+                state.has("Fleshworks Open Flesh Barrier", self.player),
 
         }
 
         
         self.location_rules = {
             #Act 1 Locations
-            "Repair Waterpump": lambda state:
-                self.has_scrap(state,5),
-            "Cleanse Slith Infestation": lambda state:
-                self.has_scrap(state,5),
-            "Cultist in the Midst": lambda state:
-                self.has_cultist_orders(state),
-            "Depraved Sanctuary Exalted Stash": lambda state:
-                self.has_strange_key(state),
-            "Find Elsa": lambda state:
-                self.has_scrap(state,5) and state.has("Warden's Cellar Unlock",self.player),
-            "Rotting Croplands Exalted Stash": lambda state:
-                state.has("Rotting Croplands Destroy North Blockade",self.player),
-            "Trapped and Alone": lambda state:
-                state.has("Rotting Croplands Destroy South Blockade",self.player),
-            "Devotion Shrine - Devil's Aquifer": lambda state:
-                self.has_scrap(state,5),
-            "The Hidden Path - Dreeg": lambda state:
-                state.has("Lower Crossing Destroy Blockade",self.player),
-            "Kill Swarm Queen Ravna": lambda state:
-                state.has("Royal Hive Queen Door Unlock",self.player),
-            "Chamber of Souls": lambda state:
-                state.has("Skeleton Key", self.player),
-            "Kill Alkamos, Lord Executioner": lambda state:
-                state.has("Skeleton Key", self.player),
-            "Suffering West Secret Chest": lambda state:
-                state.has("Skeleton Key", self.player),
-            "Suffering North Secret Chest": lambda state:
-                state.has("Skeleton Key", self.player),
-            "Anguish Secret Chest": lambda state:
-                state.has("Skeleton Key", self.player),
-            "Prison Dungeons Secret Chest": lambda state:
-                self.has_scrap(state,5),
+            "Find Elsa":                                lambda state: self.has_scrap(state,5) and state.has("Warden's Cellar Unlock",self.player),
+            "Chamber of Souls":                         lambda state: state.has("Skeleton Keys", self.player),
+            "Alkamos, Lord Executioner":                lambda state: state.has("Skeleton Keys", self.player),
+            "Trapped and Alone":                        lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
+            "Depraved Sanctuary Exalted Stash":         lambda state: state.has("Strange Key", self.player),
+            "Rotting Croplands Exalted Stash":          lambda state: state.has("Rotting Croplands Destroy North Blockade",self.player),
+            "Prison Dungeons Secret Chest":             lambda state: self.has_scrap(state,5),
+            "Suffering Secret Chest #1":                lambda state: state.has("Skeleton Keys", self.player),
+            "Suffering Secret Chest #2":                lambda state: state.has("Skeleton Keys", self.player),
+            "Anguish Secret Chest":                     lambda state: state.has("Skeleton Keys", self.player),
+            "The Hidden Path - Dreeg":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Desecrated":             lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Cellar Door Unlock",self.player),
 
         }
 
-    def has_cultist_orders(self, state) -> bool:
-        return state.has("Cultist Orders", self.player)
-    def has_strange_key(self, state) -> bool:
-        return state.has("Strange Key", self.player)
     def has_scrap(self,state,q) -> bool:
         return state.count("Scrap",self.player) >= q
-    def has_dynamite(self,state,q) -> bool:
-        return state.count("Dynamite",self.player) >= q
 
     def set_grim_dawn_rules(self) -> None:
         multiworld = self.world.multiworld

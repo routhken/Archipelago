@@ -2,7 +2,7 @@ from typing import List, Any, Dict
 
 from BaseClasses import Region, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic
+from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic,filler_table,filler_weights
 from .Locations import GrimDawnLocation, location_data_table, location_table, locked_locations
 from .Options import GrimDawnOptions
 from .Regions import region_data_table
@@ -31,6 +31,10 @@ class GrimDawnWorld(World):
     def create_filler_item(self) -> GrimDawnItem:
         name = self.get_filler_item_name()
         return GrimDawnItem(name, ItemClassification.filler, item_data_table[name].code,self.player)
+    
+    def generate_early(self) -> None:
+        if self.options.dlc_aom != 1 and self.options.goal == 3:
+            raise Exception(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: AoM enabled")
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
@@ -72,7 +76,7 @@ class GrimDawnWorld(World):
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def get_filler_item_name(self) -> str:
-        filler_name = self.multiworld.per_slot_randoms[self.player].choices(["Relic","Skill Points","Aether Crystals","Extra EXP"], weights=[5,10,20,65]).pop()
+        filler_name = self.multiworld.per_slot_randoms[self.player].choices(filler_table, weights=filler_weights).pop()
         if filler_name == "Relic":
             filler_name = get_unique_relic(self.multiworld.per_slot_randoms[self.player])
             if filler_name == "":
@@ -83,11 +87,13 @@ class GrimDawnWorld(World):
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
         if self.multiworld.worlds[self.player].options.goal.value == 0:
-            self.multiworld.completion_condition[self.player] = lambda state: state.has("Warden's Cellar Unlock",self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.has("Cellar Door Unlock",self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 1:
             self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 2:
-            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Loghorrean Seal Unlock","Tomb of the Watchers Door Unlock","Fort Ikon Destroy Blockade","Fort Ikon Gate Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+        elif self.multiworld.worlds[self.player].options.goal.value == 3:
+            self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Crown Hill Destroy Gates","Crown Hill Open Flesh Barrier","Fleshworks Open Flesh Barrier","Candle District Door Unlock","Altar of Rattosh Portal","Burrwitch Destroy Blockade"],self.player)
 
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {

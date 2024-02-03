@@ -6,15 +6,17 @@ from dataclasses import dataclass
 class GrimDawnGoal(Choice):
     """
     The goal to accomplish in order to complete the seed.
-    Beat Warden - Finish Act 1 and kill the Warden Krieg
-    Beat Ravna - Finish Act 3 and kill Swarm Queen Ravna
-    Beat Karroz - Finish Act 4 and kill Karroz, Sigil of Ch'thon
+    Beat Warden - Fight your way to the warden lab and kill Warden Krieg
+    Beat Ravna - Fight your way to the homestead and kill Swarm Queen Ravna
+    Beat Loghorrean - Fight your way to the necropolis and kill The Loghorrean
+    Beat the Master of Flesh - Fight though the Ashes of Malmoth DLC and kill the Master of Flesh
     """
     display_name = "Goal"
 
     option_beat_warden = 0
     option_beat_ravna = 1
-    option_beat_karroz = 2
+    option_beat_loghorrean = 2
+    option_beat_master_of_flesh = 3
 
     default = 0
 
@@ -38,6 +40,10 @@ class GrimDawnLore(Toggle):
     """Enable lore locations"""
     display_name="Lore"
 
+class GrimDawnAoMDLC(Toggle):
+    """Enable locations inside the AoM DLC (required for Master of Flesh goal)"""
+    display_name="DLC: AoM"
+
 @dataclass
 class GrimDawnOptions(PerGameCommonOptions):
     goal: GrimDawnGoal
@@ -46,4 +52,5 @@ class GrimDawnOptions(PerGameCommonOptions):
     secret_chest: GrimDawnSecretChest
     devotion_shrine: GrimDawnDevotionShrines
     lore: GrimDawnLore
+    dlc_aom: GrimDawnAoMDLC
     death_link: DeathLink
