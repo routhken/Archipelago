@@ -40,7 +40,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Mu
     ("Fort Ikon Prison Unlock",                             ItemClassification.progression,                  220010,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
     ("Necropolis Bridge Repair",                            ItemClassification.progression,                  220011,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
     ("Tomb of the Watchers Door Unlock",                    ItemClassification.progression,                  220012,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
-    ("Loghorrean Door Unlock",                              ItemClassification.progression,                  220013,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
+    ("Loghorrean Seal Unlock",                              ItemClassification.progression,                  220013,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
     ("Burrwitch Destroy Blockade",                          ItemClassification.progression,                  220014,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 3)),
     ("Gloomwald Destroy Barricade",                         ItemClassification.progression,                  220015,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 3)),
     ("Ugdenbog Destroy Barricade",                          ItemClassification.progression,                  220016,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 3)),
@@ -84,7 +84,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Mu
     ("Relic - Mistborne Talisman",                          ItemClassification.useful,                       220054,                       0,                            lambda multiworld, player: False),
     ("Relic - Bladesworn Talisman",                         ItemClassification.useful,                       220055,                       0,                            lambda multiworld, player: False),
     ("Relic - Gunslinger Talisman",                         ItemClassification.useful,                       220056,                       0,                            lambda multiworld, player: False),
-    ("Skeleton Keys",                                       ItemClassification.progression,                  220050,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 1 and multiworld.worlds[player].options.forbidden_dungeons.value == 1)),
+    ("Skeleton Keys",                                       ItemClassification.progression,                  220057,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 1 and multiworld.worlds[player].options.forbidden_dungeons.value == 1)),
 ]
 
 relic_table = [
