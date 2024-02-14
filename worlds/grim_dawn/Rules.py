@@ -68,7 +68,7 @@ class GrimDawnRules:
             "Tomb of the Watchers -> Edge of Madness": lambda state:
                 state.has("Loghorrean Seal Unlock",self.player),
             
-            "Act 1 -> Act 7": lambda state:
+            "Act 5 -> Act 7": lambda state:
                 state.has("Burrwitch Destroy Blockade",self.player),
             
             "Act 7 -> Nane's Hideout": lambda state:
@@ -79,8 +79,10 @@ class GrimDawnRules:
                 state.has("Forlorn Cellar Unlock",self.player),
             "Act 7 -> Act 8": lambda state:
                 state.has("Altar of Rattosh Portal",self.player),
+            "Act 8 -> Candle Disctict": lambda state:
+                state.has_any(["Candle District Door Unlock","Malmouth Bridge Lowered"],self.player),
             "Act 8 -> Act 9": lambda state:
-                state.has("Candle District Door Unlock",self.player),
+                state.has("Steelcap District Door Unlock",self.player),
             
             "Act 9 -> Harbor Stash": lambda state:
                 state.has("Malmouth Harbor Destroy Barricade",self.player),
@@ -100,6 +102,9 @@ class GrimDawnRules:
             "Chamber of Souls":                         lambda state: state.has("Skeleton Keys", self.player),
             "Alkamos, Lord Executioner":                lambda state: state.has("Skeleton Keys", self.player),
             "Trapped and Alone":                        lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
+            "Rashalga, the Mad Queen":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path":                          lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock"],self.player),
+            "Rescue Garett Torvan":                     lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
             "Depraved Sanctuary Exalted Stash":         lambda state: state.has("Strange Key", self.player),
             "Rotting Croplands Exalted Stash":          lambda state: state.has("Rotting Croplands Destroy North Blockade",self.player),
             "Prison Dungeons Secret Chest":             lambda state: self.has_scrap(state,5),
@@ -108,7 +113,7 @@ class GrimDawnRules:
             "Anguish Secret Chest":                     lambda state: state.has("Skeleton Keys", self.player),
             "The Hidden Path - Dreeg":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path - Desecrated":             lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Cellar Door Unlock",self.player),
 
         }

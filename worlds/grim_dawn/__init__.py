@@ -30,7 +30,7 @@ class GrimDawnWorld(World):
     
     def create_filler_item(self) -> GrimDawnItem:
         name = self.get_filler_item_name()
-        return GrimDawnItem(name, ItemClassification.filler, item_data_table[name].code,self.player)
+        return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code,self.player)
     
     def generate_early(self) -> None:
         if self.options.dlc_aom != 1 and self.options.goal == 3:
