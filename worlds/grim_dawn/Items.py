@@ -87,7 +87,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Mu
     ("Relic - Bladesworn Talisman",                         ItemClassification.useful,                       220057,                       0,                            lambda multiworld, player: False),
     ("Relic - Gunslinger Talisman",                         ItemClassification.useful,                       220058,                       0,                            lambda multiworld, player: False),
     ("Skeleton Keys",                                       ItemClassification.useful,                       220059,                       5,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 1 and multiworld.worlds[player].options.forbidden_dungeons.value == 1)),
-    ("Forbidden Door Unlock",                               ItemClassification.progression,                  220060,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 1)),
+    ("Forbidden Door Unlock",                               ItemClassification.progression,                  220060,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 1 and multiworld.worlds[player].options.forbidden_dungeons.value == 1)),
 ]
 
 relic_table = [

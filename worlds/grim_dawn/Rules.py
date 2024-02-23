@@ -42,13 +42,13 @@ class GrimDawnRules:
             "Act 3 -> Tyrant's Hold": lambda state:
                 state.has("Prospector's Trail Destroy Barricade",self.player) or state.has("Twin Falls Bridge Repair",self.player),
             "Act 3 -> Port Valbury": lambda state:
-                state.has_all(["Conflagration Destroy Barricade","Forbidden Dor Unlock"],self.player),
+                state.has_all(["Conflagration Destroy Barricade","Forbidden Door Unlock"],self.player),
             "Act 3 -> Homestead Side Doors": lambda state:
                 state.has("Homestead Side Doors Unlock",self.player),
             "Act 3 -> Act 4": lambda state:
                 state.has("Homestead Main Doors Unlock",self.player),
             "Act 3 -> Steps of Torment": lambda state:
-                state.has("Forbidden Dor Unlock", self.player),
+                state.has("Forbidden Door Unlock", self.player),
             
             "Homestead Side Doors -> Royal Hive": lambda state:
                 state.has("Royal Hive Queen Door Unlock",self.player),
@@ -63,7 +63,7 @@ class GrimDawnRules:
                 state.has("Fort Ikon Destroy Blockade",self.player),
 
             "Act 6 -> Bastion of Chaos": lambda state:
-                state.has_all(["Necropolis Bridge Repair","Forbidden Dor Unlock"],self.player),
+                state.has_all(["Necropolis Bridge Repair","Forbidden Door Unlock"],self.player),
             "Act 6 -> Tomb of the Watchers": lambda state:
                 state.has("Tomb of the Watchers Door Unlock",self.player),
 
@@ -76,7 +76,7 @@ class GrimDawnRules:
             "Act 7 -> Nane's Hideout": lambda state:
                 state.has("Nane's Hideout Destroy Barricade",self.player),
             "Act 7 -> Ancient Grove": lambda state:
-                state.has("Forbidden Dor Unlock",self.player),
+                state.has("Forbidden Door Unlock",self.player),
             "Act 7 -> Forlorn Cellar": lambda state:
                 state.has("Forlorn Cellar Unlock",self.player),
             "Act 7 -> Den of the Ancient": lambda state:
