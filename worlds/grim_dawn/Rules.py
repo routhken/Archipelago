@@ -71,14 +71,16 @@ class GrimDawnRules:
                 state.has("Loghorrean Seal Unlock",self.player),
             
             "Act 5 -> Act 7": lambda state:
-                state.has("Burrwitch Destroy Blockade",self.player),
+                state.has("Gloomwald Destroy Blockade",self.player),
             
             "Act 7 -> Nane's Hideout": lambda state:
-                state.has("Gloomwald Destroy Barricade",self.player),
+                state.has("Nane's Hideout Destroy Barricade",self.player),
             "Act 7 -> Ancient Grove": lambda state:
                 state.has("Forbidden Dor Unlock",self.player),
             "Act 7 -> Forlorn Cellar": lambda state:
                 state.has("Forlorn Cellar Unlock",self.player),
+            "Act 7 -> Den of the Ancient": lambda state:
+                state.has("Ugdenbog Destroy Barricade",self.player),
             "Act 7 -> Act 8": lambda state:
                 state.has("Altar of Rattosh Portal",self.player),
             "Act 8 -> Candle Disctict": lambda state:
@@ -101,8 +103,6 @@ class GrimDawnRules:
         self.location_rules = {
             #Act 1 Locations
             "Find Elsa":                                lambda state: self.has_scrap(state,5) and state.has("Warden's Cellar Unlock",self.player),
-            "Chamber of Souls":                         lambda state: state.has("Skeleton Keys", self.player),
-            "Alkamos, Lord Executioner":                lambda state: state.has("Skeleton Keys", self.player),
             "Trapped and Alone":                        lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
             "Rashalga, the Mad Queen":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path":                          lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock","Homestead Side Doors Unlock"],self.player),
@@ -110,9 +110,6 @@ class GrimDawnRules:
             "Depraved Sanctuary Exalted Stash":         lambda state: state.has("Strange Key", self.player),
             "Rotting Croplands Exalted Stash":          lambda state: state.has("Rotting Croplands Destroy North Blockade",self.player),
             "Prison Dungeons Secret Chest":             lambda state: self.has_scrap(state,5),
-            "Suffering Secret Chest #1":                lambda state: state.has("Skeleton Keys", self.player),
-            "Suffering Secret Chest #2":                lambda state: state.has("Skeleton Keys", self.player),
-            "Anguish Secret Chest":                     lambda state: state.has("Skeleton Keys", self.player),
             "The Hidden Path - Dreeg":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
@@ -123,7 +120,7 @@ class GrimDawnRules:
         }
 
     def has_scrap(self,state,q) -> bool:
-        return state.count("Scrap",self.player) >= q
+        return (state.count("5 Scrap",self.player)*5) >= q
 
     def set_grim_dawn_rules(self) -> None:
         multiworld = self.world.multiworld
