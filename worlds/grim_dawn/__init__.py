@@ -87,7 +87,7 @@ class GrimDawnWorld(World):
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
         if self.multiworld.worlds[self.player].options.goal.value == 0:
-            self.multiworld.completion_condition[self.player] = lambda state: state.has("Cellar Door Unlock",self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.has("Warden Boss Door Unlock",self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 1:
             self.multiworld.completion_condition[self.player] = lambda state: state.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 2:
