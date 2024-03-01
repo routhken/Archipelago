@@ -30,7 +30,7 @@ class GrimDawnRules:
             "Act 1 -> East Marsh": lambda state:
                 state.has("East Marsh Bridge Repair",self.player),
             "Act 1 -> Warden's Cellar": lambda state:
-                state.has("Cellar Door Unlock",self.player),
+                state.has("Warden Boss Door Unlock",self.player),
             "Act 1 -> Act 2": lambda state:
                 state.has("Arkovia Bridge Repair",self.player),
 

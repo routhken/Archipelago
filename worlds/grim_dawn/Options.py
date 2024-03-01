@@ -9,7 +9,7 @@ class GrimDawnGoal(Choice):
     Beat Warden - Fight your way to the warden lab and kill Warden Krieg
     Beat Ravna - Fight your way to the homestead and kill Swarm Queen Ravna
     Beat Loghorrean - Fight your way to the necropolis and kill The Loghorrean
-    Beat the Master of Flesh - Fight though the Ashes of Malmoth DLC and kill the Master of Flesh
+    Beat the Master of Flesh - Fight through the Ashes of Malmoth DLC and kill the Master of Flesh
     """
     display_name = "Goal"
 
