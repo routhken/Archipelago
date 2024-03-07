@@ -1,6 +1,6 @@
 from typing import List, Any, Dict
 
-from BaseClasses import Region, ItemClassification
+from BaseClasses import Region, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic,filler_table,filler_weights
 from .Locations import GrimDawnLocation, location_data_table, location_table, locked_locations
@@ -12,7 +12,14 @@ from .Rules import GrimDawnRules
 
 class GrimDawnWebWorld(WebWorld):
     theme = "partyTime"
-
+    tutorials = [Tutorial(
+        "Mod Setup and Use Guide",
+        "A guide to installing AP Grim Dawn",
+        "English",
+        "guide_en.md",
+        "setup/en",
+        ["DaKennyMan","Faris"]
+    )]
 
 
 class GrimDawnWorld(World):
@@ -54,18 +61,23 @@ class GrimDawnWorld(World):
 
     def create_regions(self) -> None:
         # Create regions.
-        for region_name in region_data_table.keys():
-            region = Region(region_name, self.player, self.multiworld)
-            self.multiworld.regions.append(region)
+        skipped_regions = []
+        for region_name, region_data in region_data_table.items():
+            if region_data.can_create(self.multiworld, self.player):
+                region = Region(region_name, self.player, self.multiworld)
+                self.multiworld.regions.append(region)
+            else:
+                skipped_regions.append(region_name)
 
         # Create locations.
         for region_name, region_data in region_data_table.items():
-            region = self.multiworld.get_region(region_name, self.player)
-            region.add_locations({
-                location_name: location_data.address for location_name, location_data in location_data_table.items()
-                if location_data.region == region_name and location_data.can_create(self.multiworld, self.player)
-            }, GrimDawnLocation)
-            region.add_exits(region_data.connecting_regions)
+            if region_data.can_create(self.multiworld, self.player):
+                region = self.multiworld.get_region(region_name, self.player)
+                region.add_locations({
+                    location_name: location_data.address for location_name, location_data in location_data_table.items()
+                    if location_data.region == region_name and location_data.can_create(self.multiworld, self.player)
+                }, GrimDawnLocation)
+                region.add_exits([item for item in region_data.connecting_regions if item not in skipped_regions])
 
         # Place locked locations.
         for location_name, location_data in locked_locations.items():

@@ -102,7 +102,7 @@ class GrimDawnRules:
         
         self.location_rules = {
             #Act 1 Locations
-            "Find Elsa":                                lambda state: self.has_scrap(state,5) and state.has("Warden's Cellar Unlock",self.player),
+            "Find Elsa":                                lambda state: self.has_scrap(state,5) and state.has("Warden Boss Door Unlock",self.player),
             "Trapped and Alone":                        lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
             "Rashalga, the Mad Queen":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path":                          lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock","Homestead Side Doors Unlock"],self.player),
@@ -114,8 +114,8 @@ class GrimDawnRules:
             "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path - Solael":                 lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Cellar Door Unlock",self.player),
-            "Old Grove Secret Chest":                   lambda state: state.has("Old Grove Repair Bridge",self.player),
+            "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Warden Boss Door Unlock",self.player),
+            "Old Grove Secret Chest":                   lambda state: state.has("Old Grove Bridge Repair",self.player),
 
         }
 
