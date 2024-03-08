@@ -111,7 +111,13 @@ class GrimDawnWorld(World):
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
             "goal":self.options.goal.value,
-            "deathlink":self.options.death_link.value
+            "deathlink":self.options.death_link.value,
+            "forbidden_dungeons": self.options.forbidden_dungeons.value,
+            "one_shot": self.options.one_shot.value,
+            "secret_chest": self.options.secret_chest.value,
+            "devotion_shrine": self.options.devotion_shrine.value,
+            "lore": self.options.lore.value,
+            "dlc_aom": self.options.dlc_aom.value
         }
 
         return dReturn
