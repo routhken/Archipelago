@@ -107,15 +107,16 @@ class GrimDawnRules:
             "Rashalga, the Mad Queen":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path":                          lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock","Homestead Side Doors Unlock"],self.player),
             "Rescue Garett Torvan":                     lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Convince Ulgrim":                          lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Steelcap District Riftgate Secured":       lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
             "Depraved Sanctuary Exalted Stash":         lambda state: state.has("Strange Key", self.player),
             "Rotting Croplands Exalted Stash":          lambda state: state.has("Rotting Croplands Destroy North Blockade",self.player),
-            "Prison Dungeons Secret Chest":             lambda state: self.has_scrap(state,5),
-            "The Hidden Path - Dreeg":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path - Solael":                 lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Warden Boss Door Unlock",self.player),
             "Old Grove Secret Chest":                   lambda state: state.has("Old Grove Bridge Repair",self.player),
+            "The Hidden Path - Dreeg":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Solael":                 lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Warden Boss Door Unlock",self.player),
+            "Clippings from Ivonda's Memory":           lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
 
         }
 

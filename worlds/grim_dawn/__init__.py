@@ -8,7 +8,7 @@ from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
 
-#release version 0.1.2
+#release version 0.1.3
 
 class GrimDawnWebWorld(WebWorld):
     theme = "partyTime"
