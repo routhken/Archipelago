@@ -96,27 +96,51 @@ class GrimDawnRules:
                 state.has("Crown Hill Open Flesh Barrier",self.player),
             "Fleshworks -> Sanctum of Flesh": lambda state:
                 state.has("Fleshworks Open Flesh Barrier", self.player),
+            "Act 10 -> Act 11": lambda state:
+                state.has("Vanguard of the Three Door Unlock",self.player),
+            "Act 11 -> Lost Oasis": lambda state:
+                state.has("Valley of the Chosen Destroy Barrier",self.player),
+            "Act 11 -> Tomb of the Eldritch Sun": lambda state:
+                state.has("Path of Ascension Destroy Barrier", self.player),
+            "Tomb of the Eldritch Sun -> The Eldritch Gate": lambda state:
+                state.has("The Eldritch Gate Destroy Barrier", self.player),
 
         }
 
         
         self.location_rules = {
             #Act 1 Locations
-            "Find Elsa":                                lambda state: self.has_scrap(state,5) and state.has("Warden Boss Door Unlock",self.player),
-            "Trapped and Alone":                        lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
-            "Rashalga, the Mad Queen":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path":                          lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock","Homestead Side Doors Unlock"],self.player),
-            "Rescue Garett Torvan":                     lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
-            "Convince Ulgrim":                          lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
-            "Steelcap District Riftgate Secured":       lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
-            "Depraved Sanctuary Exalted Stash":         lambda state: state.has("Strange Key", self.player),
-            "Rotting Croplands Exalted Stash":          lambda state: state.has("Rotting Croplands Destroy North Blockade",self.player),
-            "Old Grove Secret Chest":                   lambda state: state.has("Old Grove Bridge Repair",self.player),
-            "The Hidden Path - Dreeg":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path - Solael":                 lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "The Hidden Path - Bysmiel":                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "Journal of Inquisitor Creed - 9th Entry":  lambda state: state.has("Warden Boss Door Unlock",self.player),
-            "Clippings from Ivonda's Memory":           lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Find Elsa":                                        lambda state: self.has_scrap(state,5) and state.has("Warden Boss Door Unlock",self.player),
+            "Trapped and Alone":                                lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
+            "Rashalga, the Mad Queen":                          lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path":                                  lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock","Homestead Side Doors Unlock"],self.player),
+            "Rescue Garett Torvan":                             lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Convince Ulgrim":                                  lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Steelcap District Riftgate Secured":               lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Depraved Sanctuary Exalted Stash":                 lambda state: state.has("Strange Key", self.player),
+            "Rotting Croplands Exalted Stash":                  lambda state: state.has("Rotting Croplands Destroy North Blockade",self.player),
+            "Old Grove Secret Chest":                           lambda state: state.has("Old Grove Bridge Repair",self.player),
+            "The Hidden Path - Dreeg":                          lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Solael":                         lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "The Hidden Path - Bysmiel":                        lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Journal of Inquisitor Creed - 9th Entry":          lambda state: state.has("Warden Boss Door Unlock",self.player),
+            "Clippings from Ivonda's Memory":                   lambda state: state.has_all(["Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock"],self.player),
+            "Inarah, the Afflicted":                            lambda state: state.has("Tomb of Nephos Destroy Barrier",self.player),
+            "Guardian of Dreeg":                                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Salazar, Blade of Ch'thon":                        lambda state: state.has("Strange Key",self.player),
+            "Dangerous Curiosity":                              lambda state: state.has("Devil's Crossing Revered",self.player),
+            "Ellena, the First Slith":                          lambda state: state.has("Devil's Crossing Revered",self.player),
+            "Death's Vigil - Kymon's Chosen Faction Quest 5":   lambda state: state.has("Death's Vigil - Kymon's Chosen Revered",self.player),
+            "Death's Vigil - Kymon's Chosen Faction Quest 6":   lambda state: state.has("Death's Vigil - Kymon's Chosen Revered",self.player),
+            "Guardian of Bysmiel":                              lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Rover Legacy":                                     lambda state: state.has("Rovers Revered",self.player),
+            "Herald of Destruction":                            lambda state: state.has("Black Legion Revered",self.player),
+            "Power in the Circles":                             lambda state: state.has("Coven of Ugdenbog Revered",self.player),
+            "The Final Seal":                                   lambda state: state.has("Coven of Ugdenbog Revered",self.player),
+            "Galakros, the Mountain":                           lambda state: state.has("Malmouth Sewers Destroy Blockade",self.player),
+            "Alberran Rein":                                    lambda state: state.has("Malmouth Resistance Revered",self.player),
+            "Dreven Cole":                                      lambda state: state.has("Malmouth Resistance Revered",self.player),
+            "Cyrian Marcan":                                    lambda state: state.has("Malmouth Resistance Revered",self.player),
 
         }
 

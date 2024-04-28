@@ -8,7 +8,7 @@ from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
 
-#release version 0.1.3
+#release version 0.1.4
 
 class GrimDawnWebWorld(WebWorld):
     theme = "partyTime"
@@ -41,8 +41,8 @@ class GrimDawnWorld(World):
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code,self.player)
     
     def generate_early(self) -> None:
-        if self.options.dlc_aom != 1 and self.options.goal == 3:
-            raise Exception(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: AoM enabled")
+        if self.options.dlc_fg != 1 and self.options.goal == 1:
+            raise Exception(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
@@ -113,11 +113,12 @@ class GrimDawnWorld(World):
             "goal":self.options.goal.value,
             "deathlink":self.options.death_link.value,
             "forbidden_dungeons": self.options.forbidden_dungeons.value,
+            "faction": self.options.faction.value,
             "one_shot": self.options.one_shot.value,
             "secret_chest": self.options.secret_chest.value,
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
-            "dlc_aom": self.options.dlc_aom.value
+            "dlc_fg": self.options.dlc_fg.value
         }
 
         return dReturn

@@ -14,9 +14,10 @@ class GrimDawnGoal(Choice):
     display_name = "Goal"
 
     option_beat_warden = 0
-    option_beat_ravna = 1
-    option_beat_loghorrean = 2
-    option_beat_master_of_flesh = 3
+    option_beat_korvaak = 1
+    option_beat_ravna = 2
+    option_beat_loghorrean = 3
+    option_beat_master_of_flesh = 4
 
     default = 0
 
@@ -27,6 +28,10 @@ class GrimDawnForbiddenDungeons(Toggle):
 class GrimDawnOneShot(Toggle):
     """Enable One Shot Chests as locations"""
     display_name="One Shot Chests"
+
+class GrimDawnFactionQuests(Toggle):
+    """Enable Faction Quests as locations"""
+    display_name="Faction Quests"
 
 class GrimDawnSecretChest(Toggle):
     """Enable Secret Chests as locations"""
@@ -40,9 +45,9 @@ class GrimDawnLore(Toggle):
     """Enable lore locations"""
     display_name="Lore"
 
-class GrimDawnAoMDLC(Toggle):
-    """Enable locations inside the AoM DLC (required for Master of Flesh goal)"""
-    display_name="DLC: AoM"
+class GrimDawnFGDLC(Choice):
+    """Enable locations inside the Forgotten Gods DLC (required for Manifestation of Korvaak, the Eldritch Sun goal)"""
+    display_name="DLC: FG"
 
 @dataclass
 class GrimDawnOptions(PerGameCommonOptions):
@@ -52,5 +57,6 @@ class GrimDawnOptions(PerGameCommonOptions):
     secret_chest: GrimDawnSecretChest
     devotion_shrine: GrimDawnDevotionShrines
     lore: GrimDawnLore
-    dlc_aom: GrimDawnAoMDLC
+    faction: GrimDawnFactionQuests
+    dlc_fg: GrimDawnFGDLC
     death_link: DeathLink
