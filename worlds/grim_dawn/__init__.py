@@ -102,10 +102,12 @@ class GrimDawnWorld(World):
         if self.multiworld.worlds[self.player].options.goal.value == 0:
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Warden Krieg","Location",self.player)#.has("Warden Boss Door Unlock",self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 1:
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Swarm Queen Ravna","Location",self.player)#.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Manifestation of Korvaak, the Eldritch Sun",self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 2:
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Loghorrean","Location",self.player)#.has_all(["Loghorrean Seal Unlock","Tomb of the Watchers Door Unlock","Fort Ikon Destroy Blockade","Fort Ikon Gate Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Swarm Queen Ravna","Location",self.player)#.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
         elif self.multiworld.worlds[self.player].options.goal.value == 3:
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Loghorrean","Location",self.player)#.has_all(["Loghorrean Seal Unlock","Tomb of the Watchers Door Unlock","Fort Ikon Destroy Blockade","Fort Ikon Gate Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+        elif self.multiworld.worlds[self.player].options.goal.value == 4:
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Master of Flesh","Location",self.player)#  .has_all(["Crown Hill Destroy Gates","Crown Hill Open Flesh Barrier","Fleshworks Open Flesh Barrier","Candle District Door Unlock","Altar of Rattosh Portal","Gloomwald Destroy Blockade"],self.player)
 
     def fill_slot_data(self) -> Dict[str,Any]:
