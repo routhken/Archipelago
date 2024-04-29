@@ -142,14 +142,11 @@ _filler_data_table={
 filler_table = [k for k,v in _filler_data_table.items()]
 filler_weights = [v for k,v in _filler_data_table.items()]
 
-def get_unique_relic(rand: random.Random) -> str:
-    if len(get_unique_relic.local_relic_table) > 0:
-        rand.shuffle( get_unique_relic.local_relic_table)
-        return get_unique_relic.local_relic_table.pop()
+def get_unique_relic(world: "GrimDawnWorld") -> str:
+    if len(world.local_relic_table) > 0:
+        return world.local_relic_table.pop()
     else:
         return ""
-    
-get_unique_relic.local_relic_table = relic_table.copy()
 
 
 item_data_table: Dict[str, GrimDawnItemData] = { item[0]: GrimDawnItemData(code=item[2],can_create=(item[4] if item[4] is not None else (lambda multiworld, player: True)),type=(item[1]),quantity=(item[3])) for index,item in enumerate(_item_data_list)}
