@@ -26,7 +26,6 @@ class GrimDawnWorld(World):
     """It's Grim Dawn"""
 
     game = "Grim Dawn"
-    data_version = 3
     web = GrimDawnWebWorld()
     options_dataclass = GrimDawnOptions
     options: GrimDawnOptions
@@ -36,12 +35,8 @@ class GrimDawnWorld(World):
     def create_item(self, name: str) -> GrimDawnItem:
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
     
-    def create_filler_item(self) -> GrimDawnItem:
-        name = self.get_filler_item_name()
-        return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code,self.player)
-    
     def generate_early(self) -> None:
-        if self.options.dlc_fg != 1 and self.options.goal == 1:
+        if (not self.options.dlc_fg) and self.options.goal == 1:
             raise Exception(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
 
     def create_items(self) -> None:
@@ -55,7 +50,7 @@ class GrimDawnWorld(World):
 
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
-            item_pool.append(self.create_filler_item())
+            item_pool.append(self.create_filler())
 
         self.multiworld.itempool += item_pool
 
@@ -99,15 +94,15 @@ class GrimDawnWorld(World):
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
-        if self.multiworld.worlds[self.player].options.goal.value == 0:
+        if self.multiworld.worlds[self.player].options.goal == "beat_warden":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Warden Krieg","Location",self.player)#.has("Warden Boss Door Unlock",self.player)
-        elif self.multiworld.worlds[self.player].options.goal.value == 1:
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Manifestation of Korvaak, the Eldritch Sun",self.player)
-        elif self.multiworld.worlds[self.player].options.goal.value == 2:
+        elif self.multiworld.worlds[self.player].options.goal == "beat_korvaak":
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Manifestation of Korvaak, the Eldritch Sun","Location",self.player)
+        elif self.multiworld.worlds[self.player].options.goal == "beat_ravna":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Swarm Queen Ravna","Location",self.player)#.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
-        elif self.multiworld.worlds[self.player].options.goal.value == 3:
+        elif self.multiworld.worlds[self.player].options.goal == "beat_loghorrean":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Loghorrean","Location",self.player)#.has_all(["Loghorrean Seal Unlock","Tomb of the Watchers Door Unlock","Fort Ikon Destroy Blockade","Fort Ikon Gate Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
-        elif self.multiworld.worlds[self.player].options.goal.value == 4:
+        elif self.multiworld.worlds[self.player].options.goal == "beat_master_of_flesh":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Master of Flesh","Location",self.player)#  .has_all(["Crown Hill Destroy Gates","Crown Hill Open Flesh Barrier","Fleshworks Open Flesh Barrier","Candle District Door Unlock","Altar of Rattosh Portal","Gloomwald Destroy Blockade"],self.player)
 
     def fill_slot_data(self) -> Dict[str,Any]:
