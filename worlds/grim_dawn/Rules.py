@@ -103,7 +103,7 @@ class GrimDawnRules:
             "Act 11 -> Tomb of the Eldritch Sun": lambda state:
                 state.has("Path of Ascension Destroy Barrier", self.player),
             "Tomb of the Eldritch Sun -> The Eldritch Gate": lambda state:
-                state.has("The Eldritch Gate Destroy Barrier", self.player),
+                state.has("Eldritch Gate Destroy Barrier", self.player),
 
         }
 

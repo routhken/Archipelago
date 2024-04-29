@@ -19,8 +19,8 @@ class GrimDawnItemData(NamedTuple):
 _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[MultiWorld, int], bool]]]] = [
     ("Strange Key",                                         ItemClassification.progression,                  219990,                       1,                            None),
     ("5 Scrap",                                             ItemClassification.progression,                  219991,                       5,                            None),
-    ("Flooded Passage Destroy Blockade",                    ItemClassification.progression,                  219992,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.one_shot.value == 1 or multiworld.worlds[player].options.lore.value == 1)),
-    ("Lower Crossing Destroy Blockade",                     ItemClassification.progression,                  219993,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.lore.value == 1)),
+    ("Flooded Passage Destroy Blockade",                    ItemClassification.progression,                  219992,                       1,                            None),
+    ("Lower Crossing Destroy Blockade",                     ItemClassification.progression,                  219993,                       1,                            None),
     ("East Marsh Bridge Repair",                            ItemClassification.progression,                  219994,                       1,                            None),
     ("Warden Boss Door Unlock",                             ItemClassification.progression,                  219995,                       1,                            None),
     ("Arkovia Bridge Repair",                               ItemClassification.progression,                  219996,                       1,                            lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
