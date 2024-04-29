@@ -7,6 +7,7 @@ class GrimDawnGoal(Choice):
     """
     The goal to accomplish in order to complete the seed.
     Beat Warden - Fight your way to the warden lab and kill Warden Krieg
+    Beat Korvaak - Fight you way though the forgotten gods DLC and kill the Manifestation of Korvaak, the Eldritch Sun
     Beat Ravna - Fight your way to the homestead and kill Swarm Queen Ravna
     Beat Loghorrean - Fight your way to the necropolis and kill The Loghorrean
     Beat the Master of Flesh - Fight through the Ashes of Malmoth DLC and kill the Master of Flesh
@@ -42,10 +43,10 @@ class GrimDawnDevotionShrines(Toggle):
     display_name="Devotion Shrines"
 
 class GrimDawnLore(Toggle):
-    """Enable lore locations"""
+    """Enable Lore Note locations"""
     display_name="Lore"
 
-class GrimDawnFGDLC(Choice):
+class GrimDawnFGDLC(Toggle):
     """Enable locations inside the Forgotten Gods DLC (required for Manifestation of Korvaak, the Eldritch Sun goal)"""
     display_name="DLC: FG"
 
