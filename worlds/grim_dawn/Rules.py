@@ -83,7 +83,7 @@ class GrimDawnRules:
                 state.has("Ugdenbog Destroy Barricade",self.player),
             "Act 7 -> Act 8": lambda state:
                 state.has("Altar of Rattosh Portal",self.player),
-            "Act 8 -> Candle Disctict": lambda state:
+            "Act 8 -> Candle District": lambda state:
                 state.has("Candle District Door Unlock",self.player),
             "Act 8 -> Act 9": lambda state:
                 state.has("Steelcap District Door Unlock",self.player),
@@ -122,11 +122,11 @@ class GrimDawnRules:
             "Old Grove Secret Chest":                           lambda state: state.has("Old Grove Bridge Repair",self.player),
             "The Hidden Path - Dreeg":                          lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path - Solael":                         lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Council Report to Theodin Marcell":                lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "The Hidden Path - Bysmiel":                        lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "Journal of Inquisitor Creed - 9th Entry":          lambda state: state.has("Warden Boss Door Unlock",self.player),
             "Clippings from Ivonda's Memory":                   lambda state: state.has_all(["Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Witch Gods Faction Quest":                         lambda state: state.has("Witch God Cults Revered",self.player),
-            "Inarah, the Afflicted":                            lambda state: state.has("Tomb of Nephos Destroy Barrier",self.player),
             "Guardian of Dreeg":                                lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "Salazar, Blade of Ch'thon":                        lambda state: state.has("Strange Key",self.player),
             "Dangerous Curiosity":                              lambda state: state.has("Devil's Crossing Revered",self.player),
@@ -165,7 +165,6 @@ class GrimDawnRules:
             "Hargate's Journal - Page 3":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
             "Hargate's Journal - Page 4":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
             "Nearan's Work Log":                                lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
-            "Council Report to Theodin Marcell":                lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
 
         }
 
