@@ -164,6 +164,7 @@ class GrimDawnRules:
             "Hargate's Journal - Page 2":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
             "Hargate's Journal - Page 3":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
             "Hargate's Journal - Page 4":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
+            "Journal of Inquisitor Creed - 10th Entry":         lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Nearan's Work Log":                                lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
 
         }
