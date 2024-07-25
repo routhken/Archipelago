@@ -716,8 +716,8 @@ _location_data_list: list[tuple[str,str,int,Optional[Callable[[MultiWorld, int],
     ("The Last Will of Marthos Everbrook",                  "Homestead Side Doors",         220687,                       lambda multiworld, player: (multiworld.worlds[player].options.lore.value == 1) and (multiworld.worlds[player].options.goal.value >= 2)),
     ("Loose Ends",                                          "Act 4",                        220688,                       lambda multiworld, player: (multiworld.worlds[player].options.faction.value == 1) and (multiworld.worlds[player].options.lore.value == 1) and (multiworld.worlds[player].options.goal.value >= 3)),
     ("A Terrible Discovery",                                "Act 4",                        220689,                       lambda multiworld, player: (multiworld.worlds[player].options.faction.value == 1) and (multiworld.worlds[player].options.lore.value == 1) and (multiworld.worlds[player].options.goal.value >= 3)),
-    ("Journal of Inquisitor Creed - 10th Entry",            "Candle District",              220690,                       ),
-    ("Nearan's Work Log",                                   "Act 9",                        220691,                       ),
+    ("Journal of Inquisitor Creed - 10th Entry",            "Candle District",              220690,                       lambda multiworld, player: (multiworld.worlds[player].options.lore.value == 1) and (multiworld.worlds[player].options.goal.value >= 4)),
+    ("Nearan's Work Log",                                   "Act 9",                        220691,                       lambda multiworld, player: (multiworld.worlds[player].options.faction.value == 1) and (multiworld.worlds[player].options.lore.value == 1) and (multiworld.worlds[player].options.goal.value >= 4)),
 ]
 
 
