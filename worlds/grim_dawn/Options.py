@@ -7,7 +7,7 @@ class GrimDawnGoal(Choice):
     """
     The goal to accomplish in order to complete the seed.
     Beat Warden - Fight your way to the warden lab and kill Warden Krieg
-    Beat Korvaak - Fight you way though the forgotten gods DLC and kill the Manifestation of Korvaak, the Eldritch Sun
+    Beat Korvaak - Fight your way though the forgotten gods DLC and kill the Manifestation of Korvaak, the Eldritch Sun
     Beat Ravna - Fight your way to the homestead and kill Swarm Queen Ravna
     Beat Loghorrean - Fight your way to the necropolis and kill The Loghorrean
     Beat the Master of Flesh - Fight through the Ashes of Malmoth DLC and kill the Master of Flesh

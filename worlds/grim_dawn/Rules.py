@@ -110,7 +110,7 @@ class GrimDawnRules:
         
         self.location_rules = {
             #Act 1 Locations
-            "Find Elsa":                                        lambda state: self.has_scrap(state,5) and state.has("Warden Boss Door Unlock",self.player),
+            "Find Elsa":                                        lambda state: state.has("Warden Boss Door Unlock",self.player),
             "Trapped and Alone":                                lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
             "Rashalga, the Mad Queen":                          lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "The Hidden Path":                                  lambda state: state.has_all(["Lower Crossing Destroy Blockade","Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade","Homestead Main Doors Unlock"],self.player),
@@ -141,8 +141,13 @@ class GrimDawnRules:
             "Death's Vigil - Kymon's Chosen Faction Quest 5":   lambda state: state.has_all(["Death's Vigil - Kymon's Chosen Revered","Homestead Side Doors Unlock"],self.player),
             "Death's Vigil - Kymon's Chosen Faction Quest 6":   lambda state: state.has_all(["Death's Vigil - Kymon's Chosen Revered","Homestead Side Doors Unlock"],self.player),
             "Guardian of Bysmiel":                              lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
+            "Nacrathan, the Timeless":                          lambda state: state.has("Homestead Side Doors Unlock",self.player),
+            "Archon Barthollem - Malkadarr":                    lambda state: state.has("Homestead Side Doors Unlock",self.player),
+            "A Final Salute":                                   lambda state: state.has("Homestead Side Doors Unlock",self.player),
+            "Clear the Lumber Mill":                            lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Rhowari Legacy":                                   lambda state: state.has("Rovers Revered",self.player),
             "Herald of Destruction":                            lambda state: state.has_all(["Black Legion Revered","Homestead Side Doors Unlock"],self.player),
+            "Precious Resources":                               lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "The Coven's Walls":                                lambda state: state.has_all(["Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Pruning The Weeds":                                lambda state: state.has_all(["Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Allure of the Wendigo":                            lambda state: state.has_all(["Coven of Ugdenbog Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
@@ -160,10 +165,15 @@ class GrimDawnRules:
             "Alberran Rein":                                    lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Dreven Cole":                                      lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Cyrian Marcan":                                    lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
+            "Lost Tomb of the Damned Devotion Shrine":          lambda state: state.has("Homestead Side Doors Unlock",self.player),
+            "Tomb of the Archon Barthollem Secret Chest":       lambda state: state.has("Homestead Side Doors Unlock",self.player),
+            "Lost Tomb of the Damned Secret Chest":             lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Chamber of the High Council Secret Chest":         lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Hargate's Journal - Page 2":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
             "Hargate's Journal - Page 3":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
             "Hargate's Journal - Page 4":                       lambda state: state.has_all(["Arkovia Bridge Repair","Devil's Crossing Revered"],self.player),
+            "Loose Ends":                                       lambda state: state.has("Homestead Side Doors Unlock",self.player),
+            "A Terrible Discovery":                             lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Journal of Inquisitor Creed - 10th Entry":         lambda state: state.has_all(["Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
             "Nearan's Work Log":                                lambda state: state.has_all(["Malmouth Resistance Revered","Homestead Main Doors Unlock","Fort Ikon Gate Unlock","Fort Ikon Destroy Blockade","Tomb of the Watchers Door Unlock","Loghorrean Seal Unlock","Homestead Side Doors Unlock"],self.player),
 
