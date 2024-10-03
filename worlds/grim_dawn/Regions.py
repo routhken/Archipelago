@@ -41,7 +41,7 @@ region_data_table: Dict[str, GrimDawnRegionData] = {
     "Crown Hill":               GrimDawnRegionData(connecting_regions=["Fleshworks"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 4)),
     "Fleshworks":               GrimDawnRegionData(connecting_regions=["Sanctum of Flesh"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 4)),
     "Sanctum of Flesh":         GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 4)),
-    "Act 10":                   GrimDawnRegionData(connecting_regions=["Act 11"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg)),
+    "Act 10":                   GrimDawnRegionData(connecting_regions=["Act 7","Act 11","Devil's Aquifer"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg)),
     "Act 11":                   GrimDawnRegionData(connecting_regions=["Devil's Aquifer","Lost Oasis","Tomb of the Eldritch Sun"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg.value)),
     "Lost Oasis":               GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg) and (multiworld.worlds[player].options.forbidden_dungeons)),
     "Tomb of the Eldritch Sun": GrimDawnRegionData(connecting_regions=["The Eldritch Gate"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg)),

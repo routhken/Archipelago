@@ -98,6 +98,9 @@ class GrimDawnRules:
                 state.has("Fleshworks Open Flesh Barrier", self.player),
             "Act 10 -> Act 11": lambda state:
                 state.has("Vanguard of the Three Door Unlock",self.player),
+            "Act 10 -> Act 7": lambda state:
+                state.has("Gloomwald Destroy Blockade",self.player),
+            
             "Act 11 -> Lost Oasis": lambda state:
                 state.has_all(["Valley of the Chosen Destroy Barrier","Forbidden Door Unlock"],self.player),
             "Act 11 -> Tomb of the Eldritch Sun": lambda state:
