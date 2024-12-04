@@ -1,5 +1,5 @@
-from typing import List, Any, Dict
-
+from typing import List, Any, Dict, ClassVar
+from settings import Group, FolderPath
 from BaseClasses import Region, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic,filler_table,filler_weights,relic_table
@@ -7,8 +7,23 @@ from .Locations import GrimDawnLocation, location_data_table, location_table, lo
 from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
+from .SkillRandomizer import generateSkillPatchTable
+from worlds.LauncherComponents import (
+    Component,
+    components,
+    Type,
+    launch_subprocess,
+    icon_paths,
+)
+import json
 
 #release version 0.1.4
+
+class GrimDawnSettings(Group):
+    class Grim_Dawn_Install_Path(FolderPath):
+        """Path to Grim Dawn install directory"""
+        required = True
+    grimDawnInstallPath: Grim_Dawn_Install_Path = Grim_Dawn_Install_Path("")
 
 class GrimDawnWebWorld(WebWorld):
     theme = "partyTime"
@@ -21,6 +36,19 @@ class GrimDawnWebWorld(WebWorld):
         ["DaKennyMan","Faris"]
     )]
 
+def launch_client():
+    from .GrimDawnClient import launch
+    launch_subprocess(launch, name="GrimDawnClient")
+
+
+icon_paths["GDLogo"] = f"ap:{__name__}/GDLogo.png"
+
+components.append(Component(
+    "Grim Dawn Client",
+    func=launch_client,
+    component_type=Type.CLIENT,
+    icon = "GDLogo"
+    ))
 
 class GrimDawnWorld(World):
     """It's Grim Dawn"""
@@ -32,6 +60,8 @@ class GrimDawnWorld(World):
     location_name_to_id = location_table
     item_name_to_id = item_table
     local_relic_table: List[str]
+    settings: ClassVar[GrimDawnSettings]
+    skill_balance_table: Dict[str, Dict[str, Dict[str, any]]]
 
     def create_item(self, name: str) -> GrimDawnItem:
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
@@ -108,6 +138,16 @@ class GrimDawnWorld(World):
         elif self.options.goal == "beat_master_of_flesh":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Master of Flesh","Location",self.player)#  .has_all(["Crown Hill Destroy Gates","Crown Hill Open Flesh Barrier","Fleshworks Open Flesh Barrier","Candle District Door Unlock","Altar of Rattosh Portal","Gloomwald Destroy Blockade"],self.player)
 
+    def write_spoiler(self, spoiler_handle):
+        spoiler_handle.write("\nSkill Balance Table for player " + self.player_name + ":\n")
+        spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
+
+    def generate_basic(self) -> None:
+        if not self.options.skill_balance_rando:
+            self.skill_balance_table = {}
+        else:
+            self.skill_balance_table = generateSkillPatchTable(self)
+
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
             "goal":self.options.goal.value,
@@ -118,7 +158,11 @@ class GrimDawnWorld(World):
             "secret_chest": self.options.secret_chest.value,
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
-            "dlc_fg": self.options.dlc_fg.value
+            "dlc_fg": self.options.dlc_fg.value,
+            "skill_balance_rando": self.options.skill_balance_rando.value,
+            "skill_balance_range": self.options.skill_balance_range.value,
+            "skill_balance_table": self.skill_balance_table,
+            "skill_balance_weight": self.options.skill_balance_weight.value,
         }
 
         return dReturn
