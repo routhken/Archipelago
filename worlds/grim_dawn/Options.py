@@ -10,7 +10,7 @@ class GrimDawnGoal(Choice):
     Beat Korvaak - Find the Tomb of the Eldritch Sun and defeat Korvaak (requires Forgotten Gods DLC)
     Beat Ravna - Find the Royal Hive under the Infested Croplands and defeat Swarm Queen Ravna
     Beat Loghorrean - Find the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
-    Beat Master of Flesh - Find the Fleshworks in the ruined city defeat the Master of Flesh
+    Beat Master of Flesh - Find the Fleshworks in the ruined city and defeat The Master of Flesh (requires Ashes of Malmouth DLC)
     """
     display_name = "Goal"
 
@@ -75,7 +75,7 @@ class GrimDawnSBRange(Choice):
     option_mayhem = 5
 
     default = 2
-    lookupdict = {"micro":((9/10),(11/10)),"small":((3/4),(5/4)),"medium":((2/3),(3/2)),"large":((1/2),2),"extreme":((1/5),3),"mayhem":(1/100,10)}
+    lookupdict = {"micro":((9/10),(11/10)),"small":((3/4),(5/4)),"medium":((2/3),(3/2)),"large":((1/2),2),"extreme":((1/5),3),"mayhem":(1/10,10)}
 
     @property
     def lowerbound(self):
@@ -103,6 +103,58 @@ class GrimDawnSBWeight(Choice):
     
     default = 2
 
+class GrimDawnSBPreserveDamage(Toggle):
+    """If enabled, prevents base damage and damage multiplier values from being randomized."""
+    display_name="Skill Balance Preserve Damage"
+
+class GrimDawnSBPreserveArea(Toggle):
+    """If enabled, prevents area, distance, and target values from being randomized."""
+    display_name="Skill Balance Preserve Area"
+
+class GrimDawnSBPreserveDuration(Toggle):
+    """If enabled, prevents effect duration and summon lifetime values from being randomized."""
+    display_name="Skill Balance Preserve Duration"
+
+class GrimDawnSBPreserveMana(Toggle):
+    """If enabled, prevents mana cost and mana reservation values from being randomized."""
+    display_name="Skill Balance Preserve Mana"
+
+class GrimDawnSBPreserveProjectile(Toggle):
+    """If enabled, prevents projectile and fragment values from being randomized."""
+    display_name="Skill Balance Preserve Projectiles"
+
+class GrimDawnSBPreserveCooldown(Toggle):
+    """If enabled, prevents cooldown values from being randomized."""
+    display_name="Skill Balance Preserve Cooldown"
+
+class GrimDawnSBPreserveChance(Toggle):
+    """If enabled, prevents chance to activate effect values from being randomized."""
+    display_name="Skill Balance Preserve Chance"
+
+class GrimDawnSBPreserveDefense(Toggle):
+    """If enabled, prevents defensive values from being randomized."""
+    display_name="Skill Balance Preserve Defense"
+
+class GrimDawnSBPreserveSummon(Toggle):
+    """If enabled, prevents summon amount and summon limit values from being randomized."""
+    display_name="Skill Balance Preserve Summon"
+
+class GrimDawnSBPreserveSpeed(Toggle):
+    """If enabled, prevents attack, cast, and movement speed values from being randomized."""
+    display_name="Skill Balance Preserve Speed"
+
+class GrimDawnStartingSkillPoints(Toggle):
+    """If enabled, you will receive 1 level up and 3 skill points when you first connect to the multiworld."""
+    display_name="Starting Skill Points"
+
+class GrimDawnFreeSkillRespec(Toggle):
+    """If enabled, makes the skill respec NPCs cost nothing."""
+    display_name="Free Skill Respec"
+
+class GrimDawnEnemyRandomizer(Toggle):
+    """COMING SOON! Randomize non-boss enemies. Usually causes the early game the be much more difficult."""
+    display_name="Enemy Randomizer"
+
 @dataclass
 class GrimDawnOptions(PerGameCommonOptions):
     goal: GrimDawnGoal
@@ -113,7 +165,20 @@ class GrimDawnOptions(PerGameCommonOptions):
     lore: GrimDawnLore
     faction: GrimDawnFactionQuests
     dlc_fg: GrimDawnFGDLC
-    skill_balance_rando: GrimDawnSkillBalance
+    skill_balance_randomizer: GrimDawnSkillBalance
     skill_balance_range: GrimDawnSBRange
     skill_balance_weight: GrimDawnSBWeight
+    skill_balance_preserve_damage: GrimDawnSBPreserveDamage
+    skill_balance_preserve_area: GrimDawnSBPreserveArea
+    skill_balance_preserve_duration: GrimDawnSBPreserveDuration
+    skill_balance_preserve_mana: GrimDawnSBPreserveMana
+    skill_balance_preserve_projectiles: GrimDawnSBPreserveProjectile
+    skill_balance_preserve_cooldown: GrimDawnSBPreserveCooldown
+    skill_balance_preserve_chance: GrimDawnSBPreserveChance
+    skill_balance_preserve_defense: GrimDawnSBPreserveDefense
+    skill_balance_preserve_summons: GrimDawnSBPreserveSummon
+    skill_balance_preserve_speed: GrimDawnSBPreserveSpeed
+    starting_skill_points: GrimDawnStartingSkillPoints
+    free_skill_respec: GrimDawnFreeSkillRespec
+    enemy_randomizer: GrimDawnEnemyRandomizer
     death_link: DeathLink

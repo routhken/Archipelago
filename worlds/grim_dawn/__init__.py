@@ -8,6 +8,7 @@ from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
 from .SkillRandomizer import generateSkillPatchTable
+from .EnemyRandomizer import generateEnemyTable
 from worlds.LauncherComponents import (
     Component,
     components,
@@ -143,10 +144,14 @@ class GrimDawnWorld(World):
         spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
 
     def generate_basic(self) -> None:
-        if not self.options.skill_balance_rando:
+        if not self.options.skill_balance_randomizer:
             self.skill_balance_table = {}
         else:
             self.skill_balance_table = generateSkillPatchTable(self)
+        if not self.options.enemy_randomizer:
+            self.enemy_table = []
+        else:
+            self.enemy_table = generateEnemyTable(self)
 
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
@@ -159,10 +164,24 @@ class GrimDawnWorld(World):
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
             "dlc_fg": self.options.dlc_fg.value,
-            "skill_balance_rando": self.options.skill_balance_rando.value,
+            "skill_balance_randomizer": self.options.skill_balance_randomizer.value,
             "skill_balance_range": self.options.skill_balance_range.value,
             "skill_balance_table": self.skill_balance_table,
             "skill_balance_weight": self.options.skill_balance_weight.value,
+            "skill_balance_preserve_damage": self.options.skill_balance_preserve_damage.value,
+            "skill_balance_preserve_area": self.options.skill_balance_preserve_area.value,
+            "skill_balance_preserve_duration": self.options.skill_balance_preserve_duration.value,
+            "skill_balance_preserve_mana": self.options.skill_balance_preserve_mana.value,
+            "skill_balance_preserve_projectiles": self.options.skill_balance_preserve_projectiles.value,
+            "skill_balance_preserve_cooldown": self.options.skill_balance_preserve_cooldown.value,
+            "skill_balance_preserve_chance": self.options.skill_balance_preserve_chance.value,
+            "skill_balance_preserve_defense": self.options.skill_balance_preserve_defense.value,
+            "skill_balance_preserve_summons": self.options.skill_balance_preserve_summons.value,
+            "skill_balance_preserve_speed": self.options.skill_balance_preserve_speed.value,
+            "starting_skill_points": self.options.starting_skill_points.value,
+            "free_skill_respec": self.options.free_skill_respec.value,
+            "enemy_randomizer": self.options.enemy_randomizer.value,
+            "enemy_table": self.enemy_table,
         }
 
         return dReturn
