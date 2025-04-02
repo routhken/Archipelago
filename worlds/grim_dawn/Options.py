@@ -1,6 +1,6 @@
 from typing import Dict
 
-from Options import Choice, Option, Toggle, PerGameCommonOptions,DeathLink
+from Options import Choice, Range, Option, Toggle, PerGameCommonOptions,DeathLink
 from dataclasses import dataclass
 
 class GrimDawnGoal(Choice):
@@ -11,6 +11,8 @@ class GrimDawnGoal(Choice):
     Beat Ravna - Find the Royal Hive under the Infested Croplands and defeat Swarm Queen Ravna
     Beat Loghorrean - Find the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
     Beat Master of Flesh - Find the Fleshworks in the ruined city and defeat The Master of Flesh (requires Ashes of Malmouth DLC)
+    Beat All Bosses - Find and defeat all of the above bosses (requires both DLC)
+    Emblem Hunt - Find all of the Aetherial Emblems and bring them to Captain Bourbon
     """
     display_name = "Goal"
 
@@ -19,12 +21,32 @@ class GrimDawnGoal(Choice):
     option_beat_ravna = 2
     option_beat_loghorrean = 3
     option_beat_master_of_flesh = 4
+    option_beat_all_bosses = 50
+    option_emblem_hunt = 51
 
     default = 0
 
+class GrimDawnMaxEmblems(Range):
+    """
+    Maximum number of Aetherial Emblems that will be in the item pool
+    """
+    display_name = "Max Number of Aetherial Emblems"
+    range_start = 1
+    range_end = 100
+    default = 50
+
+class GrimDawnRequiredEmblems(Range):
+    """
+    What number of Aetherial Emblems are required to finish Emblem Hunt
+    """
+    display_name = "Required number of Aetherial Emblems"
+    range_start = 1
+    range_end = 100
+    default = 50
+
 class GrimDawnForbiddenDungeons(Toggle):
-    """Enable Forbidden Dungeons and Skeleton Keys as locations"""
-    display_name="Forbidden Dungeons and Skeleton Keys"
+    """Enable Forbidden Dungeons as locations"""
+    display_name="Forbidden Dungeons"
 
 class GrimDawnOneShot(Toggle):
     """Enable One Shot Chests as locations"""
@@ -45,6 +67,12 @@ class GrimDawnDevotionShrines(Toggle):
 class GrimDawnLore(Toggle):
     """Enable Lore Note locations"""
     display_name="Lore"
+
+class GrimDawnProgressiveProgression(Toggle):
+    """If enabled, will convert major progression items into the same items so that major progression will always be unlocked in order."""
+    """For example, Arkovia Bridge Repair and Arkovian Foothills Barricade Destroy will be converted into two Progressive Main Campaign items"""
+    """and receiving them in any order will always unlock arkovia bridge repair first. Side areas like East Marsh will be unaffected."""
+    display_name="Progressive Progression"
 
 class GrimDawnFGDLC(Toggle):
     """Enable locations inside the Forgotten Gods DLC (required for Korvaak goal)"""
@@ -152,17 +180,24 @@ class GrimDawnFreeSkillRespec(Toggle):
     display_name="Free Skill Respec"
 
 class GrimDawnEnemyRandomizer(Toggle):
-    """COMING SOON! Randomize non-boss enemies. Usually causes the early game the be much more difficult."""
+    """Randomize most non-boss enemies."""
     display_name="Enemy Randomizer"
+
+class GrimDawnEnemyDangerous(Toggle):
+    """Randomizes enemies to be only dangerous enemies."""
+    display_name="Dangerous Enemies"
 
 @dataclass
 class GrimDawnOptions(PerGameCommonOptions):
     goal: GrimDawnGoal
+    max_emblems: GrimDawnMaxEmblems
+    required_emblems: GrimDawnRequiredEmblems
     forbidden_dungeons: GrimDawnForbiddenDungeons
     one_shot: GrimDawnOneShot
     secret_chest: GrimDawnSecretChest
     devotion_shrine: GrimDawnDevotionShrines
     lore: GrimDawnLore
+    progressive_progression: GrimDawnProgressiveProgression
     faction: GrimDawnFactionQuests
     dlc_fg: GrimDawnFGDLC
     skill_balance_randomizer: GrimDawnSkillBalance
@@ -181,4 +216,5 @@ class GrimDawnOptions(PerGameCommonOptions):
     starting_skill_points: GrimDawnStartingSkillPoints
     free_skill_respec: GrimDawnFreeSkillRespec
     enemy_randomizer: GrimDawnEnemyRandomizer
+    dangerous_enemies: GrimDawnEnemyDangerous
     death_link: DeathLink

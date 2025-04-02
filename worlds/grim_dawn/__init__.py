@@ -9,6 +9,8 @@ from .Regions import region_data_table
 from .Rules import GrimDawnRules
 from .SkillRandomizer import generateSkillPatchTable
 from .EnemyRandomizer import generateEnemyTable
+from logging import warning
+from Options import OptionError
 from worlds.LauncherComponents import (
     Component,
     components,
@@ -18,7 +20,7 @@ from worlds.LauncherComponents import (
 )
 import json
 
-#release version 0.1.4
+#release version 0.1.5
 
 class GrimDawnSettings(Group):
     class Grim_Dawn_Install_Path(FolderPath):
@@ -37,9 +39,9 @@ class GrimDawnWebWorld(WebWorld):
         ["DaKennyMan","Faris"]
     )]
 
-def launch_client():
+def launch_client(*args):
     from .GrimDawnClient import launch
-    launch_subprocess(launch, name="GrimDawnClient")
+    launch_subprocess(launch, name="GrimDawnClient", args=args)
 
 
 icon_paths["GDLogo"] = f"ap:{__name__}/GDLogo.png"
@@ -71,16 +73,57 @@ class GrimDawnWorld(World):
         self.local_relic_table = relic_table.copy()
         self.random.shuffle(self.local_relic_table) #only need to shuffle this once per world
         if (not self.options.dlc_fg) and self.options.goal == 1:
-            raise Exception(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
+        if (not self.options.dlc_fg) and self.options.goal == 50:
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
         for name, item in item_data_table.items():
-            if item.code and item.can_create(self.multiworld, self.player):
+            if item.code and item.can_create(self):
                 for i in range(item.quantity):
                     item_pool.append(self.create_item(name)) #create item.quantity items by default
 
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
+
+        if self.options.progressive_progression == True:
+            # Create generic progression items to replace the named ones
+            main_quantity = 0
+            fg_quantity = 1
+            aom_quantity = 0
+
+            if (self.options.goal == "beat_warden") or (self.options.goal == "beat_korvaak"):
+                pass
+            elif self.options.goal == "beat_ravna":
+                main_quantity = 2
+            elif self.options.goal == "beat_loghorrean":
+                main_quantity = 7
+            else:
+                main_quantity = 7
+                aom_quantity = 6
+            if (self.options.dlc_fg == True) and (self.options.goal != "beat_warden"):
+                fg_quantity = 4
+
+            for _ in range(main_quantity):
+                item_pool.append(self.create_item("Progressive Main Campaign"))
+            for _ in range(fg_quantity):
+                item_pool.append(self.create_item("Progressive Forgotten Gods"))
+            for _ in range(aom_quantity):
+                item_pool.append(self.create_item("Progressive Ashes of Malmouth"))
+
+        if self.options.goal == "emblem_hunt":
+            # Handle having more max emblems than total filler space available
+            max_filler_space = total_locations - len(item_pool)
+            if self.options.max_emblems > max_filler_space:
+                self.options.max_emblems.value = max_filler_space
+                warning(f"Max emblems desired was higher than available filler space, reduced max emblem count to {max_filler_space}.")
+            # Handle having more emblems required than max emblems available
+            if self.options.required_emblems > self.options.max_emblems:
+                self.options.required_emblems.value = self.options.max_emblems.value
+                warning(f"Required emblems was higher than max emblems, reduced required emblems to match max emblem count of {self.options.required_emblems.value}.")
+            # Create emblems
+            for _ in range(self.options.max_emblems.value):
+                item_pool.append(self.create_item("Aetherial Emblem"))
 
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
@@ -104,7 +147,7 @@ class GrimDawnWorld(World):
                 region = self.multiworld.get_region(region_name, self.player)
                 region.add_locations({
                     location_name: location_data.address for location_name, location_data in location_data_table.items()
-                    if location_data.region == region_name and location_data.can_create(self.multiworld, self.player)
+                    if location_data.region == region_name and location_data.can_create(self)
                 }, GrimDawnLocation)
                 region.add_exits([item for item in region_data.connecting_regions if item not in skipped_regions])
 
@@ -138,10 +181,40 @@ class GrimDawnWorld(World):
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Loghorrean","Location",self.player)#.has_all(["Loghorrean Seal Unlock","Tomb of the Watchers Door Unlock","Fort Ikon Destroy Blockade","Fort Ikon Gate Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
         elif self.options.goal == "beat_master_of_flesh":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Master of Flesh","Location",self.player)#  .has_all(["Crown Hill Destroy Gates","Crown Hill Open Flesh Barrier","Fleshworks Open Flesh Barrier","Candle District Door Unlock","Altar of Rattosh Portal","Gloomwald Destroy Blockade"],self.player)
+        elif self.options.goal == "beat_all_bosses":
+            self.multiworld.completion_condition[self.player] = lambda state: (state.can_reach("Master of Flesh","Location",self.player) and state.can_reach("The Loghorrean","Location",self.player) and state.can_reach("Swarm Queen Ravna","Location",self.player) and state.can_reach("Manifestation of Korvaak, the Eldritch Sun","Location",self.player) and state.can_reach("Warden Krieg","Location",self.player))
+        elif self.options.goal == "emblem_hunt":
+            self.multiworld.completion_condition[self.player] = lambda state: state.has("Aetherial Emblem",self.player,self.options.required_emblems.value)
+
+    # When getting progressive progression, this function checks for special interaction
+    def collect_item(self,state,item,remove = False) -> str | None:
+        def handle_list(prog_items):
+            if not remove:
+                for next_item in prog_items:
+                    if not state.has(next_item, self.player):
+                        return next_item
+            else:
+                for next_item in reversed(prog_items):
+                    if state.has(next_item, self.player):
+                        return next_item
+
+        prog_main = ["Arkovia Bridge Repair", "Arkovian Foothills Destroy Barricade", "Homestead Main Doors Unlock", "Fort Ikon Gate Unlock", "Fort Ikon Destroy Blockade", "Tomb of the Watchers Door Unlock", "Loghorrean Seal Unlock"]
+        prog_aom = ["Gloomwald Destroy Blockade", "Altar of Rattosh Portal", "Steelcap District Door Unlock", "Crown Hill Destroy Gates", "Crown Hill Open Flesh Barrier", "Fleshworks Open Flesh Barrier"]
+        prog_fg = ["Warden Boss Door Unlock", "Vanguard of the Three Door Unlock", "Path of Ascension Destroy Barrier", "Eldritch Gate Destroy Barrier"]
+
+        if item.name == "Progressive Main Campaign":
+            return handle_list(prog_main)
+        elif item.name == "Progressive Forgotten Gods":
+            return handle_list(prog_fg)
+        elif item.name == "Progressive Ashes of Malmouth":
+            return handle_list(prog_aom)
+        return super().collect_item(state,item,remove)
 
     def write_spoiler(self, spoiler_handle):
         spoiler_handle.write("\nSkill Balance Table for player " + self.player_name + ":\n")
         spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
+        spoiler_handle.write("\nEnemy Table for player " + self.player_name + ":\n")
+        spoiler_handle.write(json.dumps(self.enemy_table, indent=4))
 
     def generate_basic(self) -> None:
         if not self.options.skill_balance_randomizer:
@@ -156,6 +229,8 @@ class GrimDawnWorld(World):
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
             "goal":self.options.goal.value,
+            "max_emblems":self.options.max_emblems.value,
+            "required_emblems":self.options.required_emblems.value,
             "deathlink":self.options.death_link.value,
             "forbidden_dungeons": self.options.forbidden_dungeons.value,
             "faction": self.options.faction.value,
@@ -163,6 +238,7 @@ class GrimDawnWorld(World):
             "secret_chest": self.options.secret_chest.value,
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
+            "progressive_progression":self.options.progressive_progression.value,
             "dlc_fg": self.options.dlc_fg.value,
             "skill_balance_randomizer": self.options.skill_balance_randomizer.value,
             "skill_balance_range": self.options.skill_balance_range.value,
@@ -182,6 +258,7 @@ class GrimDawnWorld(World):
             "free_skill_respec": self.options.free_skill_respec.value,
             "enemy_randomizer": self.options.enemy_randomizer.value,
             "enemy_table": self.enemy_table,
+            "dangerous_enemies": self.options.dangerous_enemies.value,
         }
 
         return dReturn
