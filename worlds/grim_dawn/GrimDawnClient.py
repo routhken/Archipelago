@@ -1,7 +1,5 @@
 import asyncio
 from .EnemyRandomizer import enemyListNonBoss
-from .EnemyRandomizer import enemyListLoads
-from .EnemyRandomizer import enemyListDebug
 from CommonClient import (
     CommonContext,
     gui_enabled,
@@ -14,6 +12,7 @@ import Utils
 import settings
 import subprocess
 import os
+import shutil
 import urllib.parse
 
 
@@ -190,22 +189,40 @@ class ProxyGameContext(CommonContext):
         #logger.info("Applying enemy rando patch.")
         if slot_data.get("enemy_randomizer",0) == 1:
 
-            #First rename the existing enemy names so that there won't be any name conflicts
-            for sourceName in slot_data["enemy_table"]:
-                path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",sourceName)
-                path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
-                os.rename(path1,path2)
+            # #First rename the existing enemy names so that there won't be any name conflicts
+            # for sourceName in slot_data["enemy_table"]:
+            #     path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",sourceName)
+            #     path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
+            #     os.rename(path1,path2)
 
-            #Iterates through each file at the same time, renaming the enemy files
-            for sourceName, targetName in zip(enemyListNonBoss,slot_data["enemy_table"]):
-                path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
-                path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
-                os.rename(path1,path2)
+            # #Iterates through each file at the same time, renaming the enemy files
+            # for sourceName, targetName in zip(enemyListNonBoss,slot_data["enemy_table"]):
+            #     path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
+            #     path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
+            #     os.rename(path1,path2)
 
             #TODO Prevent certain slith enemies from being randomized for slith charm quest.
 
-            #DEBUG overwrite every enemy with the contents of a single enemy, so that every enemy is the same
-            #TODO make this debug thing a feature
+            #First make a copy of every enemy so we can read from them without creating conflicts from overwriting them.
+            for sourceName in slot_data["enemy_table"]:
+                path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",sourceName)
+                path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
+                shutil.copy(path1,path2)
+
+            #Overwrite every enemy with the contents of the copied enemies
+            index = 0
+            for sourceName, targetName in zip(slot_data["enemy_table"], enemyListNonBoss):
+                path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
+                path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
+                f1 = open(path1, 'r')
+                f2 = open(path2, 'w')
+                for line in f1:
+                    f2.write(line)
+                f1.close()
+                f2.close()
+                index += 1
+            # #DEBUG overwrite every enemy with the contents of a single enemy, so that every enemy is the same
+            # #TODO make this debug thing a feature
             # singletonEnemy = enemyListDebug
             # logger.info("singletonEnemy: " + singletonEnemy[0] + singletonEnemy[1] + singletonEnemy[2] + singletonEnemy[3])
             # #logger.info("path1: " + path1)
