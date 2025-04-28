@@ -1,5 +1,5 @@
 import asyncio
-from .EnemyRandomizer import enemyListNonBoss
+from .EnemyRandomizer import enemyListNonBoss, enemyDangerous
 from CommonClient import (
     CommonContext,
     gui_enabled,
@@ -8,12 +8,11 @@ from CommonClient import (
     server_loop,
     ClientCommandProcessor
 )
-import Utils
-import settings
 import subprocess
 import os
 import shutil
 import urllib.parse
+from NetUtils import ClientStatus
 
 
 DEBUG = False
@@ -21,14 +20,29 @@ GAMENAME = "Grim Dawn"
 ITEMS_HANDLING = 0b000
 
 class GrimDawnCommandProcessor(ClientCommandProcessor):
-    def _cmd_debug(self):
+    def _cmd_debug_patch(self):
         self.ctx.patch_game({})
+
+    def _cmd_list_enemies(self):
+        for enemy in self.ctx.slot_data["enemy_table"]:
+            logger.info(f"Enemy entry: {enemy}")
+
+    def _cmd_list_skills(self):
+        for skill in self.ctx.slot_data["skill_balance_table"]:
+            logger.info(f"Enemy entry: {skill}")
+
+    #def _cmd_goal_game(self):
+    #    self.ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
 
 class ProxyGameContext(CommonContext):
     game = GAMENAME
     items_handling = ITEMS_HANDLING
     command_processor = GrimDawnCommandProcessor
+
+    def __init__(self, server_address, password):
+        super().__init__(server_address, password)
+        self.slot_data = {"enemy_table": [], "skill_balance_table": []}
 
     def patch_game(self, slot_data: dict[str, any]):
     # First  confirm the path to the grim dawn executable upon startup
@@ -188,31 +202,43 @@ class ProxyGameContext(CommonContext):
         #Apply the enemy rando patch, if enabled
         #logger.info("Applying enemy rando patch.")
         if slot_data.get("enemy_randomizer",0) == 1:
-
-            # #First rename the existing enemy names so that there won't be any name conflicts
-            # for sourceName in slot_data["enemy_table"]:
+            # #TODO Prevent certain slith enemies from being randomized for slith charm quest.
+            # #First make a copy of every enemy so we can read from them without creating conflicts from overwriting them.
+            # tempStoragePath = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage")
+            # os.makedirs(tempStoragePath)
+            # for sourceName in enemyListNonBoss:
             #     path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",sourceName)
-            #     path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
-            #     os.rename(path1,path2)
+            #     shutil.copy(path1,tempStoragePath)
 
-            # #Iterates through each file at the same time, renaming the enemy files
-            # for sourceName, targetName in zip(enemyListNonBoss,slot_data["enemy_table"]):
-            #     path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
+            # #Overwrite every enemy with the contents of the copied enemies
+            # for sourceName, targetName in zip(slot_data["enemy_table"], enemyListNonBoss):
+            #     path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage",sourceName)
             #     path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
-            #     os.rename(path1,path2)
+            #     f1 = open(path1, 'r')
+            #     f2 = open(path2, 'w')
+            #     for line in f1:
+            #         f2.write(line)
+            #     f1.close()
+            #     f2.close()
 
-            #TODO Prevent certain slith enemies from being randomized for slith charm quest.
-
-            #First make a copy of every enemy so we can read from them without creating conflicts from overwriting them.
-            for sourceName in slot_data["enemy_table"]:
+            #DEBUG overwrite every enemy with the contents of a single enemy, so that every enemy is the same
+            #TODO make this debug thing a feature
+            #First make a copy of every enemy so we can read from them without overwriting them.
+            tempStoragePath = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage")
+            os.makedirs(tempStoragePath)
+            for sourceName in enemyListNonBoss:
                 path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",sourceName)
-                path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
-                shutil.copy(path1,path2)
-
-            #Overwrite every enemy with the contents of the copied enemies
-            index = 0
-            for sourceName, targetName in zip(slot_data["enemy_table"], enemyListNonBoss):
-                path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","_" + sourceName)
+                shutil.copy(path1,tempStoragePath)
+            #slot_data["enemy_table"]
+            #logger.info("singletonEnemy: " + singletonEnemy[0] + singletonEnemy[1] + singletonEnemy[2] + singletonEnemy[3])
+            #logger.info("path1: " + path1)
+            startingIndex = 0
+            dangerIndex = len(slot_data["enemy_table"]) #(len(enemyDangerous))
+            index = startingIndex
+            #shouldLog = True
+            logger.info(f"Length of dangerous enemies list: {dangerIndex}")
+            for targetName in enemyListNonBoss:
+                path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage",slot_data["enemy_table"][index])
                 path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
                 f1 = open(path1, 'r')
                 f2 = open(path2, 'w')
@@ -220,43 +246,16 @@ class ProxyGameContext(CommonContext):
                     f2.write(line)
                 f1.close()
                 f2.close()
+                #if shouldLog:
+                    #logger.info(f"Enemy entry {index}: " + slot_data["enemy_table"][index])
                 index += 1
-            # #DEBUG overwrite every enemy with the contents of a single enemy, so that every enemy is the same
-            # #TODO make this debug thing a feature
-            # singletonEnemy = enemyListDebug
-            # logger.info("singletonEnemy: " + singletonEnemy[0] + singletonEnemy[1] + singletonEnemy[2] + singletonEnemy[3])
-            # #logger.info("path1: " + path1)
-            # index = 0
-            # for targetName in enemyListNonBoss:
-            #     if targetName != singletonEnemy:
-            #         path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",singletonEnemy[index])
-            #         path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
-            #         f1 = open(path1, 'r')
-            #         f2 = open(path2, 'w')
-            #         for line in f1:
-            #             f2.write(line)
-            #         f1.close()
-            #         f2.close()
-            #     if index < 3:
-            #         index += 1
-            #     else:
-            #         index = 0
-            # for targetName in enemyListLoads:
-            #     if targetName != singletonEnemy:
-            #         path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",singletonEnemy[index])
-            #         path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
-            #         f1 = open(path1, 'r')
-            #         f2 = open(path2, 'w')
-            #         for line in f1:
-            #             f2.write(line)
-            #         f1.close()
-            #         f2.close()
-            #     if index < 3:
-            #         index += 1
-            #     else:
-            #         index = 0
-
+                if not (index < dangerIndex):
+                    index = startingIndex
+                    #shouldLog = False
                 
+            #Delete the tempStorage so it doesn't extend build time
+            shutil.rmtree(tempStoragePath)
+            
     # Sixth  Run the command from the grim dawn folder: arzedit.exe build "..\Grim Dawn\mods\patchedMod" "..\Grim Dawn\mods\patchedMod" -g "..\Grim Dawn"
 
         #logger.info("Building database files.")
@@ -300,8 +299,11 @@ class ProxyGameContext(CommonContext):
     def on_package(self, cmd: str, args: dict):
         super().on_package(cmd, args)
         if cmd == 'Connected':
+            from Utils import async_start
+            self.slot_data = args["slot_data"]
             self.patch_game(args["slot_data"])
-
+            #await self.update_death_link(args["slot_data"]["deathlink"])
+            async_start(self.update_death_link(bool(args["slot_data"]["deathlink"])))
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             await super().server_auth(password_requested)

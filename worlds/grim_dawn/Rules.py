@@ -143,7 +143,7 @@ class GrimDawnRules:
             "Death's Vigil - Kymon's Chosen Faction Quest 3":   lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Death's Vigil - Kymon's Chosen Faction Quest 4":   lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Death's Vigil - Kymon's Chosen Faction Quest 5":   lambda state: state.has_all(["Death's Vigil - Kymon's Chosen Revered","Homestead Side Doors Unlock"],self.player),
-            "Death's Vigil - Kymon's Chosen Faction Quest 6":   lambda state: state.has_all(["Death's Vigil - Kymon's Chosen Revered","Homestead Side Doors Unlock"],self.player),
+            "Death's Vigil - Kymon's Chosen Faction Quest 6":   lambda state: state.has_all(["Death's Vigil - Kymon's Chosen Revered","Homestead Side Doors Unlock","East Marsh Bridge Repair"],self.player),
             "Guardian of Bysmiel":                              lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
             "Nacrathan, the Timeless":                          lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Archon Barthollem - Malkadarr":                    lambda state: state.has("Homestead Side Doors Unlock",self.player),

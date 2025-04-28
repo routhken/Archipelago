@@ -12,7 +12,7 @@ class GrimDawnGoal(Choice):
     Beat Loghorrean - Find the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
     Beat Master of Flesh - Find the Fleshworks in the ruined city and defeat The Master of Flesh (requires Ashes of Malmouth DLC)
     Beat All Bosses - Find and defeat all of the above bosses (requires both DLC)
-    Emblem Hunt - Find all of the Aetherial Emblems and bring them to Captain Bourbon
+    Emblem Hunt - Find all of the Aetherial Emblems and bring them to Captain Bourbon (requires Ashes of Malmouth DLC)
     """
     display_name = "Goal"
 
@@ -69,9 +69,9 @@ class GrimDawnLore(Toggle):
     display_name="Lore"
 
 class GrimDawnProgressiveProgression(Toggle):
-    """If enabled, will convert major progression items into the same items so that major progression will always be unlocked in order."""
-    """For example, Arkovia Bridge Repair and Arkovian Foothills Barricade Destroy will be converted into two Progressive Main Campaign items"""
-    """and receiving them in any order will always unlock arkovia bridge repair first. Side areas like East Marsh will be unaffected."""
+    """If enabled, will convert major progression items into the same items so that major progression will always be unlocked in order.
+    For example, Arkovia Bridge Repair and Arkovian Foothills Barricade Destroy will be converted into two Progressive Main Campaign items
+    and receiving them in any order will always unlock arkovia bridge repair first. Side areas like East Marsh will be unaffected."""
     display_name="Progressive Progression"
 
 class GrimDawnFGDLC(Toggle):
