@@ -150,7 +150,7 @@ def generateSkillPatchTable(world: "GrimDawnWorld"):
             "shieldhammer1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","skillManaCostReduction","skillCooldownReduction","offensiveDamageMultModifier","conversionPercentage")},
             "shieldhammer2.dbr": {key: gen_random_uniform_range(world,key) for key in ("waveDistance","offensivePhysicalModifier","offensivePhysicalMin","offensiveCritDamageModifier")},
             "shieldhammer3.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowPhysicalMin","offensiveSlowPhysicalMax","offensiveSlowPhysicalDurationMin","offensiveSlowBleedingMin","offensiveSlowBleedingDurationMin","offensiveSlowAttackSpeedMin","offensiveSlowAttackSpeedDurationMin")},
-            "stancedefensive.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationTotalDamageModifier","offensiveStunModifier","offensivePhysicalMin","defensivePercentCurrentLife","damageAbsorptionPercent","characterLifeRegen","characterConstitutionModifier")},
+            "stancedefensive.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationTotalDamageModifier","offensiveStunModifier","offensivePhysicalMin","defensivePercentCurrentLife","damageAbsorptionPercent","characterLifeRegen","characterConstitutionModifier","characterHealIncreasePercent")},
             "stanceoffensive.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowPhysicalModifier","offensiveSlowPhysicalMin","offensiveSlowPhysicalMax","offensiveSlowPhysicalDurationMin","offensivePierceModifier","offensivePhysicalModifier","characterRunSpeedModifier","characterOffensiveAbilityModifier")},
             "warcry1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","skillManaCost","skillCooldownTime","offensiveTotalDamageReductionPercentMin","offensiveTotalDamageReductionPercentDurationMin","offensiveTauntMin","offensivePercentCurrentLifeMin")},
             "warcry1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalResistanceReductionAbsoluteMin","offensiveTotalResistanceReductionAbsoluteDurationMin","offensiveFearMin","offensiveFearMax","offensiveFearChance")},
@@ -361,6 +361,7 @@ def generateSkillPatchTable(world: "GrimDawnWorld"):
             "pets/petskill_whirlwind_stormcaller1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","skillTargetNumber","skillTargetInterval","skillActiveDuration","offensiveSlowLightningMin","offensiveSlowLightningDurationMin","offensiveLightningMin","offensiveLightningMax")},
             "pets/petskill_whirlwind_whirlwind_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","offensiveSlowLightningMin","offensiveSlowLightningMax","offensiveSlowLightningDurationMin","offensiveProjectileFumbleMin","offensiveProjectileFumbleDurationMin","offensivePhysicalMin")},
             "pets/petskill_whirlwind_whirlwindacid_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","offensiveSlowLightningMin","offensiveSlowLightningMax","offensiveSlowLightningDurationMin","offensiveProjectileFumbleMin","offensiveProjectileFumbleDurationMin","offensivePhysicalMin")},
+            "pets/petskill_whirlwind_whirlwindaether_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePhysicalMin","offensiveProjectileFumbleDurationMin","offensiveProjectileFumbleMin","offensiveSlowLightningDurationMin","offensiveSlowLightningMax","offensiveSlowLightningMin","skillTargetRadius")},
             "pets/petskill_winddevil_radius.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","expansionTime")},
         },
         "playerclass07": {
@@ -397,6 +398,7 @@ def generateSkillPatchTable(world: "GrimDawnWorld"):
             "pets/petskill_arcaneseal_defenseaura_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","defensiveElementalResistance","damageAbsorption","characterLifeRegenModifier")},
             "pets/petskill_arcaneseal_modifier.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationFireMin","offensiveTotalDamageModifier","offensivePierceMin","offensiveElementalMin","offensiveCritDamageModifier")},
             "pets/petskill_arcaneseal_offenseaura_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","racialBonusPercentDamage","offensiveFireMin","offensiveFireMax")},
+            "pets/petskill_arcaneseal_physical_defenseaura_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLifeRegenModifier","damageAbsorption","defensiveElementalResistance","skillTargetRadius")},
             "pets/petskill_arcaneseal_radius.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","expansionTime")},
             "pets/petskill_arcaneseal_transmuter.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationDamageMultModifier","offensiveDamageMultModifier","characterDeflectProjectile")},
             "pets/petskill_arcaneseal_vitality_defenseaura_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","defensiveElementalResistance","damageAbsorption","characterLifeRegenModifier")},
@@ -508,4 +510,44 @@ def generateSkillPatchTable(world: "GrimDawnWorld"):
     sanityCheckMinMax(patchTable["playerclass07"]["pets/petskill_concussiverune_nova_01.dbr"])
     sanityCheckMinMax(patchTable["playerclass08"]["ravenousearth1.dbr"])
 
+    return patchTable
+
+def generateDevotionPatchTable(world: "GrimDawnWorld"):
+    patchTable = {
+        "devotion": {
+            "bladearc1.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingDurationMin","ragDollAmplification")},
+            "bladearc1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveCritDamageModifier","weaponDamagePct")},
+            "bladearc2.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveCritDamageModifier","skillTargetNumber")},
+            "blitz1.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterRunSpeedModifier","offensiveKnockdownMin")},
+            "blitz2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetNumber","offensivePhysicalModifier")},
+            "cadence1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","offensivePhysicalMin")},
+            "cadence1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveElementalMin","conversionPercentage")},
+            "cadence2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetNumber","offensivePhysicalModifier")},
+            "cadence3_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillActiveDuration","offensivePhysicalMax")},
+            "counterstrike1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","characterManaLimitReserve")},
+            "fieldcommand1buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","defensiveProtectionModifier","characterOffensiveAbility","characterManaLimitReserve","characterDefensiveAbility")},
+            "fieldcommand2.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier","characterSpellCastSpeedModifier","characterManaLimitReserve","characterAttackSpeedModifier")},
+            "fightingspirit1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillCooldownTime","skillActiveDuration","onHitActivationChance","offensiveTotalDamageModifier","characterOffensiveAbility")},
+            "overguard1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","skillCooldownTime","skillActiveDuration","retaliationStunMin","retaliationStunChance","defensiveStun","defensiveBlockAmountModifier","damageAbsorption","characterLifeRegenModifier","characterDefensiveBlockRecoveryReduction")},
+            "overguard1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillCooldownTime","retaliationDamageMultModifier","offensiveDamageMultModifier","characterDefensiveBlockRecoveryReduction")},
+            "passive1.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterStrengthModifier","characterLifeModifier")},
+            "passive2.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLifeRegenModifier","characterLifeRegen","characterConstitutionModifier","characterArmorStrengthReqReduction")},
+            "passive3.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowPhysicalModifier","offensivePhysicalModifier","defensiveTotalSpeedResistance","defensiveElementalResistance")},
+            "passive4.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveStun","defensiveBleeding","defensiveAbsorptionModifier")},
+            "passiveshield.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveBlockModifier","characterDefensiveBlockRecoveryReduction")},
+            "shieldhammer1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","waveTime","waveStartWidth","waveEndWidth","waveDistance","waveDepth","skillManaCost","skillCooldownTime","ragDollAmplification","offensiveStunMin","offensiveStunMax","offensivePhysicalMin","offensivePhysicalMax")},
+            "shieldhammer1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","skillManaCostReduction","skillCooldownReduction","offensiveDamageMultModifier","conversionPercentage")},
+            "shieldhammer2.dbr": {key: gen_random_uniform_range(world,key) for key in ("waveDistance","offensivePhysicalModifier","offensivePhysicalMin","offensiveCritDamageModifier")},
+            "shieldhammer3.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowPhysicalMin","offensiveSlowPhysicalMax","offensiveSlowPhysicalDurationMin","offensiveSlowBleedingMin","offensiveSlowBleedingDurationMin","offensiveSlowAttackSpeedMin","offensiveSlowAttackSpeedDurationMin")},
+            "stancedefensive.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationTotalDamageModifier","offensiveStunModifier","offensivePhysicalMin","defensivePercentCurrentLife","damageAbsorptionPercent","characterLifeRegen","characterConstitutionModifier","characterHealIncreasePercent")},
+            "stanceoffensive.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowPhysicalModifier","offensiveSlowPhysicalMin","offensiveSlowPhysicalMax","offensiveSlowPhysicalDurationMin","offensivePierceModifier","offensivePhysicalModifier","characterRunSpeedModifier","characterOffensiveAbilityModifier")},
+            "warcry1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","skillManaCost","skillCooldownTime","offensiveTotalDamageReductionPercentMin","offensiveTotalDamageReductionPercentDurationMin","offensiveTauntMin","offensivePercentCurrentLifeMin")},
+            "warcry1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalResistanceReductionAbsoluteMin","offensiveTotalResistanceReductionAbsoluteDurationMin","offensiveFearMin","offensiveFearMax","offensiveFearChance")},
+            "warcry2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","offensivePhysicalResistanceReductionAbsoluteMin","offensivePhysicalResistanceReductionAbsoluteDurationMin","offensiveDisruptionMin")},
+            "weaponpool1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","skillProjectileNumber","skillChanceWeight","ragDollAmplification","offensiveTotalDamageModifier","offensiveSlowDefensiveAbilityMin","offensiveSlowDefensiveAbilityDurationMin","offensivePhysicalMin")},
+            "weaponpool2.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","skillTargetNumber","skillTargetAngle","skillProjectileNumber","skillChanceWeight","ragDollAmplification","projectilePiercingChance","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationMin","offensiveSlowAttackSpeedMin","offensiveSlowAttackSpeedDurationMin")},
+            "willtolive1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillLifePercent","skillCooldownTime","skillActiveDuration","lifeMonitorPercent","characterLifeRegen")},
+        }
+    }
+    
     return patchTable

@@ -73,9 +73,11 @@ class GrimDawnWorld(World):
         self.local_relic_table = relic_table.copy()
         self.random.shuffle(self.local_relic_table) #only need to shuffle this once per world
         if (not self.options.dlc_fg) and self.options.goal == 1:
-            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
-        if (not self.options.dlc_fg) and self.options.goal == 50:
-            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled")
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled.")
+        if (not self.options.dlc_aom) and self.options.goal == 4:
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: AoM enabled.")
+        if ((not self.options.dlc_fg) or (not self.options.dlc_aom)) and self.options.goal == 50:
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without both DLC: AoM and DLC: FG enabled.")
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
@@ -239,6 +241,7 @@ class GrimDawnWorld(World):
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
             "progressive_progression":self.options.progressive_progression.value,
+            "dlc_aom": self.options.dlc_aom.value,
             "dlc_fg": self.options.dlc_fg.value,
             "skill_balance_randomizer": self.options.skill_balance_randomizer.value,
             "skill_balance_range": self.options.skill_balance_range.value,

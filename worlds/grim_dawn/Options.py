@@ -12,7 +12,7 @@ class GrimDawnGoal(Choice):
     Beat Loghorrean - Find the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
     Beat Master of Flesh - Find the Fleshworks in the ruined city and defeat The Master of Flesh (requires Ashes of Malmouth DLC)
     Beat All Bosses - Find and defeat all of the above bosses (requires both DLC)
-    Emblem Hunt - Find all of the Aetherial Emblems and bring them to Captain Bourbon (requires Ashes of Malmouth DLC)
+    Emblem Hunt - Find the Aetherial Emblems scattered throughout the multiworld
     """
     display_name = "Goal"
 
@@ -28,7 +28,9 @@ class GrimDawnGoal(Choice):
 
 class GrimDawnMaxEmblems(Range):
     """
-    Maximum number of Aetherial Emblems that will be in the item pool
+    Maximum number of Aetherial Emblems that will be in the item pool.
+    Does nothing if the goal is not set to Emblem Hunt.
+    This converts filler items into Emblems, if there is not enough filler, then the max emblem count will be reduced to match the available filler.
     """
     display_name = "Max Number of Aetherial Emblems"
     range_start = 1
@@ -37,7 +39,9 @@ class GrimDawnMaxEmblems(Range):
 
 class GrimDawnRequiredEmblems(Range):
     """
-    What number of Aetherial Emblems are required to finish Emblem Hunt
+    Number of Aetherial Emblems that are required to complete the Emblem Hunt goal.
+    Does nothing if the goal is not set to Emblem Hunt.
+    If required emblems is higher than max emblems, then required emblems will be reduced to match max emblems.
     """
     display_name = "Required number of Aetherial Emblems"
     range_start = 1
@@ -45,7 +49,7 @@ class GrimDawnRequiredEmblems(Range):
     default = 50
 
 class GrimDawnForbiddenDungeons(Toggle):
-    """Enable Forbidden Dungeons as locations"""
+    """Enable Forbidden Dungeons (aka Challenge Dungeons) as locations"""
     display_name="Forbidden Dungeons"
 
 class GrimDawnOneShot(Toggle):
@@ -53,7 +57,11 @@ class GrimDawnOneShot(Toggle):
     display_name="One Shot Chests"
 
 class GrimDawnFactionQuests(Toggle):
-    """Enable Faction Quests as locations"""
+    """
+    Enable Faction Quests as locations
+    Various enemies, lore notes, quest, etc are part of this location pool.
+    Adds items to the pool that max your standing with specific factions, such as "Devil's Crossing Revered"
+    """
     display_name="Faction Quests"
 
 class GrimDawnSecretChest(Toggle):
@@ -65,18 +73,25 @@ class GrimDawnDevotionShrines(Toggle):
     display_name="Devotion Shrines"
 
 class GrimDawnLore(Toggle):
-    """Enable Lore Note locations"""
+    """
+    Enable Lore Note locations
+    Does not include missable or RNG lore notes.
+    """
     display_name="Lore"
 
 class GrimDawnProgressiveProgression(Toggle):
-    """If enabled, will convert major progression items into the same items so that major progression will always be unlocked in order.
+    """If enabled, will convert major progression items into generic progression items so that major progression will always be unlocked in order.
     For example, Arkovia Bridge Repair and Arkovian Foothills Barricade Destroy will be converted into two Progressive Main Campaign items
     and receiving them in any order will always unlock arkovia bridge repair first. Side areas like East Marsh will be unaffected."""
     display_name="Progressive Progression"
 
+class GrimDawnAoMDLC(Toggle):
+    """Enable locations inside the Ashes of Malmouth DLC (required for Master of Flesh goal)"""
+    display_name="DLC: Ashes of Malmouth"
+
 class GrimDawnFGDLC(Toggle):
     """Enable locations inside the Forgotten Gods DLC (required for Korvaak goal)"""
-    display_name="DLC: FG"
+    display_name="DLC: Forgotten Gods"
 
 class GrimDawnSkillBalance(Toggle):
     """Randomize all numerical values in player class skills and passives, including but not limited to
@@ -199,6 +214,7 @@ class GrimDawnOptions(PerGameCommonOptions):
     lore: GrimDawnLore
     progressive_progression: GrimDawnProgressiveProgression
     faction: GrimDawnFactionQuests
+    dlc_aom: GrimDawnAoMDLC
     dlc_fg: GrimDawnFGDLC
     skill_balance_randomizer: GrimDawnSkillBalance
     skill_balance_range: GrimDawnSBRange
