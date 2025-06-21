@@ -14,7 +14,6 @@ import shutil
 import urllib.parse
 from NetUtils import ClientStatus
 
-
 DEBUG = False
 GAMENAME = "Grim Dawn"
 ITEMS_HANDLING = 0b000
@@ -33,7 +32,6 @@ class GrimDawnCommandProcessor(ClientCommandProcessor):
 
     #def _cmd_goal_game(self):
     #    self.ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-
 
 def patch_game(username, server_address, password, installPath, slot_data: dict[str, any]):
     
@@ -73,6 +71,58 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
 
     #logger.info("Applying skill patch.")
     for playerclass,skilltable in slot_data.get("skill_balance_table",{}).items():
+        for skillname,valuetable in skilltable.items():
+            if skillname.startswith("pets/"):
+                filepath = os.path.join(*skillname.split("/"))
+            else:
+                filepath = skillname
+            path1 = os.path.join(installPath,"mods",patchedMod,"records","skills",playerclass,filepath)
+            path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",playerclass,filepath + "s")
+            f1 = open(path1, 'r')
+            f2 = open(path2, 'w')
+            for line in f1:
+                for attributename,attributevalue in valuetable.items():
+                    # find
+                    if line.startswith(attributename + ","):
+                        # replace
+                        words = line.split(",",2)
+                        nums = words[1].split(";")
+                        line = words[0] + ","
+                        #Lines need to be reconstructed in the format of "attributename,0;1;2;3;4,"
+                        for i in nums:
+                            patchedValue = (float(i) * attributevalue)
+
+                            #Certain attributes that can have negative modifiers do not function below -100%.
+                            if attributename in ("skillManaCostReduction"):
+                                patchedValue = max(patchedValue,-100)
+
+                            #Certain attributes break when over 100%
+                            if attributename in ("conversionPercentage","skillManaCostReduction","onHitActivationChance","skillChanceWeight","sparkChance","offensiveTauntMin","offensiveSleepChance",
+                                                    "lifeMonitorPercent","offensiveTotalDamageReductionPercentMin","offensiveDisruptionChance","offensiveSlowPhysicalChance","offensiveSlowBleedingChance"
+                                                    "skillCooldownReduction","conversionPercentage2","defensiveDisruption","retaliationStunChance","projectilePiercing","projectilePiercingChance",
+                                                    "offensiveStunChance","offensiveFearChance","skillCooldownReductionChance","offensiveConfusionChance","offensiveKnockdownChance","offensiveFreezeChance",
+                                                    "offensiveLightningChance","offensiveFumbleMin","offensiveProjectileFumbleMin","offensiveGlobalChance","retaliationSlowManaLeachChance",
+                                                    "offensiveSlowLightningChance","offensiveSlowColdChance","offensiveLightningModifierChance","offensiveSlowFireChance","offensiveTrapChance"):
+                                patchedValue = min(patchedValue,100)
+
+                            #Certain attributes break game balance at 100% or more
+                            if attributename in ("damageAbsorptionPercent","characterDeflectProjectile","offensivePercentCurrentLifeMin","offensivePercentCurrentLifeMax"):
+                                patchedValue = min(patchedValue,85)
+
+                            #To ensure skill usability, these attributes cannot be below 1
+                            if attributename in ("skillTargetNumber","skillProjectileNumber","projectileLaunchNumber","petLimit","petBurstSpawn","sparkMaxNumber","skillChargeLevel",
+                                                    "contagionMaxSpread","contagionLimit","tetherLimit","linkLimit","numProjectiles"):
+                                patchedValue = max(patchedValue,1)
+
+                            line = line + str(patchedValue) + ";"
+                        line = line[:-1] + ",\n"
+                        break
+                f2.write(line)
+            f1.close()
+            f2.close()
+            os.replace(path2,path1)
+            
+    for playerclass,skilltable in slot_data.get("devotion_balance_table",{}).items():
         for skillname,valuetable in skilltable.items():
             if skillname.startswith("pets/"):
                 filepath = os.path.join(*skillname.split("/"))

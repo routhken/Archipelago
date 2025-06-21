@@ -153,7 +153,7 @@ _filler_data_table={
     "Extra EXP":34,
     "Skill Points":12,
     "25K Iron Bits":12,
-    "Relic":5,
+    "Relic":6,
     "Aether Crystals":1,
     "Frozen Heart":1,
     "Black Tallow":1,

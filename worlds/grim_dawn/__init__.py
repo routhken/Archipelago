@@ -7,7 +7,7 @@ from .Locations import GrimDawnLocation, location_data_table, location_table, lo
 from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
-from .SkillRandomizer import generateSkillPatchTable
+from .SkillRandomizer import generateSkillPatchTable, generateDevotionPatchTable
 from .EnemyRandomizer import generateEnemyTable
 from logging import warning
 from Options import OptionError
@@ -215,6 +215,8 @@ class GrimDawnWorld(World):
     def write_spoiler(self, spoiler_handle):
         spoiler_handle.write("\nSkill Balance Table for player " + self.player_name + ":\n")
         spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
+        spoiler_handle.write("\nDevotion Balance Table for player " + self.player_name + ":\n")
+        spoiler_handle.write(json.dumps(self.devotion_balance_table, indent=4))
         spoiler_handle.write("\nEnemy Table for player " + self.player_name + ":\n")
         spoiler_handle.write(json.dumps(self.enemy_table, indent=4))
 
@@ -223,6 +225,10 @@ class GrimDawnWorld(World):
             self.skill_balance_table = {}
         else:
             self.skill_balance_table = generateSkillPatchTable(self)
+        if not self.options.devotion_balance_randomizer:
+            self.devotion_balance_table = {}
+        else:
+            self.devotion_balance_table = generateDevotionPatchTable(self)
         if not self.options.enemy_randomizer:
             self.enemy_table = []
         else:
@@ -244,8 +250,10 @@ class GrimDawnWorld(World):
             "dlc_aom": self.options.dlc_aom.value,
             "dlc_fg": self.options.dlc_fg.value,
             "skill_balance_randomizer": self.options.skill_balance_randomizer.value,
+            "devotion_balance_randomizer": self.options.devotion_balance_randomizer.value,
             "skill_balance_range": self.options.skill_balance_range.value,
             "skill_balance_table": self.skill_balance_table,
+            "devotion_balance_table": self.devotion_balance_table,
             "skill_balance_weight": self.options.skill_balance_weight.value,
             "skill_balance_preserve_damage": self.options.skill_balance_preserve_damage.value,
             "skill_balance_preserve_area": self.options.skill_balance_preserve_area.value,

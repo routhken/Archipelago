@@ -98,9 +98,14 @@ class GrimDawnSkillBalance(Toggle):
     damage values, action speeds, mana costs, cooldown times, projectile count, and pet summons."""
     display_name="Skill Balance Randomizer"
 
+class GrimDawnDevotionBalance(Toggle):
+    """Randomize all numerical values in player class skills and passives, including but not limited to
+    damage values, action speeds, mana costs, cooldown times, projectile count, and pet summons."""
+    display_name="Devotion Balance Randomizer"
+
 class GrimDawnSBRange(Choice):
     """
-    The range which skill balance randomizer can affect skill values. Has no effect if Skill Balance Randomizer is disabled.
+    The range which skill balance randomizer can affect skill values. Has no effect if Skill/Devotion Balance Randomizer is disabled.
     micro - Random range between 0.9x and 1.1x
     small - Random range between 0.75x and 1.25x
     medium - Random range between 0.66x and 1.5x
@@ -129,7 +134,7 @@ class GrimDawnSBRange(Choice):
 
 class GrimDawnSBWeight(Choice):
     """
-    The weight that affects a skill's randomized value to be buffed or nerfed. Has no effect if Skill Balance Randomizer is disabled.
+    The weight that affects a skill's randomized value to be buffed or nerfed. Has no effect if Skill/Devotion Balance Randomizer is disabled.
     only_nerfs - 100% chance for values to roll a nerf
     mostly_nerfs - 75% chance for values to roll a nerf
     balanced - 50/50 chance for values to roll a buff or nerf
@@ -147,43 +152,53 @@ class GrimDawnSBWeight(Choice):
     default = 2
 
 class GrimDawnSBPreserveDamage(Toggle):
-    """If enabled, prevents base damage and damage multiplier values from being randomized."""
+    """If enabled, prevents base damage and damage multiplier values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Damage"
 
 class GrimDawnSBPreserveArea(Toggle):
-    """If enabled, prevents area, distance, and target values from being randomized."""
+    """If enabled, prevents area, distance, and target values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Area"
 
 class GrimDawnSBPreserveDuration(Toggle):
-    """If enabled, prevents effect duration and summon lifetime values from being randomized."""
+    """If enabled, prevents effect duration and summon lifetime values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Duration"
 
 class GrimDawnSBPreserveMana(Toggle):
-    """If enabled, prevents mana cost and mana reservation values from being randomized."""
+    """If enabled, prevents mana cost and mana reservation values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Mana"
 
 class GrimDawnSBPreserveProjectile(Toggle):
-    """If enabled, prevents projectile and fragment values from being randomized."""
+    """If enabled, prevents projectile and fragment values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Projectiles"
 
 class GrimDawnSBPreserveCooldown(Toggle):
-    """If enabled, prevents cooldown values from being randomized."""
+    """If enabled, prevents cooldown values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Cooldown"
 
 class GrimDawnSBPreserveChance(Toggle):
-    """If enabled, prevents chance to activate effect values from being randomized."""
+    """If enabled, prevents chance to activate effect values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Chance"
 
 class GrimDawnSBPreserveDefense(Toggle):
-    """If enabled, prevents defensive values from being randomized."""
+    """If enabled, prevents defensive values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Defense"
 
 class GrimDawnSBPreserveSummon(Toggle):
-    """If enabled, prevents summon amount and summon limit values from being randomized."""
+    """If enabled, prevents summon amount and summon limit values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Summon"
 
 class GrimDawnSBPreserveSpeed(Toggle):
-    """If enabled, prevents attack, cast, and movement speed values from being randomized."""
+    """If enabled, prevents attack, cast, and movement speed values from being randomized.
+    Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Speed"
 
 class GrimDawnStartingSkillPoints(Toggle):
@@ -217,6 +232,7 @@ class GrimDawnOptions(PerGameCommonOptions):
     dlc_aom: GrimDawnAoMDLC
     dlc_fg: GrimDawnFGDLC
     skill_balance_randomizer: GrimDawnSkillBalance
+    devotion_balance_randomizer: GrimDawnDevotionBalance
     skill_balance_range: GrimDawnSBRange
     skill_balance_weight: GrimDawnSBWeight
     skill_balance_preserve_damage: GrimDawnSBPreserveDamage
