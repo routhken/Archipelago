@@ -114,6 +114,7 @@ class GrimDawnRules:
         self.location_rules = {
             #Act 1 Locations
             #state.can_reach_location("Warden Krieg",self.player) and state.can_reach_location("The Amalgamation",self.player) and state.can_reach_location("The Loghorrean",self.player)
+            "That Good Old Slith Charm":                        lambda state: state.has("Slith Necklaces",self.player),
             "Find Elsa":                                        lambda state: state.can_reach_location("Warden Krieg",self.player),
             "Trapped and Alone":                                lambda state: state.has("Rotting Croplands Destroy South Blockade",self.player),
             "Rashalga, the Mad Queen":                          lambda state: state.has("Lower Crossing Destroy Blockade",self.player),

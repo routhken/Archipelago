@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 class GrimDawnGoal(Choice):
     """
-    The goal to accomplish in order to complete the seed.
+    The goal to accomplish in order to complete the game.
     Beat Warden - Find the Warden's Lab and defeat Warden Krieg
     Beat Korvaak - Find the Tomb of the Eldritch Sun and defeat Korvaak (requires Forgotten Gods DLC)
     Beat Ravna - Find the Royal Hive under the Infested Croplands and defeat Swarm Queen Ravna
@@ -90,7 +90,8 @@ class GrimDawnAoMDLC(Toggle):
     display_name="DLC: Ashes of Malmouth"
 
 class GrimDawnFGDLC(Toggle):
-    """Enable locations inside the Forgotten Gods DLC (required for Korvaak goal)"""
+    """Enable locations inside the Forgotten Gods DLC (required for Korvaak goal)
+    Beware that Forgotten Gods also requires you to own and have installed Ashes of Malmouth, even though you can still disable Ashes of Malmouth locations with the option above."""
     display_name="DLC: Forgotten Gods"
 
 class GrimDawnSkillBalance(Toggle):
@@ -99,8 +100,9 @@ class GrimDawnSkillBalance(Toggle):
     display_name="Skill Balance Randomizer"
 
 class GrimDawnDevotionBalance(Toggle):
-    """Randomize all numerical values in player class skills and passives, including but not limited to
-    damage values, action speeds, mana costs, cooldown times, projectile count, and pet summons."""
+    """Randomize all numerical values in player devotion skills in the constellation tree, including but not limited to
+    damage values, action speeds, mana costs, cooldown times, projectile count, and pet summons.
+    Only the skills are randomized, not the passive nodes leading up to them."""
     display_name="Devotion Balance Randomizer"
 
 class GrimDawnSBRange(Choice):

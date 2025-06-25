@@ -23,12 +23,18 @@ class GrimDawnCommandProcessor(ClientCommandProcessor):
         self.ctx.patch_game({})
 
     def _cmd_list_enemies(self):
-        for enemy in self.ctx.slot_data["enemy_table"]:
-            logger.info(f"Enemy entry: {enemy}")
+        if "enemy_table" in self.ctx.slot_data:
+            for enemy in self.ctx.slot_data["enemy_table"]:
+                logger.info(f"Enemy entry: {enemy}")
+        else:
+            logger.info("Enemy Table does not exist in this slot data.")
 
     def _cmd_list_skills(self):
-        for skill in self.ctx.slot_data["skill_balance_table"]:
-            logger.info(f"Enemy entry: {skill}")
+        if "skill_balance_table" in self.ctx.slot_data:
+            for skill in self.ctx.slot_data["skill_balance_table"]:
+                logger.info(f"Enemy entry: {skill}")
+        else:
+            logger.info("Skill Balance Table does not exist in this slot data.")
 
     #def _cmd_goal_game(self):
     #    self.ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
@@ -219,6 +225,24 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
             f1 = open(path1, 'r')
             f2 = open(path2, 'w')
             for line in f1:
+                #Make all enemies give exp
+                if line.startswith(("giveXP,")):
+                    words = line.split(",")
+                    nums = words[1].split(";")
+                    line = words[0] + ","
+                    for i in nums:
+                        line = line + "1;"
+                    line = line[:-1] + ",\n"
+                if line.startswith(("experiencePoints,")):
+                    words = line.split(",")
+                    nums = words[1].split(";")
+                    line = words[0] + ","
+                    for i in nums:
+                        if int(i) == 0:
+                            line = line + "100;"
+                        else:
+                            line = line + words[1]
+                    line = line[:-1] + ",\n"
                 f2.write(line)
             f1.close()
             f2.close()
@@ -279,8 +303,7 @@ class ProxyGameContext(CommonContext):
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
-        self.slot_data = {"enemy_table": [], "skill_balance_table": []}
-
+        self.slot_data = {"enemy_table": [], "skill_balance_table": [], "devotion_balance_table": []}
         
     def on_package(self, cmd: str, args: dict):
         super().on_package(cmd, args)

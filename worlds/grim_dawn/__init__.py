@@ -20,7 +20,7 @@ from worlds.LauncherComponents import (
 )
 import json
 
-#release version 0.1.5
+#release version 0.2.0
 
 class GrimDawnSettings(Group):
     class Grim_Dawn_Install_Path(FolderPath):
@@ -102,7 +102,10 @@ class GrimDawnWorld(World):
                 main_quantity = 7
             else:
                 main_quantity = 7
+            
+            if (self.options.dlc_aom == True) and ((self.options.goal == "beat_master_of_flesh") or (self.options.goal == "beat_all_bosses") or (self.options.goal == "emblem_hunt")):
                 aom_quantity = 6
+            
             if (self.options.dlc_fg == True) and (self.options.goal != "beat_warden"):
                 fg_quantity = 4
 
