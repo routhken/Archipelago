@@ -6,6 +6,6 @@ Grim Dawn is an action role-playing game (ARPG), developed and published by Crat
 
 ## What's Randomized
 
-Bridge Repairs, Baracade Destructions, Forbidden Dungeons, QoL things
+Bridge Repairs, Baracade Destructions, Forbidden Dungeons, Enemies, Skill/Devotion Balance, QoL things
 
-Secret Chests, Lore pickups, Devotion Chests, Quest Completion
+Notable Enemies, Bosses, Secret Chests, One-Shot Chests, Devotion Chests, Lore Notes, Quests
