@@ -5,7 +5,7 @@
 3. Download the lua51.dll file from Heinermann (download is in the Archipelago discord Grim Dawn thread pins) and place it in the install directory.
 4. Download the lua51.7z under "lua-apclientpp v0.4.9" from Black Sliver's github https://github.com/black-sliver/lua-apclientpp/releases Make sure these files actually download, sometimes they get flagged as dangerous by your browser
 5. Extract "lua51\lua51-clang32-dynamic" from the zip. Place only the "lua-apclientpp.dll" file in the Grim Dawn install directory
-6. Download my mod from Nexus Mods https://www.nexusmods.com/grimdawn/mods/167/
+6. Download my mod from Nexus Mods https://www.nexusmods.com/grimdawn/mods/167/ and make sure you manually download it, don't use Vortex or another mod manager.
 7. Create a folder named "mods" in the Grim Dawn install directory if it doesn't already exist. Place the mod archipelago.zip inside and "extract here" with 7zip/winrar. Make sure the folder named "archipelago" is directly in mods and not nested in another folder within mods.
 8. Download arzedit from gitlab: https://gitlab.com/QuasiMod/arzedit/uploads/b48b7ed4f74717d2a8cf6b67b4f9d842/arzedit.exe and place it in your Grim Dawn install directory.
 9. Download the grim_dawn.apworld https://github.com/routhken/Archipelago/releases and place it in your Archipelago apworld directory "...\Archipelago\custom_worlds" make sure there is no duplicate apworld in lib/worlds.
