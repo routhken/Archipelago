@@ -29,8 +29,15 @@ password =
 
 ssp = false
 
-Q. Patched mod freezes after a second of loading, but non-patched mod loads fine. \nA. Patcher needs en-US region due to a bug in the extractor tool, refer to step 11.
 
-Q. While generating the world, an error says invalid yaml and no apworld installed. \nA. Check if you have multiple copies of the grim dawn apworld (possibly one in lib/worlds and one in custom_worlds) and delete the extra copies.
+Q. Patched mod freezes after a second of loading, but non-patched mod loads fine.
 
-Q. Does this work with multiplayer? \nA. Yes. All players must be using the same patched mod.
+A. Patcher needs en-US region due to a bug in the extractor tool, refer to step 11.
+
+Q. While generating the world, an error says invalid yaml and no apworld installed.
+
+A. Check if you have multiple copies of the grim dawn apworld (possibly one in lib/worlds and one in custom_worlds) and delete the extra copies.
+
+Q. Does this work with multiplayer?
+
+A. Yes. All players must be using the same patched mod.
