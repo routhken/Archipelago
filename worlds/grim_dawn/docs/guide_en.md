@@ -19,7 +19,7 @@
 
 # FAQ / Troubleshooting
 
-If you are using Linux, the patcher will not work due to needing Windows-only commands. You can still use the non-patched version but it will not have any enemy/skill/devotion rando. You will also need to create a connect.txt file in your Grim Dawn install directory and put in the following: 
+If you are using Linux, the patcher will not work due to needing Windows-only commands. You can still use the non-patched version but it will not have any enemy/skill/devotion rando. You will also need to create a connect.txt file in your Grim Dawn install directory and put in the following four lines: 
 
 host = ws://webhost:portNumber (probably something like localhost:38281 or archipelago.gg:38281)
 
@@ -28,6 +28,7 @@ slot = YourSlotName (the name you set for "name" setting in the yaml)
 password = 
 
 ssp = false
+
 
 
 Q. Patched mod freezes after a second of loading, but non-patched mod loads fine.
