@@ -1,4 +1,4 @@
-# Grim Dawn Installation Instructions
+# Grim Dawn AP Installation Instructions
 
 1. Install Grim Dawn from steam.
 2. In the Grim Dawn install directory, rename the file "lua51.dll" to "real_lua51.dll"
@@ -7,10 +7,10 @@
 5. Extract "lua51\lua51-clang32-dynamic" from the zip. Place only the "lua-apclientpp.dll" file in the Grim Dawn install directory
 6. Download my mod from Nexus Mods https://www.nexusmods.com/grimdawn/mods/167/
 7. Create a folder named "mods" in the Grim Dawn install directory if it doesn't already exist. Place the mod archipelago.zip inside and "extract here" with 7zip/winrar. Make sure the folder named "archipelago" is directly in mods and not nested in another folder within mods.
-8. Download arzedit from the Grim Dawn Forums: https://gitlab.com/QuasiMod/arzedit/uploads/b48b7ed4f74717d2a8cf6b67b4f9d842/arzedit.exe and place it in your Grim Dawn install directory.
+8. Download arzedit from gitlab: https://gitlab.com/QuasiMod/arzedit/uploads/b48b7ed4f74717d2a8cf6b67b4f9d842/arzedit.exe and place it in your Grim Dawn install directory.
 9. Download the grim_dawn.apworld https://github.com/routhken/Archipelago/releases and place it in your Archipelago apworld directory "...\Archipelago\custom_worlds" make sure there is no duplicate apworld in lib/worlds.
 10. Open the archipelago launcher, click Generate Template Options to create a template yaml for you to edit settings. Put the yaml in "...\Archipelago\Players"
-11. If you live in the US skip to step 13, otherwise go Control Panel -> Change date, time or number formats -> Format drop down menu -> English (United States). You can set it back once patching is done.
+11. If you live in the US skip to step 12, otherwise go Control Panel -> Change date, time or number formats -> Format drop down menu -> English (United States). You can set it back once patching is done.
 12. In the archipelago launcher, open the Grim Dawn Client, and connect to your slot through the client. If everything is in the correct place, the client will say installation found, patching game please wait 30 seconds before loading a character. If you have a lot of apworlds in your custom_worlds folder, the client might be unresponsive for a while before it patches the game.
 13. Launch the game using the 32-bit launcher, either by using the 32-bit launcher in Steam, or launching from the Grim Dawn executable in the main Grim Dawn install directory (not in the x64 folder). At the main menu, select the Custom Game tab -> Custom Game bubble -> "patchedArchipelago ~ world001.map"
 14. Create a new character and start. Talk to Jarvis the hangman to connect to the multiworld.
@@ -30,7 +30,7 @@ password =
 ssp = false
 
 Q. Patched mod freezes after a second of loading, but non-patched mod loads fine.
-A. Patcher needs en-US region due to a bug in the extractor tool, refer to step 12.
+A. Patcher needs en-US region due to a bug in the extractor tool, refer to step 11.
 
 Q. While generating the world, an error says invalid yaml and no apworld installed.
 A. Check if you have multiple copies of the grim dawn apworld (possibly one in lib/worlds and one in custom_worlds) and delete the extra copies.
