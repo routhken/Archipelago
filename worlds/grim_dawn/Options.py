@@ -94,6 +94,11 @@ class GrimDawnFGDLC(Toggle):
     Beware that Forgotten Gods also requires you to own and have installed Ashes of Malmouth, even though you can still disable Ashes of Malmouth locations with the option above."""
     display_name="DLC: Forgotten Gods"
 
+class GrimDawnSkillShuffle(Toggle):
+    """Randomize player class's skills. Player class skills are divided into groups and the skill groups are shuffled among themselves.
+    Therefore active skills are shuffled amoung themselves, passive skills which reserve mana are shuffled among themselves, etc."""
+    display_name="Skill Shuffler"
+
 class GrimDawnSkillBalance(Toggle):
     """Randomize all numerical values in player class skills and passives, including but not limited to
     damage values, action speeds, mana costs, cooldown times, projectile count, and pet summons."""
@@ -219,6 +224,25 @@ class GrimDawnEnemyDangerous(Toggle):
     """Randomizes enemies to be only dangerous enemies."""
     display_name="Dangerous Enemies"
 
+class GrimDawnEnemyBuffs(Choice):
+    """
+    Increase enemy total speed, size, and add levels to their skills. Does not apply to bosses. Has no effect if enemy rando is disabled.
+    weakest - 40% decreased action speed and size, -3 to all skills
+    weaker - 15% decreased action speed and size, -1 to all skills
+    none - no buffs
+    stronger - 15% increased action speed and size, +1 to all skills
+    strongest - 40% increased action speed and size, +3 to all skills
+    """
+    display_name="Buff Enemies"
+
+    option_weakest = 0
+    option_weaker = 1
+    option_none = 2
+    option_stronger = 3
+    option_strongest = 4
+    
+    default = 2
+
 @dataclass
 class GrimDawnOptions(PerGameCommonOptions):
     goal: GrimDawnGoal
@@ -233,6 +257,7 @@ class GrimDawnOptions(PerGameCommonOptions):
     faction: GrimDawnFactionQuests
     dlc_aom: GrimDawnAoMDLC
     dlc_fg: GrimDawnFGDLC
+    skill_shuffler: GrimDawnSkillShuffle
     skill_balance_randomizer: GrimDawnSkillBalance
     devotion_balance_randomizer: GrimDawnDevotionBalance
     skill_balance_range: GrimDawnSBRange
@@ -251,4 +276,5 @@ class GrimDawnOptions(PerGameCommonOptions):
     free_skill_respec: GrimDawnFreeSkillRespec
     enemy_randomizer: GrimDawnEnemyRandomizer
     dangerous_enemies: GrimDawnEnemyDangerous
+    buff_enemies: GrimDawnEnemyBuffs
     death_link: DeathLink

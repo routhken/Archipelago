@@ -2,6 +2,104 @@ import typing
 if typing.TYPE_CHECKING:
     from . import GrimDawnWorld
 
+#Skills have been manually categorized by certain characteristics because it matters what order in which skills appear in the UI and their effect on other skills.
+skillGroups = [
+    #Skills that need to be actively used and cost mana
+    #SKILL ACTIVES
+    ["playerclass01/bladearc1.dbr","playerclass01/blitz1.dbr","playerclass01/cadence1.dbr","playerclass01/overguard1.dbr","playerclass01/shieldhammer1.dbr","playerclass01/warcry1.dbr","playerclass02/blackwater1.dbr",
+    "playerclass02/canisterbomb1.dbr","playerclass02/flamestrike1.dbr","playerclass02/flashbang1.dbr","playerclass02/grenado1.dbr","playerclass02/mortartrap1.dbr","playerclass02/stunjacks1.dbr","playerclass02/thermitemines1.dbr",
+    "playerclass03/bloodofdreeg1_buff.dbr","playerclass03/curse1_buff.dbr","playerclass03/doombolt1.dbr","playerclass03/evileye1.dbr","playerclass03/pox1_buff.dbr","playerclass03/sigilofdestruction1.dbr","playerclass03/summon_hellhound1.dbr",
+    "playerclass03/summon_raven1.dbr","playerclass04/bladebarrier1.dbr","playerclass04/bladetrap1_buff.dbr","playerclass04/shadowstrike.dbr","playerclass04/ringofsteel.dbr","playerclass04/phantomblade.dbr","playerclass04/nightbladeenchant1.dbr",
+    "playerclass04/summon_bladespirit.dbr","playerclass04/eviscerate1.dbr","playerclass05/aetherray1.dbr","playerclass05/arcanemissile.dbr","playerclass05/devastation.dbr","playerclass05/nullification.dbr","playerclass05/skyshard1.dbr",
+    "playerclass05/razorwind1.dbr","playerclass05/chillingsurge_buff.dbr","playerclass05/arcaneshield.dbr","playerclass05/mindovermatter1.dbr","playerclass05/mindovermatter2.dbr","playerclass06/devouringswarm1_buff.dbr",
+    "playerclass06/graspingvines1.dbr","playerclass06/savagery1.dbr","playerclass06/savagestrike1.dbr","playerclass06/squall1.dbr","playerclass06/stormtotem01.dbr","playerclass06/summon_briarthorn1.dbr","playerclass06/summon_manticore1.dbr",
+    "playerclass06/totem1.dbr","playerclass07/arcaneseal1.dbr","playerclass07/concussiverune1.dbr","playerclass07/hunteraura1_buff.dbr","playerclass07/icerune.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/purifyingflame1.dbr",
+    "playerclass07/voiceofcommand1.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/callofthegrave.dbr","playerclass08/illomen1_buff.dbr","playerclass08/lifetap1.dbr","playerclass08/ravenousearth1.dbr","playerclass08/soulscythe1.dbr",
+    "playerclass08/reaper1.dbr","playerclass08/soulsiphon1_buff.dbr","playerclass08/summon_blightbeast1.dbr","playerclass08/summon_skeleton1.dbr","playerclass08/soultransfer.dbr","playerclass09/aegis1.dbr","playerclass09/ascension1.dbr",
+    "playerclass09/eyeofreckoning1.dbr","playerclass09/judgment1.dbr","playerclass09/righteousfervor1.dbr","playerclass09/summon_celestialguardian1.dbr","playerclass09/viremight1.dbr",],
+
+    #Buffs that add an effect to active skill, usually come with additional mana cost
+    #SKILL ACTIVE BUFFS
+    ["playerclass01/bladearc2.dbr","playerclass01/blitz2.dbr","playerclass01/cadence2.dbr","playerclass01/cadence3_buff.dbr","playerclass01/shieldhammer2.dbr","playerclass01/shieldhammer3.dbr","playerclass01/warcry2.dbr",
+     "playerclass02/blackwater2.dbr","playerclass02/blackwater3.dbr","playerclass02/canisterbomb2.dbr","playerclass02/flamestrike2.dbr","playerclass02/flamestrike3.dbr","playerclass02/flamestrike4.dbr",
+     "playerclass02/flashbang2.dbr","playerclass02/grenado2.dbr","playerclass02/grenado3.dbr","playerclass02/mortartrap2.dbr","playerclass02/mortartrap3.dbr","playerclass02/stunjacks2.dbr","playerclass03/bloodofdreeg2.dbr",
+     "playerclass03/curse2.dbr","playerclass03/evileye2.dbr","playerclass03/evileye3.dbr","playerclass03/evileye4.dbr","playerclass03/pox2.dbr","playerclass03/pox3.dbr","playerclass03/sigilofdestruction2.dbr",
+     "playerclass04/bladetrap2.dbr","playerclass04/shadowstrike_mod1.dbr","playerclass04/shadowstrike_mod2.dbr","playerclass04/ringofsteel_mod1.dbr","playerclass04/phantomblade_mod1.dbr","playerclass04/phantomblade_mod2.dbr",
+     "playerclass04/nightbladeenchant2.dbr","playerclass04/nightbladeenchant3.dbr","playerclass04/eviscerate2_buff.dbr","playerclass05/aetherray2.dbr","playerclass05/arcanemissile2.dbr","playerclass05/arcanemissile3.dbr",
+     "playerclass05/arcanemissile4.dbr","playerclass05/skyshard2.dbr","playerclass05/skyshard3.dbr","playerclass05/razorwind2.dbr","playerclass05/chillingsurge2.dbr","playerclass06/graspingvines2.dbr",
+     "playerclass06/savagery2.dbr","playerclass06/savagery3.dbr","playerclass06/savagestrike2.dbr","playerclass06/savagestrike3.dbr","playerclass06/pets/petskill_whirlwind_exposure.dbr","playerclass06/pets/petskill_whirlwind_stormcaller1.dbr","playerclass06/pets/petskill_thornedhorror_slam01.dbr",
+     "playerclass06/pets/petskill_thornedhorror_roar_buff.dbr","playerclass06/pets/petskill_totem_bloodpact_buff.dbr","playerclass07/pets/petskill_arcaneseal_modifier.dbr","playerclass07/pets/petskill_concussiverune_initialnova_01.dbr","playerclass07/hunteraura2.dbr",
+     "playerclass07/hunteraura3.dbr","playerclass07/pets/petskill_icerune_modifier1.dbr","playerclass07/pets/petskill_icerune_modifier2.dbr","playerclass07/lightningnet2.dbr","playerclass07/purifyingflame2.dbr","playerclass07/purifyingflame3.dbr",
+     "playerclass07/purifyingflame4.dbr","playerclass07/wordofpain2.dbr","playerclass07/wordofpain3.dbr","playerclass08/lifetap2.dbr","playerclass08/lifetap3.dbr","playerclass08/ravenousearth2.dbr","playerclass08/ravenousearth3.dbr",
+     "playerclass08/soulscythe2.dbr","playerclass08/soulscythe3_buff.dbr","playerclass08/soulsiphon2.dbr","playerclass08/pets/petskill_blightbeast_blightburst.dbr","playerclass08/pets/petskill_blightbeast_poisonfumes.dbr","playerclass08/summon_skeleton2.dbr",
+     "playerclass08/pets/petskill_skeleton_modifier.dbr","playerclass09/aegis2.dbr","playerclass09/aegis3.dbr","playerclass09/ascension2.dbr","playerclass09/eyeofreckoning2.dbr","playerclass09/judgment2.dbr","playerclass09/judgment3.dbr",
+     "playerclass09/righteousfervor2.dbr","playerclass09/righteousfervor3.dbr","playerclass09/pets/petskill_celestialguardian_celestialwrath1_buff.dbr","playerclass09/viremight2.dbr","playerclass09/viremight3.dbr","playerclass03/pets/petskill_hellhound_breathefire.dbr",
+     "playerclass03/pets/petskill_hellhound_fireclaw.dbr","playerclass03/pets/petskill_hellhound_hellfireaura_buff.dbr","playerclass03/pets/petskill_raven_heal1_buff.dbr","playerclass03/pets/petskill_raven_stormspirit1_buff.dbr",
+     "playerclass03/pets/petskill_raven_stormstrike1.dbr",],
+
+    #Skills that automatically reserve mana once allocated
+    #SKILL AURAS
+    ["playerclass01/counterstrike1.dbr","playerclass01/fieldcommand1buff.dbr","playerclass02/vindictiveflame1.dbr","playerclass02/blastshield1_buff.dbr","playerclass03/bondsofbysmiel1.dbr","playerclass03/possession1.dbr",
+     "playerclass03/witchfire1.dbr","playerclass04/veilofshadows1_buff.dbr","playerclass05/elementalinfusion1_buff.dbr","playerclass05/sphereofprotection1.dbr","playerclass06/natureblessing1_buff.dbr","playerclass07/auracensure1_buff.dbr",
+     "playerclass07/auraconviction1_buff.dbr","playerclass08/spectralarmor1.dbr","playerclass09/presenceofvirtue1_buff.dbr",],
+
+    #Buffs that add an effect to aura reserves, usually come with additional mana reservation
+    #SKILL AURA BUFFS
+    ["playerclass01/fieldcommand2.dbr","playerclass02/vindictiveflame2.dbr","playerclass02/blastshield2.dbr","playerclass03/bondsofbysmiel2.dbr","playerclass03/witchfire2.dbr","playerclass04/veilofshadows2.dbr",
+     "playerclass05/elementalinfusion2.dbr","playerclass05/elementalinfusion3.dbr","playerclass05/sphereofprotection2.dbr","playerclass06/naturesblessing2.dbr","playerclass06/naturesblessing3.dbr","playerclass08/spectralarmor2_buff.dbr",
+     "playerclass09/presenceofvirtue2.dbr","playerclass09/presenceofvirtue3.dbr",],
+
+    #Skills that always apply their effect at no cost
+    #SKILL PASSIVES
+    ["playerclass01/fightingspirit1.dbr","playerclass01/passive1.dbr","playerclass01/passive2.dbr","playerclass01/passive3.dbr","playerclass01/passive4.dbr","playerclass01/passiveshield.dbr","playerclass01/stancedefensive.dbr",
+     "playerclass01/stanceoffensive.dbr","playerclass01/weaponpool1.dbr","playerclass01/weaponpool2.dbr","playerclass01/willtolive1.dbr","playerclass02/passive1.dbr","playerclass02/passive2.dbr","playerclass04/passive1.dbr",
+     "playerclass04/passive2.dbr","playerclass04/passive3.dbr","playerclass04/wpattack0.dbr","playerclass04/wpattack1.dbr","playerclass04/wpattack2.dbr","playerclass04/wpattack3.dbr","playerclass04/wpattack4.dbr",
+     "playerclass04/wpattack5.dbr","playerclass05/passive01.dbr","playerclass05/passive02.dbr","playerclass05/passive03.dbr","playerclass05/passive04.dbr","playerclass06/passive01.dbr","playerclass06/primalbond01.dbr",
+     "playerclass06/stormcaller1.dbr","playerclass06/weaponpool01.dbr","playerclass06/weaponpool02.dbr","playerclass07/passive01.dbr","playerclass07/passive02.dbr","playerclass07/pets/petskill_relictraining.dbr","playerclass07/wpattack01.dbr",
+     "playerclass07/wpattack02.dbr","playerclass07/wpattack03.dbr","playerclass08/weaponpool01.dbr","playerclass08/weaponpool02.dbr","playerclass08/masterofdeath1.dbr","playerclass09/passive01.dbr","playerclass09/passive02.dbr",
+     "playerclass09/divinemandate1.dbr","playerclass09/pathofthethree1.dbr","playerclass09/wpattack01.dbr","playerclass09/wpattack02.dbr",],
+
+    #Skills that transform another skill
+    #SKILL TRANSFORMS
+    ["playerclass01/bladearc1b.dbr","playerclass01/cadence1b.dbr","playerclass01/overguard1b.dbr","playerclass01/shieldhammer1b.dbr","playerclass01/warcry1b.dbr","playerclass02/blackwater1b.dbr","playerclass02/canisterbomb1b.dbr",
+     "playerclass02/flamestrike2b.dbr","playerclass02/flamestrike2c.dbr","playerclass02/grenado1b.dbr","playerclass02/stunjacks1b.dbr","playerclass03/evileye1b.dbr","playerclass03/pox1b.dbr","playerclass03/witchfire1b.dbr",
+     "playerclass04/ringofsteel_mod0.dbr","playerclass04/phantomblade_mod0.dbr","playerclass04/nightbladeenchant1b.dbr","playerclass05/aetherray1b.dbr","playerclass05/elementalinfusion1b.dbr","playerclass05/razorwind1b.dbr",
+     "playerclass06/savagery1b.dbr","playerclass06/savagestrike1b.dbr","playerclass06/stormtotem01b_petmodifier.dbr","playerclass07/arcaneseal1b.dbr","playerclass07/hunteraura1b.dbr","playerclass07/lightningnet1b.dbr",
+     "playerclass07/purifyingflame1b.dbr","playerclass08/lifetap1b.dbr","playerclass08/soulscythe1b.dbr","playerclass08/soulsiphon1b.dbr","playerclass08/summon_blightbeast1b.dbr","playerclass09/aegis1b.dbr","playerclass09/righteousfervor1b.dbr",
+     "playerclass09/summon_celestialguardian1b.dbr","playerclass09/viremight1b.dbr",]
+]
+undecided = ["playerclass01/cadence3.dbr","playerclass01/fieldcommand1.dbr","playerclass02/blastshield1.dbr","playerclass02/mortartrap2_petmod.dbr","playerclass02/mortartrap3_petmod.dbr","playerclass02/thermitemines2_petmod.dbr",
+             "playerclass03/bloodofdreeg1.dbr","playerclass03/bondsofbysmiel1_petbonus.dbr","playerclass03/bondsofbysmiel2_petbonus.dbr","playerclass03/curse1.dbr","playerclass03/evileye2x.dbr","playerclass03/pox1.dbr",
+             "playerclass03/witchfire1b_petbonus.dbr","playerclass04/bladetrap1.dbr","playerclass04/eviscerate2.dbr","playerclass04/veilofshadows1.dbr","playerclass05/elementalinfusion1b_petbonus.dbr",
+             "playerclass05/elementalinfusion1.dbr","playerclass05/chillingsurge.dbr","playerclass06/devouringswarm1.dbr","playerclass06/primalbond01_petbonus.dbr","playerclass06/natureblessing1.dbr",
+             "playerclass06/natureblessing1_petbonus.dbr","playerclass07/arcaneseal1b_old.dbr","playerclass07/auracensure1.dbr","playerclass07/auraconviction1.dbr","playerclass07/hunteraura1.dbr",
+             "playerclass07/lightningnet1.dbr","playerclass07/wordofpain1.dbr","playerclass08/callofthegrave_petbonus.dbr","playerclass08/illomen1.dbr","playerclass08/masterofdeath1_petbonus.dbr","playerclass08/soulscythe3.dbr",
+             "playerclass08/soulscythe3_buff_petbonus.dbr","playerclass08/soulsiphon1.dbr","playerclass08/reapspirit1.dbr","playerclass08/spectralarmor2.dbr","playerclass09/presenceofvirtue1.dbr",
+             "playerclass09/summon_celestialguardian2b_petmodifier.dbr",]
+
+aomSkills = [
+     "playerclass07/arcaneseal1.dbr","playerclass07/concussiverune1.dbr","playerclass07/hunteraura1_buff.dbr","playerclass07/icerune.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/purifyingflame1.dbr",
+     "playerclass07/voiceofcommand1.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/callofthegrave.dbr","playerclass08/illomen1_buff.dbr","playerclass08/lifetap1.dbr","playerclass08/ravenousearth1.dbr","playerclass08/soulscythe1.dbr",
+     "playerclass08/reaper1.dbr","playerclass08/soulsiphon1_buff.dbr","playerclass08/summon_blightbeast1.dbr","playerclass08/summon_skeleton1.dbr","playerclass08/soultransfer.dbr","playerclass07/pets/petskill_arcaneseal_modifier.dbr","playerclass07/pets/petskill_concussiverune_initialnova_01.dbr","playerclass07/hunteraura2.dbr",
+     "playerclass07/hunteraura3.dbr","playerclass07/pets/petskill_icerune_modifier1.dbr","playerclass07/pets/petskill_icerune_modifier2.dbr","playerclass07/lightningnet2.dbr","playerclass07/purifyingflame2.dbr","playerclass07/purifyingflame3.dbr",
+     "playerclass07/purifyingflame4.dbr","playerclass07/wordofpain2.dbr","playerclass07/wordofpain3.dbr","playerclass08/lifetap2.dbr","playerclass08/lifetap3.dbr","playerclass08/ravenousearth2.dbr","playerclass08/ravenousearth3.dbr",
+     "playerclass08/soulscythe2.dbr","playerclass08/soulscythe3_buff.dbr","playerclass08/soulsiphon2.dbr","playerclass08/pets/petskill_blightbeast_blightburst.dbr","playerclass08/pets/petskill_blightbeast_poisonfumes.dbr","playerclass08/summon_skeleton2.dbr",
+     "playerclass08/pets/petskill_skeleton_modifier.dbr","playerclass07/auracensure1_buff.dbr",
+     "playerclass07/auraconviction1_buff.dbr","playerclass08/spectralarmor1.dbr","playerclass08/spectralarmor2_buff.dbr",
+     "playerclass07/passive01.dbr","playerclass07/passive02.dbr","playerclass07/pets/petskill_relictraining.dbr","playerclass07/wpattack01.dbr",
+     "playerclass07/wpattack02.dbr","playerclass07/wpattack03.dbr","playerclass08/weaponpool01.dbr","playerclass08/weaponpool02.dbr","playerclass08/masterofdeath1.dbr","playerclass07/arcaneseal1b.dbr","playerclass07/hunteraura1b.dbr","playerclass07/lightningnet1b.dbr",
+     "playerclass07/purifyingflame1b.dbr","playerclass08/lifetap1b.dbr","playerclass08/soulscythe1b.dbr","playerclass08/soulsiphon1b.dbr","playerclass08/summon_blightbeast1b.dbr",
+]
+
+fgSkills = [
+     "playerclass09/aegis1.dbr","playerclass09/ascension1.dbr",
+     "playerclass09/eyeofreckoning1.dbr","playerclass09/judgment1.dbr","playerclass09/righteousfervor1.dbr","playerclass09/summon_celestialguardian1.dbr","playerclass09/viremight1.dbr","playerclass09/aegis2.dbr","playerclass09/aegis3.dbr","playerclass09/ascension2.dbr","playerclass09/eyeofreckoning2.dbr","playerclass09/judgment2.dbr","playerclass09/judgment3.dbr",
+     "playerclass09/righteousfervor2.dbr","playerclass09/righteousfervor3.dbr","playerclass09/pets/petskill_celestialguardian_celestialwrath1_buff.dbr","playerclass09/viremight2.dbr","playerclass09/viremight3.dbr",
+     "playerclass09/presenceofvirtue1_buff.dbr","playerclass09/presenceofvirtue2.dbr","playerclass09/presenceofvirtue3.dbr","playerclass09/passive01.dbr","playerclass09/passive02.dbr",
+     "playerclass09/divinemandate1.dbr","playerclass09/pathofthethree1.dbr","playerclass09/wpattack01.dbr","playerclass09/wpattack02.dbr","playerclass09/aegis1b.dbr","playerclass09/righteousfervor1b.dbr",
+     "playerclass09/summon_celestialguardian1b.dbr","playerclass09/viremight1b.dbr",
+]
+
 def gen_random_uniform_range(world: "GrimDawnWorld", key) -> float:
     #First skip any attributes that are prohibited from being randomized per the options
     if world.options.skill_balance_preserve_damage.value and key in ("offensiveSlowBleedingMin","weaponDamagePct","offensiveCritDamageModifier","offensiveElementalMin","offensiveDamageMultModifier","offensivePhysicalMin",
@@ -647,3 +745,29 @@ def generateDevotionPatchTable(world: "GrimDawnWorld"):
     sanityCheckMinMax(patchTable["devotion"]["tier2_07g_skill.dbr"])
     
     return patchTable
+
+def generateSkillShuffleTable(world: "GrimDawnWorld"):
+    #First, convert the main nested skill list into a list of sets
+    enemyCuratedSets = []
+    for skillgroup in skillGroups:
+        enemyCuratedSets.append(set(skillgroup))
+
+    #Second, if the dlc is disabled, remove dlc skills from the sets.
+    if world.options.dlc_aom == False:
+        #Difference update works by removing entries that exist in both sets.
+        for skillSet in enemyCuratedSets:
+            skillSet.difference_update(set(aomSkills))
+            #skillSet.difference_update(set(fgSkills)) #aom is required for fg
+    if world.options.dlc_fg == False:
+        for skillSet in enemyCuratedSets:
+            skillSet.difference_update(set(fgSkills))
+
+    #Third, convert to a sorted nestedlist
+    enemyCuratedList = []
+    for skillSet in enemyCuratedSets:
+        enemyCuratedList.append(sorted(skillSet))
+
+    #Forth, shuffle the curated list of skills
+    for subList in enemyCuratedList:
+        world.random.shuffle(subList)
+    return enemyCuratedList

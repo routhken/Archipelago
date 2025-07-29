@@ -24,7 +24,7 @@ class GrimDawnRules:
 
         self.region_rules = {
             "Act 1 -> Devil's Aquifer": lambda state:
-                self.has_scrap(state,5),
+                self.has_scrap(state,5) or state.has(world.glitches_item_name,self.player),
             "Act 1 -> Sunken Reliquary": lambda state:
                 state.has("Flooded Passage Destroy Blockade",self.player),
             "Act 1 -> East Marsh": lambda state:

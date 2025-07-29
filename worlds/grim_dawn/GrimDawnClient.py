@@ -1,5 +1,6 @@
 import asyncio
 from .EnemyRandomizer import enemyListNonBoss, enemyDangerous
+from .SkillRandomizer import skillGroups
 from CommonClient import (
     CommonContext,
     gui_enabled,
@@ -39,11 +40,44 @@ class GrimDawnCommandProcessor(ClientCommandProcessor):
     #def _cmd_goal_game(self):
     #    self.ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
+def simple_line_fix(line_to_fix, fix_value):
+    words = line_to_fix.split(",")
+    nums = words[1].split(";")
+    line = words[0] + ","
+    for i in nums:
+        line = line + fix_value
+    line = line[:-1] + ",\n"
+    return line
+
+def patching_sanity_check(patchedValue, attributename):
+    #Certain attributes that can have negative modifiers do not function below -100%.
+    if attributename in ("skillManaCostReduction"):
+        return max(patchedValue,-100)
+
+    #Certain attributes break when over 100%
+    if attributename in ("conversionPercentage","skillManaCostReduction","onHitActivationChance","skillChanceWeight","sparkChance","offensiveTauntMin","offensiveSleepChance",
+                            "lifeMonitorPercent","offensiveTotalDamageReductionPercentMin","offensiveDisruptionChance","offensiveSlowPhysicalChance","offensiveSlowBleedingChance"
+                            "skillCooldownReduction","conversionPercentage2","defensiveDisruption","retaliationStunChance","projectilePiercing","projectilePiercingChance",
+                            "offensiveStunChance","offensiveFearChance","skillCooldownReductionChance","offensiveConfusionChance","offensiveKnockdownChance","offensiveFreezeChance",
+                            "offensiveLightningChance","offensiveFumbleMin","offensiveProjectileFumbleMin","offensiveGlobalChance","retaliationSlowManaLeachChance",
+                            "offensiveSlowLightningChance","offensiveSlowColdChance","offensiveLightningModifierChance","offensiveSlowFireChance","offensiveTrapChance"):
+        return min(patchedValue,100)
+
+    #Certain attributes break game balance at 100% or more
+    if attributename in ("damageAbsorptionPercent","characterDeflectProjectile","offensivePercentCurrentLifeMin","offensivePercentCurrentLifeMax"):
+        return min(patchedValue,85)
+
+    #To ensure skill usability, these attributes cannot be below 1
+    if attributename in ("skillTargetNumber","skillProjectileNumber","projectileLaunchNumber","petLimit","petBurstSpawn","sparkMaxNumber","skillChargeLevel",
+                            "contagionMaxSpread","contagionLimit","tetherLimit","linkLimit","numProjectiles"):
+        return max(patchedValue,1)
+    return patchedValue
+
 def patch_game(username, server_address, password, installPath, slot_data: dict[str, any]):
     
 # Forth  Run the command from the grim dawn folder: arzedit.exe extract "..\Grim Dawn\mods\archipelago\database\Archipelago.arz" "..\Grim Dawn\mods\patchedMod"
     #This initiates the command line, join adds a slash (os specific) between the arguments
-    #logger.info("Deleting existing patchedMod files so a new one can build.")
+    print("Deleting existing patchedMod files so a new one can build.", end='\r\n')
     patchedMod = "patchedArchipelago"
     subprocess.run([
         "rmdir",
@@ -51,7 +85,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         "/q",
         os.path.join(installPath,"mods",patchedMod),
         ], shell=True)
-    #logger.info("Extracting database files.")
+    print("Extracting database files.", end='\r\n')
     subprocess.run([
         os.path.join(installPath,"arzedit.exe"),
         "extract",
@@ -74,8 +108,8 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         server = urllib.parse.urlunsplit(x._replace(netloc=x.netloc.rsplit("@", 1)[-1]))
     
     #Iterate through player skills and apply balance patch
-
-    #logger.info("Applying skill patch.")
+    if slot_data.get("skill_balance_randomizer",0) == 1:
+        print("Applying skill patch.", end='\r\n')
     for playerclass,skilltable in slot_data.get("skill_balance_table",{}).items():
         for skillname,valuetable in skilltable.items():
             if skillname.startswith("pets/"):
@@ -97,30 +131,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
                         #Lines need to be reconstructed in the format of "attributename,0;1;2;3;4,"
                         for i in nums:
                             patchedValue = (float(i) * attributevalue)
-
-                            #Certain attributes that can have negative modifiers do not function below -100%.
-                            if attributename in ("skillManaCostReduction"):
-                                patchedValue = max(patchedValue,-100)
-
-                            #Certain attributes break when over 100%
-                            if attributename in ("conversionPercentage","skillManaCostReduction","onHitActivationChance","skillChanceWeight","sparkChance","offensiveTauntMin","offensiveSleepChance",
-                                                    "lifeMonitorPercent","offensiveTotalDamageReductionPercentMin","offensiveDisruptionChance","offensiveSlowPhysicalChance","offensiveSlowBleedingChance"
-                                                    "skillCooldownReduction","conversionPercentage2","defensiveDisruption","retaliationStunChance","projectilePiercing","projectilePiercingChance",
-                                                    "offensiveStunChance","offensiveFearChance","skillCooldownReductionChance","offensiveConfusionChance","offensiveKnockdownChance","offensiveFreezeChance",
-                                                    "offensiveLightningChance","offensiveFumbleMin","offensiveProjectileFumbleMin","offensiveGlobalChance","retaliationSlowManaLeachChance",
-                                                    "offensiveSlowLightningChance","offensiveSlowColdChance","offensiveLightningModifierChance","offensiveSlowFireChance","offensiveTrapChance"):
-                                patchedValue = min(patchedValue,100)
-
-                            #Certain attributes break game balance at 100% or more
-                            if attributename in ("damageAbsorptionPercent","characterDeflectProjectile","offensivePercentCurrentLifeMin","offensivePercentCurrentLifeMax"):
-                                patchedValue = min(patchedValue,85)
-
-                            #To ensure skill usability, these attributes cannot be below 1
-                            if attributename in ("skillTargetNumber","skillProjectileNumber","projectileLaunchNumber","petLimit","petBurstSpawn","sparkMaxNumber","skillChargeLevel",
-                                                    "contagionMaxSpread","contagionLimit","tetherLimit","linkLimit","numProjectiles"):
-                                patchedValue = max(patchedValue,1)
-
-                            line = line + str(patchedValue) + ";"
+                            line = line + str(patching_sanity_check(patchedValue, attributename)) + ";"
                         line = line[:-1] + ",\n"
                         break
                 f2.write(line)
@@ -128,14 +139,16 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
             f2.close()
             os.replace(path2,path1)
             
+    #Apply the devotion skill balance rando patch, if enabled
     for playerclass,skilltable in slot_data.get("devotion_balance_table",{}).items():
+        print("Applying devotion patch.", end='\r\n')
         for skillname,valuetable in skilltable.items():
             if skillname.startswith("pets/"):
                 filepath = os.path.join(*skillname.split("/"))
             else:
                 filepath = skillname
             path1 = os.path.join(installPath,"mods",patchedMod,"records","skills",playerclass,filepath)
-            path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",playerclass,filepath + "s")
+            path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",playerclass,filepath + "x")
             f1 = open(path1, 'r')
             f2 = open(path2, 'w')
             for line in f1:
@@ -149,69 +162,125 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
                         #Lines need to be reconstructed in the format of "attributename,0;1;2;3;4,"
                         for i in nums:
                             patchedValue = (float(i) * attributevalue)
-
-                            #Certain attributes that can have negative modifiers do not function below -100%.
-                            if attributename in ("skillManaCostReduction"):
-                                patchedValue = max(patchedValue,-100)
-
-                            #Certain attributes break when over 100%
-                            if attributename in ("conversionPercentage","skillManaCostReduction","onHitActivationChance","skillChanceWeight","sparkChance","offensiveTauntMin","offensiveSleepChance",
-                                                    "lifeMonitorPercent","offensiveTotalDamageReductionPercentMin","offensiveDisruptionChance","offensiveSlowPhysicalChance","offensiveSlowBleedingChance"
-                                                    "skillCooldownReduction","conversionPercentage2","defensiveDisruption","retaliationStunChance","projectilePiercing","projectilePiercingChance",
-                                                    "offensiveStunChance","offensiveFearChance","skillCooldownReductionChance","offensiveConfusionChance","offensiveKnockdownChance","offensiveFreezeChance",
-                                                    "offensiveLightningChance","offensiveFumbleMin","offensiveProjectileFumbleMin","offensiveGlobalChance","retaliationSlowManaLeachChance",
-                                                    "offensiveSlowLightningChance","offensiveSlowColdChance","offensiveLightningModifierChance","offensiveSlowFireChance","offensiveTrapChance"):
-                                patchedValue = min(patchedValue,100)
-
-                            #Certain attributes break game balance at 100% or more
-                            if attributename in ("damageAbsorptionPercent","characterDeflectProjectile","offensivePercentCurrentLifeMin","offensivePercentCurrentLifeMax"):
-                                patchedValue = min(patchedValue,85)
-
-                            #To ensure skill usability, these attributes cannot be below 1
-                            if attributename in ("skillTargetNumber","skillProjectileNumber","projectileLaunchNumber","petLimit","petBurstSpawn","sparkMaxNumber","skillChargeLevel",
-                                                    "contagionMaxSpread","contagionLimit","tetherLimit","linkLimit","numProjectiles"):
-                                patchedValue = max(patchedValue,1)
-
-                            line = line + str(patchedValue) + ";"
+                            line = line + str(patching_sanity_check(patchedValue, attributename)) + ";"
                         line = line[:-1] + ",\n"
                         break
                 f2.write(line)
             f1.close()
             f2.close()
             os.replace(path2,path1)
+            
+    #Apply the skill shuffle patch, if enabled
+    #print("Slot data skill shuffle: " + str(slot_data.get("skill_shuffler",0)), end='\r\n')
+    if slot_data.get("skill_shuffler",0) == 1:
+        logger.info("Applying skill shuffle patch.")
+        print("Applying skill shuffle patch.", end='\r\n')
+        #print("Inside skill shuffle function", end='\r\n')
+        #First make a copy of every skill so we can read from them without overwriting them.
+        tempStoragePath = os.path.join(installPath,"mods",patchedMod,"records","tempStorage","skills")
+        sourceDirectoryPath = os.path.join(installPath,"mods",patchedMod,"records","skills")
+        shutil.copytree(sourceDirectoryPath,tempStoragePath)
+        #For every skill
+        groupIndex = 0
+        for skillGroup in slot_data["skill_shuffle_table"]:
+            #print("Skill Group: " + str(skillGroup), end='\r\n')
+            #Need to iterate through the randomized list while iterating through the true list.
+            startingIndex = 0
+            index = startingIndex
+            dangerIndex = len(slot_data["skill_shuffle_table"][groupIndex]) #(len(enemyDangerous))
+            #randomSkillList = list(reversed(skillGroups[groupIndex]))
+            baseSortedSkillGroup = sorted(skillGroups[groupIndex])
+            for targetName in skillGroup:
+                #Skill names are "playerClass/skillName" which is to mimic the file structure
+                targetClassSkill = targetName.split("/")
+                sourceClassSkill = baseSortedSkillGroup[index].split("/") #slot_data["shuffle_table"][index])
+                if sourceClassSkill[1] == "pets":
+                    path1 = os.path.join(installPath,"mods",patchedMod,"records","tempStorage","skills",sourceClassSkill[0],sourceClassSkill[1],sourceClassSkill[2])
+                else:
+                    path1 = os.path.join(installPath,"mods",patchedMod,"records","tempStorage","skills",sourceClassSkill[0],sourceClassSkill[1])
+                if targetClassSkill[1] == "pets":
+                    path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",targetClassSkill[0],targetClassSkill[1],targetClassSkill[2])
+                else:
+                    path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",targetClassSkill[0],targetClassSkill[1])
+                # if sourceClassSkill[1] in ("presenceofvirtue1_buff.dbr"):
+                #     print("  Source Skill Name: " + sourceClassSkill[1], end='\r\n')
+                # if targetClassSkill[1] in ("presenceofvirtue1_buff.dbr"):
+                #     print("  Target Skill Name: " + targetClassSkill[1], end='\r\n')
+                #To avoid messing up the skill window UI, the skill connector information needs remain where it was
+                #But since writing into a file immediately overwrites its contents, the info needs to be copied out first
+                print(" Skill Shuffle: Source -> Target: " + baseSortedSkillGroup[index] + " -> " + targetName, end='\r\n')
+                #print("  Target Skill Name: " + str(path2), end='\r\n')
+                ftemp = open(path2, 'r')
+                skillConnectionOff = ""
+                skillConnectionOn = ""
+                skillTier = ""
+                for line in ftemp:
+                    if line.startswith(("skillConnectionOff,")):
+                        words = line.split(",",2)
+                        skillConnectionOff = words[1]
+                        #logger.info("skillConnectionOff = " + skillConnectionOff)
+                    if line.startswith(("skillConnectionOn,")):
+                        words = line.split(",",2)
+                        skillConnectionOn = words[1]
+                    if line.startswith(("skillTier,")):
+                        words = line.split(",",2)
+                        skillTier = words[1]
+                # if sourceClassSkill[1] in ("presenceofvirtue1_buff.dbr"):
+                #     print("  Source skillConnectionOn: " + skillConnectionOn, end='\r\n')
+                #     print("  Source skillTier: " + skillTier, end='\r\n')
+                # if targetClassSkill[1] in ("presenceofvirtue1_buff.dbr"):
+                #     print("  Target skillConnectionOn: " + skillConnectionOn, end='\r\n')
+                #     print("  Target skillTier: " + skillTier, end='\r\n')
+                ftemp.close()
+                #Now the file can be overwritten with the new skill
+                f1 = open(path1, 'r')
+                f2 = open(path2, 'w')
+                for line in f1:
+                    #Erase skill connectors from the incoming skill to replace it with the old one
+                    if line.startswith(("skillConnectionOff,")):
+                        line = ("")
+                    if line.startswith(("skillConnectionOn,")):
+                        line = ("")
+                    if line.startswith(("skillTier,")):
+                        line = ("skillTier," + skillTier + ",\n")
+                    f2.write(line)
+                f2.write("skillConnectionOff," + skillConnectionOff + ",\n")
+                f2.write("skillConnectionOn," + skillConnectionOn + ",\n")
+                f1.close()
+                f2.close()
+                index += 1
+                if not (index < dangerIndex):
+                    index = startingIndex
+            groupIndex += 1
+            
+        #Delete the tempStorage so it doesn't extend build time
+        shutil.rmtree(tempStoragePath)
     
     #Apply the free respec patch, if enabled
-    #logger.info("Applying skill respec patch.")
     if slot_data.get("free_skill_respec",0) == 1:
+        print("Applying skill respec patch.", end='\r\n')
         for filename in ("malepc01.dbr","femalepc01.dbr"):
             path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","pc",filename)
-            path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","pc",filename + "s")
+            path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","pc",filename + "y")
             f1 = open(path1, 'r')
             f2 = open(path2, 'w')
             for line in f1:
                 if line.startswith(("devotionReclamationAetherCost,","devotionReclamationPointCosts,","reclamationPointCosts,")):
-                    words = line.split(",")
-                    nums = words[1].split(";")
-                    line = words[0] + ","
-                    for i in nums:
-                        line = line + "0;"
-                    line = line[:-1] + ",\n"
+                    line = simple_line_fix(line, "0;")
                 f2.write(line)
             f1.close()
             f2.close()
             os.replace(path2,path1)
 
     #Apply the enemy rando patch, if enabled
-    #logger.info("Applying enemy rando patch.")
     if slot_data.get("enemy_randomizer",0) == 1:
-        #TODO Prevent certain slith enemies from being randomized for slith charm quest.
+        print("Applying enemy rando patch.", end='\r\n')
         #First make a copy of every enemy so we can read from them without overwriting them.
         tempStoragePath = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage")
         os.makedirs(tempStoragePath)
         for sourceName in enemyListNonBoss:
             path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",sourceName)
             shutil.copy(path1,tempStoragePath)
-        #slot_data["enemy_table"]
         #logger.info("singletonEnemy: " + singletonEnemy[0] + singletonEnemy[1] + singletonEnemy[2] + singletonEnemy[3])
         #logger.info("path1: " + path1)
         startingIndex = 0
@@ -219,30 +288,88 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         index = startingIndex
         #shouldLog = True
         #logger.info(f"Length of dangerous enemies list: {dangerIndex}")
+        speedMultiplier = 1.00
+        levelModifier = 0
+        if slot_data.get("buff_enemies",2) == 0:
+            speedMultiplier = 0.60
+            levelModifier = -3
+        elif slot_data.get("buff_enemies",2) == 1:
+            speedMultiplier = 0.85
+            levelModifier = -1
+        elif slot_data.get("buff_enemies",2) == 3:
+            speedMultiplier = 1.15
+            levelModifier = 1
+        elif slot_data.get("buff_enemies",2) == 4:
+            speedMultiplier = 1.40
+            levelModifier = 3
         for targetName in enemyListNonBoss:
             path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage",slot_data["enemy_table"][index])
             path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
+            print(" Enemy Rando: Source -> Target: " + slot_data["enemy_table"][index] + " -> " + targetName, end='\r\n')
             f1 = open(path1, 'r')
             f2 = open(path2, 'w')
             for line in f1:
                 #Make all enemies give exp
                 if line.startswith(("giveXP,")):
-                    words = line.split(",")
-                    nums = words[1].split(";")
-                    line = words[0] + ","
-                    for i in nums:
-                        line = line + "1;"
-                    line = line[:-1] + ",\n"
+                    line = simple_line_fix(line, "1;")
+                #Make all enemies give non-zero exp
                 if line.startswith(("experiencePoints,")):
                     words = line.split(",")
                     nums = words[1].split(";")
                     line = words[0] + ","
                     for i in nums:
                         if int(i) == 0:
-                            line = line + "100;"
+                            line = line + "150;"
                         else:
                             line = line + words[1]
                     line = line[:-1] + ",\n"
+                #Check for dynamic weapon loot tables in enemy files and replace them with generic ones.
+                #  Otherwise if a dynamic loot drop gets transferred to an enemy with no equipped loot to drop, it crashes the game.
+                # if line.startswith(("loot")):
+                #     words = line.split(",")
+                #     nums = words[1].split(";")
+                #     line = words[0] + ","
+                #     for i in nums:
+                #         if "tdyn" in i:
+                #             line = line + "records/items/loottables/mastertables/mt_compall_a01.dbr;"
+                #         else:
+                #             line = line + words[1]
+                #     line = line[:-1] + ",\n"
+                #Makes enemies only ever alerted by the player, making them not fight each other
+                if line.startswith(("angerMultiplier")):
+                    line = simple_line_fix(line, "0;")
+                if line.startswith(("causesAnger")):
+                    line = simple_line_fix(line, "0;")
+                if line.startswith(("distressCallRange")):
+                    line = simple_line_fix(line, "100;")
+                if line.startswith(("distressCall")):
+                    line = simple_line_fix(line, "1;")
+                #The remaining lines are buffing/nerfing enemies based on chosen options
+                if slot_data.get("buff_enemies",2) != 2:
+                    #Action speed
+                    if line.startswith(("characterAttackSpeed,","characterAttackSpeedModifier,","characterSpellCastSpeed,","characterSpellCastSpeedModifier,")): #,"characterRunSpeed,","characterRunSpeedModifier,","walkSpeed,")):
+                        words = line.split(",")
+                        nums = words[1].split(";")
+                        line = words[0] + ","
+                        for i in nums:
+                            line = line + str(float(i) * speedMultiplier) + ";"
+                        line = line[:-1] + ",\n"
+                    #Size, also affects movement speed
+                    if line.startswith(("scale,")):
+                        words = line.split(",")
+                        nums = words[1].split(";")
+                        line = words[0] + ","
+                        for i in nums:
+                            line = line + str(float(i) * speedMultiplier) + ";"
+                        line = line[:-1] + ",\n"
+                    #Level of skills, cause enemies to do a ton more damage
+                    if line.startswith(("skillLevel")):
+                        words = line.split(",")
+                        nums = words[1].split(";")
+                        line = words[0] + ","
+                        for i in nums:
+                            line = line + i + "+(" + str(levelModifier) + ");"
+                        line = line[:-1] + ",\n"
                 f2.write(line)
             f1.close()
             f2.close()
@@ -258,7 +385,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         
 # Sixth  Run the command from the grim dawn folder: arzedit.exe build "..\Grim Dawn\mods\patchedMod" "..\Grim Dawn\mods\patchedMod" -g "..\Grim Dawn"
 
-    #logger.info("Building database files.")
+    print("Building database files.", end='\r\n')
     subprocess.run([
         os.path.join(installPath,"arzedit.exe"),
         "build",
@@ -270,7 +397,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     
 # Seven  Delete the extracted files, leaving behind only the compiled mod files: rmdir /s /q "..\Grim Dawn\mods\patchedMod\records"
 
-    #logger.info("Deleting temp files.")
+    print("Deleting temp files.", end='\r\n')
     subprocess.run([
         "rmdir",
         "/s",
@@ -280,7 +407,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     
 # Eight  Copy arc files to new mod location: xcopy "..\Grim Dawn\mods\archipelago\resources" "..\Grim Dawn\mods\patchedArchipelago\resources" /i /y
 
-    #logger.info("Copying arc files.")
+    print("Copying arc files.", end='\r\n')
     subprocess.run([
         "xcopy",
         os.path.join(installPath,"mods","archipelago","resources"),
@@ -291,7 +418,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     
 # Ninth  Create a txt file containing connection info: echo message > "C:\SteamSuperSSD\steamapps\common\Grim Dawn\mods\patchedArchipelago\a.txt"
 
-    #logger.info("Creating connect txt file.")
+    print("Creating connect txt file.", end='\r\n')
     with open(os.path.join(installPath,"connect.txt"), "w") as file:
         file.write("host = " + server + "\nslot = " + slot_name + "\npassword = " + (password if password else "") + "\nssp = " + ("true" if slot_data.get("starting_skill_points",0) == 1 else "false"))
     logger.info("Patching finished.")

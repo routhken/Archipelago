@@ -7,7 +7,7 @@ from .Locations import GrimDawnLocation, location_data_table, location_table, lo
 from .Options import GrimDawnOptions
 from .Regions import region_data_table
 from .Rules import GrimDawnRules
-from .SkillRandomizer import generateSkillPatchTable, generateDevotionPatchTable
+from .SkillRandomizer import generateSkillShuffleTable, generateSkillPatchTable, generateDevotionPatchTable
 from .EnemyRandomizer import generateEnemyTable
 from logging import warning
 from Options import OptionError
@@ -27,6 +27,11 @@ class GrimDawnSettings(Group):
         """Path to Grim Dawn install directory"""
         required = True
     grimDawnInstallPath: Grim_Dawn_Install_Path = Grim_Dawn_Install_Path("")
+
+    class Poptracker_Pack_Path(FolderPath):
+        """Path to Grim Dawn poptracker pack"""
+        required = False
+    grimDawnPoptrackerPackPath: Poptracker_Pack_Path = Poptracker_Pack_Path("")
 
 class GrimDawnWebWorld(WebWorld):
     theme = "partyTime"
@@ -65,8 +70,12 @@ class GrimDawnWorld(World):
     local_relic_table: List[str]
     settings: ClassVar[GrimDawnSettings]
     skill_balance_table: Dict[str, Dict[str, Dict[str, any]]]
+    tracker_world = {"external_pack_key": "grimDawnPoptrackerPackPath", "map_page_maps": "maps/maps.json", "map_page_locations": "locations/locations.json"}
+    glitches_item_name = "outOfLogicItem"
 
     def create_item(self, name: str) -> GrimDawnItem:
+        if name == self.glitches_item_name:
+            return GrimDawnItem(self.glitches_item_name, ItemClassification.progression, None, self.player)
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
     
     def generate_early(self) -> None:
@@ -216,6 +225,8 @@ class GrimDawnWorld(World):
         return super().collect_item(state,item,remove)
 
     def write_spoiler(self, spoiler_handle):
+        spoiler_handle.write("\nSkill Shuffle Table for player " + self.player_name + ":\n")
+        spoiler_handle.write(json.dumps(self.skill_shuffle_table, indent=4))
         spoiler_handle.write("\nSkill Balance Table for player " + self.player_name + ":\n")
         spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
         spoiler_handle.write("\nDevotion Balance Table for player " + self.player_name + ":\n")
@@ -224,6 +235,10 @@ class GrimDawnWorld(World):
         spoiler_handle.write(json.dumps(self.enemy_table, indent=4))
 
     def generate_basic(self) -> None:
+        if not self.options.skill_shuffler:
+            self.skill_shuffle_table = {}
+        else:
+            self.skill_shuffle_table = generateSkillShuffleTable(self)
         if not self.options.skill_balance_randomizer:
             self.skill_balance_table = {}
         else:
@@ -252,6 +267,8 @@ class GrimDawnWorld(World):
             "progressive_progression":self.options.progressive_progression.value,
             "dlc_aom": self.options.dlc_aom.value,
             "dlc_fg": self.options.dlc_fg.value,
+            "skill_shuffler": self.options.skill_shuffler.value,
+            "skill_shuffle_table": self.skill_shuffle_table,
             "skill_balance_randomizer": self.options.skill_balance_randomizer.value,
             "devotion_balance_randomizer": self.options.devotion_balance_randomizer.value,
             "skill_balance_range": self.options.skill_balance_range.value,
@@ -273,6 +290,7 @@ class GrimDawnWorld(World):
             "enemy_randomizer": self.options.enemy_randomizer.value,
             "enemy_table": self.enemy_table,
             "dangerous_enemies": self.options.dangerous_enemies.value,
+            "buff_enemies": self.options.buff_enemies.value,
         }
 
         return dReturn
