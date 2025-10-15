@@ -8,14 +8,14 @@ skillGroups = [
     #SKILL ACTIVES
     ["playerclass01/bladearc1.dbr","playerclass01/blitz1.dbr","playerclass01/cadence1.dbr","playerclass01/overguard1.dbr","playerclass01/shieldhammer1.dbr","playerclass01/warcry1.dbr","playerclass02/blackwater1.dbr",
     "playerclass02/canisterbomb1.dbr","playerclass02/flamestrike1.dbr","playerclass02/flashbang1.dbr","playerclass02/grenado1.dbr","playerclass02/mortartrap1.dbr","playerclass02/stunjacks1.dbr","playerclass02/thermitemines1.dbr",
-    "playerclass03/bloodofdreeg1_buff.dbr","playerclass03/curse1_buff.dbr","playerclass03/doombolt1.dbr","playerclass03/evileye1.dbr","playerclass03/pox1_buff.dbr","playerclass03/sigilofdestruction1.dbr","playerclass03/summon_hellhound1.dbr",
-    "playerclass03/summon_raven1.dbr","playerclass04/bladebarrier1.dbr","playerclass04/bladetrap1_buff.dbr","playerclass04/shadowstrike.dbr","playerclass04/ringofsteel.dbr","playerclass04/phantomblade.dbr","playerclass04/nightbladeenchant1.dbr",
+    "playerclass03/doombolt1.dbr","playerclass03/evileye1.dbr","playerclass03/sigilofdestruction1.dbr","playerclass03/summon_hellhound1.dbr",
+    "playerclass03/summon_raven1.dbr","playerclass04/bladebarrier1.dbr","playerclass04/shadowstrike.dbr","playerclass04/ringofsteel.dbr","playerclass04/phantomblade.dbr","playerclass04/nightbladeenchant1.dbr",
     "playerclass04/summon_bladespirit.dbr","playerclass04/eviscerate1.dbr","playerclass05/aetherray1.dbr","playerclass05/arcanemissile.dbr","playerclass05/devastation.dbr","playerclass05/nullification.dbr","playerclass05/skyshard1.dbr",
-    "playerclass05/razorwind1.dbr","playerclass05/chillingsurge_buff.dbr","playerclass05/arcaneshield.dbr","playerclass05/mindovermatter1.dbr","playerclass05/mindovermatter2.dbr","playerclass06/devouringswarm1_buff.dbr",
+    "playerclass05/razorwind1.dbr","playerclass05/arcaneshield.dbr","playerclass05/mindovermatter1.dbr","playerclass05/mindovermatter2.dbr",
     "playerclass06/graspingvines1.dbr","playerclass06/savagery1.dbr","playerclass06/savagestrike1.dbr","playerclass06/squall1.dbr","playerclass06/stormtotem01.dbr","playerclass06/summon_briarthorn1.dbr","playerclass06/summon_manticore1.dbr",
-    "playerclass06/totem1.dbr","playerclass07/arcaneseal1.dbr","playerclass07/concussiverune1.dbr","playerclass07/hunteraura1_buff.dbr","playerclass07/icerune.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/purifyingflame1.dbr",
-    "playerclass07/voiceofcommand1.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/callofthegrave.dbr","playerclass08/illomen1_buff.dbr","playerclass08/lifetap1.dbr","playerclass08/ravenousearth1.dbr","playerclass08/soulscythe1.dbr",
-    "playerclass08/reaper1.dbr","playerclass08/soulsiphon1_buff.dbr","playerclass08/summon_blightbeast1.dbr","playerclass08/summon_skeleton1.dbr","playerclass08/soultransfer.dbr","playerclass09/aegis1.dbr","playerclass09/ascension1.dbr",
+    "playerclass06/totem1.dbr","playerclass07/arcaneseal1.dbr","playerclass07/concussiverune1.dbr","playerclass07/icerune.dbr","playerclass07/purifyingflame1.dbr",
+    "playerclass07/voiceofcommand1.dbr","playerclass08/callofthegrave.dbr","playerclass08/lifetap1.dbr","playerclass08/ravenousearth1.dbr","playerclass08/soulscythe1.dbr",
+    "playerclass08/reaper1.dbr","playerclass08/summon_blightbeast1.dbr","playerclass08/summon_skeleton1.dbr","playerclass08/soultransfer.dbr","playerclass09/aegis1.dbr","playerclass09/ascension1.dbr",
     "playerclass09/eyeofreckoning1.dbr","playerclass09/judgment1.dbr","playerclass09/righteousfervor1.dbr","playerclass09/summon_celestialguardian1.dbr","playerclass09/viremight1.dbr",],
 
     #Buffs that add an effect to active skill, usually come with additional mana cost
@@ -37,11 +37,20 @@ skillGroups = [
      "playerclass03/pets/petskill_hellhound_fireclaw.dbr","playerclass03/pets/petskill_hellhound_hellfireaura_buff.dbr","playerclass03/pets/petskill_raven_heal1_buff.dbr","playerclass03/pets/petskill_raven_stormspirit1_buff.dbr",
      "playerclass03/pets/petskill_raven_stormstrike1.dbr",],
 
+    #Skills that are divided into two separate files in the code
+    #SKILL TWO PARTS
+    ["playerclass03/bloodofdreeg1_buff.dbr","playerclass03/curse1_buff.dbr","playerclass03/pox1_buff.dbr","playerclass04/bladetrap1_buff.dbr","playerclass05/chillingsurge_buff.dbr","playerclass06/devouringswarm1_buff.dbr",
+    "playerclass07/hunteraura1_buff.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/illomen1_buff.dbr","playerclass08/soulsiphon1_buff.dbr",],
+
+    #Skills that automatically reserve mana once allocated, that are divided into two files
+    #SKILL AURAS TWO PARTS
+    ["playerclass01/fieldcommand1buff.dbr","playerclass02/blastshield1_buff.dbr","playerclass04/veilofshadows1_buff.dbr","playerclass05/elementalinfusion1_buff.dbr",
+     "playerclass06/natureblessing1_buff.dbr","playerclass07/auracensure1_buff.dbr","playerclass07/auraconviction1_buff.dbr","playerclass09/presenceofvirtue1_buff.dbr",],
+
     #Skills that automatically reserve mana once allocated
     #SKILL AURAS
-    ["playerclass01/counterstrike1.dbr","playerclass01/fieldcommand1buff.dbr","playerclass02/vindictiveflame1.dbr","playerclass02/blastshield1_buff.dbr","playerclass03/bondsofbysmiel1.dbr","playerclass03/possession1.dbr",
-     "playerclass03/witchfire1.dbr","playerclass04/veilofshadows1_buff.dbr","playerclass05/elementalinfusion1_buff.dbr","playerclass05/sphereofprotection1.dbr","playerclass06/natureblessing1_buff.dbr","playerclass07/auracensure1_buff.dbr",
-     "playerclass07/auraconviction1_buff.dbr","playerclass08/spectralarmor1.dbr","playerclass09/presenceofvirtue1_buff.dbr",],
+    ["playerclass01/counterstrike1.dbr","playerclass02/vindictiveflame1.dbr","playerclass03/bondsofbysmiel1.dbr","playerclass03/possession1.dbr",
+     "playerclass03/witchfire1.dbr","playerclass05/sphereofprotection1.dbr","playerclass08/spectralarmor1.dbr",],
 
     #Buffs that add an effect to aura reserves, usually come with additional mana reservation
     #SKILL AURA BUFFS

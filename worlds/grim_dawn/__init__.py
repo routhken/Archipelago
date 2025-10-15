@@ -20,7 +20,7 @@ from worlds.LauncherComponents import (
 )
 import json
 
-#release version 0.2.0
+#release version 0.3.0
 
 class GrimDawnSettings(Group):
     class Grim_Dawn_Install_Path(FolderPath):
@@ -55,7 +55,9 @@ components.append(Component(
     "Grim Dawn Client",
     func=launch_client,
     component_type=Type.CLIENT,
-    icon = "GDLogo"
+    icon = "GDLogo",
+    supports_uri = True,
+    game_name = "Grim Dawn"
     ))
 
 class GrimDawnWorld(World):
@@ -139,6 +141,11 @@ class GrimDawnWorld(World):
             for _ in range(self.options.max_emblems.value):
                 item_pool.append(self.create_item("Aetherial Emblem"))
 
+        # Fill a specified amount of empty locations with trap items.
+        amountOfTraps = ((total_locations - len(item_pool)) * self.options.trap_percent) // 100
+        for _ in range(amountOfTraps):
+            item_pool.append(self.create_trap())
+
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
             item_pool.append(self.create_filler())
@@ -173,6 +180,10 @@ class GrimDawnWorld(World):
         
             locked_item = self.create_item(location_data.locked_item)
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
+
+    def create_trap(self):
+        name = self.random.choices(list(self.options.trap_weights.keys()), weights = list(self.options.trap_weights.values())).pop()
+        return self.create_item(name)
 
     def get_filler_item_name(self) -> str:
         filler_name = self.random.choices(filler_table, weights=filler_weights).pop()

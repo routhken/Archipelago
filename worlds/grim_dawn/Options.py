@@ -1,7 +1,9 @@
 from typing import Dict
 
-from Options import Choice, Range, Option, Toggle, PerGameCommonOptions,DeathLink
+from Options import Choice, Range, Option, Toggle, PerGameCommonOptions,DeathLink, OptionCounter
 from dataclasses import dataclass
+from .Items import _item_data_list
+from BaseClasses import ItemClassification
 
 class GrimDawnGoal(Choice):
     """
@@ -243,6 +245,34 @@ class GrimDawnEnemyBuffs(Choice):
     
     default = 2
 
+class TrapPercentage(Range):
+    """
+    Replaces filler items with traps, at the specified rate.
+    """
+    display_name = "Trap Percentage"
+    range_start = 0
+    range_end = 100
+    default = 5
+
+_default_trap_weights = {
+    item_definition[0]: 10
+    for item_definition in _item_data_list
+    if item_definition[1] is ItemClassification.trap
+}
+
+class TrapWeights(OptionCounter):
+    """
+    Specify the weights determining how many copies of each trap item will be in your itempool.
+    If you don't want a specific type of trap, you can set the weight for it to 0.
+    If you set all trap weights to 0, you will get no traps, bypassing the "Trap Percentage" option.
+    """
+    display_name = "Trap Weights"
+    valid_keys = _default_trap_weights.keys()
+
+    min = 0
+
+    default = _default_trap_weights
+
 @dataclass
 class GrimDawnOptions(PerGameCommonOptions):
     goal: GrimDawnGoal
@@ -277,4 +307,6 @@ class GrimDawnOptions(PerGameCommonOptions):
     enemy_randomizer: GrimDawnEnemyRandomizer
     dangerous_enemies: GrimDawnEnemyDangerous
     buff_enemies: GrimDawnEnemyBuffs
+    trap_percent: TrapPercentage
+    trap_weights: TrapWeights
     death_link: DeathLink

@@ -7,7 +7,8 @@ from CommonClient import (
     logger,
     get_base_parser,
     server_loop,
-    ClientCommandProcessor
+    ClientCommandProcessor,
+    handle_url_arg
 )
 import subprocess
 import os
@@ -18,6 +19,7 @@ from NetUtils import ClientStatus
 DEBUG = False
 GAMENAME = "Grim Dawn"
 ITEMS_HANDLING = 0b000
+minimumSupportedVersion = 2.4
 
 class GrimDawnCommandProcessor(ClientCommandProcessor):
     def _cmd_debug_patch(self):
@@ -181,19 +183,21 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         sourceDirectoryPath = os.path.join(installPath,"mods",patchedMod,"records","skills")
         shutil.copytree(sourceDirectoryPath,tempStoragePath)
         #For every skill
-        groupIndex = 0
-        for skillGroup in slot_data["skill_shuffle_table"]:
+        # groupIndex = 0
+        for groupIndex, skillGroup in enumerate(slot_data["skill_shuffle_table"]):
+        # for skillGroup in slot_data["skill_shuffle_table"]:
             #print("Skill Group: " + str(skillGroup), end='\r\n')
             #Need to iterate through the randomized list while iterating through the true list.
             startingIndex = 0
             index = startingIndex
-            dangerIndex = len(slot_data["skill_shuffle_table"][groupIndex]) #(len(enemyDangerous))
+            # dangerIndex = len(slot_data["skill_shuffle_table"][groupIndex]) #(len(enemyDangerous))
             #randomSkillList = list(reversed(skillGroups[groupIndex]))
             baseSortedSkillGroup = sorted(skillGroups[groupIndex])
-            for targetName in skillGroup:
+            for baseName,targetName in zip(baseSortedSkillGroup, skillGroup):
+            # for targetName in skillGroup:
                 #Skill names are "playerClass/skillName" which is to mimic the file structure
                 targetClassSkill = targetName.split("/")
-                sourceClassSkill = baseSortedSkillGroup[index].split("/") #slot_data["shuffle_table"][index])
+                sourceClassSkill = baseName.split("/") #slot_data["shuffle_table"][index])
                 if sourceClassSkill[1] == "pets":
                     path1 = os.path.join(installPath,"mods",patchedMod,"records","tempStorage","skills",sourceClassSkill[0],sourceClassSkill[1],sourceClassSkill[2])
                 else:
@@ -208,7 +212,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
                 #     print("  Target Skill Name: " + targetClassSkill[1], end='\r\n')
                 #To avoid messing up the skill window UI, the skill connector information needs remain where it was
                 #But since writing into a file immediately overwrites its contents, the info needs to be copied out first
-                print(" Skill Shuffle: Source -> Target: " + baseSortedSkillGroup[index] + " -> " + targetName, end='\r\n')
+                print(" Skill Shuffle: Source -> Target: " + baseName + " -> " + targetName, end='\r\n')
                 #print("  Target Skill Name: " + str(path2), end='\r\n')
                 ftemp = open(path2, 'r')
                 skillConnectionOff = ""
@@ -248,10 +252,40 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
                 f2.write("skillConnectionOn," + skillConnectionOn + ",\n")
                 f1.close()
                 f2.close()
+
+                #For skills that are two-part files, the second part needs the "buffSkillName" line edited to the new filepath of the shuffled skill. Otherwise the skill properties will possibly make it unusable.
+                if baseName in ("playerclass03/bloodofdreeg1_buff.dbr","playerclass03/curse1_buff.dbr","playerclass03/pox1_buff.dbr","playerclass04/bladetrap1_buff.dbr","playerclass05/chillingsurge_buff.dbr",
+                                  "playerclass06/devouringswarm1_buff.dbr","playerclass07/hunteraura1_buff.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/illomen1_buff.dbr",
+                                  "playerclass08/soulsiphon1_buff.dbr","playerclass01/fieldcommand1buff.dbr","playerclass02/blastshield1_buff.dbr","playerclass04/veilofshadows1_buff.dbr",
+                                  "playerclass05/elementalinfusion1_buff.dbr","playerclass06/natureblessing1_buff.dbr","playerclass07/auracensure1_buff.dbr","playerclass07/auraconviction1_buff.dbr",
+                                  "playerclass09/presenceofvirtue1_buff.dbr"):
+                    #Use the :-9 to truncate the _buff part from the skill name, since the file which points to this skill is the same name minus the _buff
+                    path1 = os.path.join(installPath,"mods",patchedMod,"records","tempStorage","skills",sourceClassSkill[0],(sourceClassSkill[1][:-9]) + ".dbr")
+                    path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",targetClassSkill[0],(targetClassSkill[1][:-9]) + ".dbr")
+                    print("Two part file path2: " + str(path2))
+                    print("Two part file path1: " + str(path1))
+                    print("Base skill index: " + baseName)
+                    print("Target name: " + targetName)
+                    if baseName == "playerclass01/fieldcommand1buff.dbr":
+                        #For some reason, field command is the only two part skill missing the underscore in its name. idk I didn't make this game.
+                        path1 = os.path.join(installPath,"mods",patchedMod,"records","tempStorage","skills",sourceClassSkill[0],(sourceClassSkill[1][:-8]) + ".dbr")
+                        print("Two part file path EDITED: " + str(path1))
+                    if targetName == "playerclass01/fieldcommand1buff.dbr":
+                        #For some reason, field command is the only two part skill missing the underscore in its name. idk I didn't make this game.
+                        path2 = os.path.join(installPath,"mods",patchedMod,"records","skills",targetClassSkill[0],(targetClassSkill[1][:-8]) + ".dbr")
+                        print("Two part file path EDITED: " + str(path2))
+                    f1 = open(path1, 'r')
+                    f2 = open(path2, 'w')
+                    for line in f1:
+                        #These files are very short and the only thing that needs to change is the pointer to the skill's new file path from being shuffled
+                        if line.startswith(("buffSkillName,")):
+                            line = simple_line_fix(line, ("records/skills/" + targetClassSkill[0] + "/" + targetClassSkill[1] + ";"))
+                        f2.write(line)
+
                 index += 1
-                if not (index < dangerIndex):
-                    index = startingIndex
-            groupIndex += 1
+                # if not (index < dangerIndex):
+                #     index = startingIndex
+            # groupIndex += 1
             
         #Delete the tempStorage so it doesn't extend build time
         shutil.rmtree(tempStoragePath)
@@ -306,9 +340,22 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
             path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage",slot_data["enemy_table"][index])
             path2 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies",targetName)
             print(" Enemy Rando: Source -> Target: " + slot_data["enemy_table"][index] + " -> " + targetName, end='\r\n')
+            #open the file we'll soon be writing to and extract some variable info to write back into it later, preserving certain variables we don't want to change
+            ftemp = open(path2, 'r')
+            factions = ""
+            for line in ftemp:
+                if line.startswith(("factions,")):
+                    words = line.split(",",2)
+                    factions = words[1]
+                    #logger.info("factions = " + factions)
+            ftemp.close()
+            #Now the file can be overwritten with the new enemy
             f1 = open(path1, 'r')
             f2 = open(path2, 'w')
             for line in f1:
+                #Preserve enemy factions to reduce infighting
+                if line.startswith(("factions,")):
+                    line = simple_line_fix(line, factions + ";")
                 #Make all enemies give exp
                 if line.startswith(("giveXP,")):
                     line = simple_line_fix(line, "1;")
@@ -336,14 +383,14 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
                 #             line = line + words[1]
                 #     line = line[:-1] + ",\n"
                 #Makes enemies only ever alerted by the player, making them not fight each other
-                if line.startswith(("angerMultiplier")):
-                    line = simple_line_fix(line, "0;")
-                if line.startswith(("causesAnger")):
-                    line = simple_line_fix(line, "0;")
-                if line.startswith(("distressCallRange")):
-                    line = simple_line_fix(line, "100;")
-                if line.startswith(("distressCall")):
-                    line = simple_line_fix(line, "1;")
+                # if line.startswith(("angerMultiplier")):
+                #     line = simple_line_fix(line, "0;")
+                # if line.startswith(("causesAnger")):
+                #     line = simple_line_fix(line, "0;")
+                # if line.startswith(("distressCallRange")):
+                #     line = simple_line_fix(line, "100;")
+                # if line.startswith(("distressCall")):
+                #     line = simple_line_fix(line, "1;")
                 #The remaining lines are buffing/nerfing enemies based on chosen options
                 if slot_data.get("buff_enemies",2) != 2:
                     #Action speed
@@ -443,35 +490,82 @@ class ProxyGameContext(CommonContext):
             installPath = GrimDawnWorld.settings.grimDawnInstallPath
             print(f"Grim Dawn install path is: {installPath}")
 
-        # Second confirm that arzedit is in the grim dawn root folder
-
+        # Second confirm that the mod is a supported version for this apworld
+            dontContinue = False
+            
             #isfile returns true if the file is found, join adds a slash (os specific) between the arguments
+            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","ver.txt")):
+                logger.info("Missing mod files. Make sure you are using the latest mod.")
+                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\ver.txt")
+                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
+
+            #Version file found, now read the file to find the version number
+            else:
+                modVersion = 0
+                f_ver = open(os.path.join(installPath,"mods","archipelago","database","ver.txt"), 'r')
+                for line in f_ver:
+                    if line.startswith(("version,")):
+                        words = line.split(",")
+                        modVersion = float(words[1])
+                f_ver.close()
+                if modVersion < minimumSupportedVersion:
+                    logger.info(f"Mod version {modVersion} not supported, need at least v{minimumSupportedVersion}")
+                    dontContinue = True
+
+        # Third  confirm that all the required files for archipelago grim dawn are installed correctly
+
             if not os.path.isfile(os.path.join(installPath,"arzedit.exe")):
                 logger.info("arzedit is not in your Grim Dawn install directory.")
+                logger.info(r"Expected path: ...\Grim Dawn\arzedit.exe")
                 logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
 
-        # Third  confirm that the archipelago mod for grim dawn is installed correctly
-
-            elif not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","Archipelago.arz")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed.")
+            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","Archipelago.arz")):
+                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
                 logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\Archipelago.arz")
                 logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
             
-            elif not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Conversations.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed.")
+            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Conversations.arc")):
+                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
                 logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Conversations.arc")
                 logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
             
-            elif not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Quests.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed.")
+            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Quests.arc")):
+                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
                 logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Quests.arc")
                 logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
             
-            elif not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Scripts.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed.")
+            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Scripts.arc")):
+                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
                 logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Scripts.arc")
                 logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
             
+            if not os.path.isfile(os.path.join(installPath,"lua51.dll")):
+                logger.info("Missing lua51.dll in your Grim Dawn install directory")
+                logger.info(r"Expected path: ...\Grim Dawn\lua51.dll")
+                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
+            
+            if not os.path.isfile(os.path.join(installPath,"real_lua51.dll")):
+                logger.info("Missing real_lua51.dll in your Grim Dawn install directory")
+                logger.info(r"Expected path: ...\Grim Dawn\real_lua51.dll")
+                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
+            
+            if not os.path.isfile(os.path.join(installPath,"lua-apclientpp.dll")):
+                logger.info("Missing lua-apclientpp.dll in your Grim Dawn install directory")
+                logger.info(r"Expected path: ...\Grim Dawn\lua-apclientpp.dll")
+                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                dontContinue = True
+            
+            if dontContinue == True:
+                logger.info("Patching aborted.")
+
             else:
                 logger.info("Grim Dawn Archipelago installation found.")
                 logger.info("Patching game. Please wait 30 seconds before starting a save file.")
@@ -510,7 +604,10 @@ def launch(*args):
     parser = get_base_parser(
         description="Grim Dawn Archipelago Client."
         )
+    parser.add_argument("url", nargs="?", help="Archipelago Webhost url to auto connect to.")
     args = parser.parse_args(args)
+
+    args = handle_url_arg(args, parser=parser)
 
     colorama.init()
     print(args) #TODO DEBUG
