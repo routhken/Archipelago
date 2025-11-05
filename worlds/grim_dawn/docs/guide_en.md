@@ -13,8 +13,9 @@
 11. If you live in the US skip to step 12, otherwise go Control Panel -> Change date, time or number formats -> Format drop down menu -> English (United States). You can set it back once patching is done.
 12. In the archipelago launcher, open the Grim Dawn Client, and connect to your slot through the client. If everything is in the correct place, the client will say installation found, patching game please wait 30 seconds before loading a character. If you have a lot of apworlds in your custom_worlds folder, the client might be unresponsive for a while before it patches the game.
 13. Launch the game using the 32-bit launcher, either by using the 32-bit launcher in Steam, or launching from the Grim Dawn executable in the main Grim Dawn install directory (not in the x64 folder). At the main menu, select the Custom Game tab -> Custom Game bubble -> "patchedArchipelago ~ world001.map"
-14. The patch will remember the last connect credentials given through the client, so if you are connecting to the same slot and port again, then you don't need to run the client again.
-15. OPTIONAL to use the tracker, you will first need to download poptracker from https://github.com/black-sliver/PopTracker/releases and simply extract it somewhere. Get the grim dawn pack from https://github.com/routhken/Grim_Dawn_tracker/releases don't extract it, just put the zip file in poptracker/packs folder.
+14. The game should connect to the server as soon as you load into a world. If not, talk to Jarvis or Bourbon.
+15. The patch will remember the last connect credentials given through the client, so if you are connecting to the same slot and port again, then you don't need to run the client again.
+16. OPTIONAL to use the tracker, you will first need to download poptracker from https://github.com/black-sliver/PopTracker/releases and simply extract it somewhere. Get the grim dawn pack from https://github.com/routhken/Grim_Dawn_tracker/releases don't extract it, just put the zip file in poptracker/packs folder.
 
 # FAQ / Troubleshooting
 

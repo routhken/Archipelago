@@ -23,9 +23,11 @@ minimumSupportedVersion = 2.4
 
 class GrimDawnCommandProcessor(ClientCommandProcessor):
     def _cmd_debug_patch(self):
+        """Patch game with default connect credentials and slot data"""
         self.ctx.patch_game({})
 
     def _cmd_list_enemies(self):
+        """List enemy rando table"""
         if "enemy_table" in self.ctx.slot_data:
             for enemy in self.ctx.slot_data["enemy_table"]:
                 logger.info(f"Enemy entry: {enemy}")
@@ -33,6 +35,7 @@ class GrimDawnCommandProcessor(ClientCommandProcessor):
             logger.info("Enemy Table does not exist in this slot data.")
 
     def _cmd_list_skills(self):
+        """List skill rando table"""
         if "skill_balance_table" in self.ctx.slot_data:
             for skill in self.ctx.slot_data["skill_balance_table"]:
                 logger.info(f"Enemy entry: {skill}")
@@ -496,7 +499,7 @@ class ProxyGameContext(CommonContext):
             #isfile returns true if the file is found, join adds a slash (os specific) between the arguments
             if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","ver.txt")):
                 logger.info("Missing mod files. Make sure you are using the latest mod.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\ver.txt")
+                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\ver.txt")
                 logger.info(f"Current Grim Dawn install directory: {installPath}")
                 dontContinue = True
 
