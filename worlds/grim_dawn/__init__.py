@@ -20,7 +20,7 @@ from worlds.LauncherComponents import (
 )
 import json
 
-#release version 0.3.0
+#release version 0.3.1
 
 class GrimDawnSettings(Group):
     class Grim_Dawn_Install_Path(FolderPath):
