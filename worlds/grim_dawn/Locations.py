@@ -722,6 +722,13 @@ _location_data_list: list[tuple[str,str,int,Optional[Callable[[GrimDawnWorld], b
     ("A Terrible Discovery",                                "Act 4",                        220689,                       lambda world: (world.options.faction.value == 1) and (world.options.lore.value == 1) and (world.options.goal.value >= 3)),
     ("Journal of Inquisitor Creed - 10th Entry",            "Candle District",              220690,                       lambda world: (world.options.lore.value == 1) and (world.options.goal.value >= 4) and (world.options.dlc_aom.value == 1)),
     ("Nearan's Work Log",                                   "Act 9",                        220691,                       lambda world: (world.options.faction.value == 1) and (world.options.lore.value == 1) and (world.options.goal.value >= 4) and (world.options.dlc_aom.value == 1)),
+    ("Hallowed Hill Devotion Shrine",                       "Act 1",                        220692,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1)),
+    ("Stonerend Quarry Devotion Shrine",                    "Act 4",                        220693,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1) and (world.options.goal.value >= 3)),
+    ("Desolate Wastes Devotion Shrine",                     "Act 8",                        220694,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1) and (world.options.goal.value >= 4)),
+    ("Barrowholm Mine Devotion Shrine",                     "Act 7",                        220695,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1) and (world.options.goal.value >= 4)),
+    ("Den of the Ancient Devotion Shrine",                  "Den of the Ancient",           220696,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1) and (world.options.goal.value >= 4)),
+    ("The Infestation Devotion Shrine",                     "Fleshworks",                   220697,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1) and (world.options.goal.value >= 4)),
+    ("The Hidden Path Devotion Shrine",                     "Act 1",                        220698,                       lambda world: (world.options.devotion_shrine.value == 1) and (world.options.dlc_fg.value == 1)),
 ]
 
 

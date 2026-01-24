@@ -43,6 +43,7 @@ class GrimDawnCommandProcessor(ClientCommandProcessor):
             logger.info("Skill Balance Table does not exist in this slot data.")
 
     #def _cmd_goal_game(self):
+    #    """Goal the game"""
     #    self.ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
 def simple_line_fix(line_to_fix, fix_value):
@@ -568,6 +569,7 @@ class ProxyGameContext(CommonContext):
             
             if dontContinue == True:
                 logger.info("Patching aborted.")
+                logger.info("If the current install directory is wrong, you can change it in the host.yaml in your archipelago install folder.")
 
             else:
                 logger.info("Grim Dawn Archipelago installation found.")

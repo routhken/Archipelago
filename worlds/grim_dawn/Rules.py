@@ -181,6 +181,7 @@ class GrimDawnRules:
             "A Terrible Discovery":                             lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Journal of Inquisitor Creed - 10th Entry":         lambda state: state.can_reach_location("Warden Krieg",self.player) and state.can_reach_location("The Amalgamation",self.player) and state.can_reach_location("The Loghorrean",self.player),
             "Nearan's Work Log":                                lambda state: state.can_reach_location("Warden Krieg",self.player) and state.can_reach_location("The Amalgamation",self.player) and state.can_reach_location("The Loghorrean",self.player),
+            "The Hidden Path Devotion Shrine":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
 
         }
 
