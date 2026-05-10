@@ -20,8 +20,6 @@ from worlds.LauncherComponents import (
 )
 import json
 
-#release version 0.3.1
-
 class GrimDawnSettings(Group):
     class Grim_Dawn_Install_Path(FolderPath):
         """Path to Grim Dawn install directory"""
@@ -72,8 +70,26 @@ class GrimDawnWorld(World):
     local_relic_table: List[str]
     settings: ClassVar[GrimDawnSettings]
     skill_balance_table: Dict[str, Dict[str, Dict[str, any]]]
+    # UT Support
     tracker_world = {"external_pack_key": "grimDawnPoptrackerPackPath", "map_page_maps": "maps/maps.json", "map_page_locations": "locations/locations.json"}
     glitches_item_name = "outOfLogicItem"
+
+    def scout_hints(self) -> dict:
+        hintData = {}
+        for region in self.get_regions():
+            progressionCount = 0
+            for location in region.locations:
+                if location.item.advancement:
+                    progressionCount += 1
+                    hintData[location.name] = location.item.player
+            # # Just assigns a prog count to every region name
+            # hintData[region] = progressionCount
+            # if progressionCount == 0:
+            #     # it would be FOOLISH to explore this region
+            #     hintData[region.name] = False
+            # else:
+            #     # it would be wise to explore this region
+            #     hintData[region.name] = True
 
     def create_item(self, name: str) -> GrimDawnItem:
         if name == self.glitches_item_name:
@@ -102,7 +118,7 @@ class GrimDawnWorld(World):
         if self.options.progressive_progression == True:
             # Create generic progression items to replace the named ones
             main_quantity = 0
-            fg_quantity = 1
+            fg_quantity = 0
             aom_quantity = 0
 
             if (self.options.goal == "beat_warden") or (self.options.goal == "beat_korvaak"):
@@ -235,25 +251,25 @@ class GrimDawnWorld(World):
             return handle_list(prog_aom)
         return super().collect_item(state,item,remove)
 
-    def write_spoiler(self, spoiler_handle):
-        spoiler_handle.write("\nSkill Shuffle Table for player " + self.player_name + ":\n")
-        spoiler_handle.write(json.dumps(self.skill_shuffle_table, indent=4))
-        spoiler_handle.write("\nSkill Balance Table for player " + self.player_name + ":\n")
-        spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
-        spoiler_handle.write("\nDevotion Balance Table for player " + self.player_name + ":\n")
-        spoiler_handle.write(json.dumps(self.devotion_balance_table, indent=4))
-        spoiler_handle.write("\nEnemy Table for player " + self.player_name + ":\n")
-        spoiler_handle.write(json.dumps(self.enemy_table, indent=4))
+    # def write_spoiler(self, spoiler_handle):
+    #     spoiler_handle.write("\nSkill Shuffle Table for player " + self.player_name + ":\n")
+    #     spoiler_handle.write(json.dumps(self.skill_shuffle_table, indent=4))
+    #     spoiler_handle.write("\nSkill Balance Table for player " + self.player_name + ":\n")
+    #     spoiler_handle.write(json.dumps(self.skill_balance_table, indent=4))
+    #     spoiler_handle.write("\nDevotion Balance Table for player " + self.player_name + ":\n")
+    #     spoiler_handle.write(json.dumps(self.devotion_balance_table, indent=4))
+    #     spoiler_handle.write("\nEnemy Table for player " + self.player_name + ":\n")
+    #     spoiler_handle.write(json.dumps(self.enemy_table, indent=4))
 
     def generate_basic(self) -> None:
         if not self.options.skill_shuffler:
             self.skill_shuffle_table = {}
         else:
             self.skill_shuffle_table = generateSkillShuffleTable(self)
-        if not self.options.skill_balance_randomizer:
-            self.skill_balance_table = {}
-        else:
-            self.skill_balance_table = generateSkillPatchTable(self)
+        # if not self.options.skill_balance_randomizer:
+        #     self.skill_balance_table = {}
+        # else:
+        self.skill_balance_table = generateSkillPatchTable(self)
         if not self.options.devotion_balance_randomizer:
             self.devotion_balance_table = {}
         else:
@@ -262,6 +278,11 @@ class GrimDawnWorld(World):
             self.enemy_table = []
         else:
             self.enemy_table = generateEnemyTable(self)
+        # if not self.options.hint_scouts:
+        #     self.hint_scouts_dict = {}
+        # else:
+        #     self.hint_scouts_dict = self.scout_hints()
+        self.ap_world_version = "0.4.0" #release version
 
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
@@ -275,6 +296,7 @@ class GrimDawnWorld(World):
             "secret_chest": self.options.secret_chest.value,
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
+            "block_flooded_passage": self.options.block_flooded_passage.value,
             "progressive_progression":self.options.progressive_progression.value,
             "dlc_aom": self.options.dlc_aom.value,
             "dlc_fg": self.options.dlc_fg.value,
@@ -296,12 +318,20 @@ class GrimDawnWorld(World):
             "skill_balance_preserve_defense": self.options.skill_balance_preserve_defense.value,
             "skill_balance_preserve_summons": self.options.skill_balance_preserve_summons.value,
             "skill_balance_preserve_speed": self.options.skill_balance_preserve_speed.value,
+            "pets_forever": self.options.pets_forever.value,
+            "ultra_rapid_fire": self.options.ultra_rapid_fire.value,
             "starting_skill_points": self.options.starting_skill_points.value,
             "free_skill_respec": self.options.free_skill_respec.value,
+            "easy_shrine_cost": self.options.easy_shrine_cost.value,
             "enemy_randomizer": self.options.enemy_randomizer.value,
             "enemy_table": self.enemy_table,
             "dangerous_enemies": self.options.dangerous_enemies.value,
             "buff_enemies": self.options.buff_enemies.value,
+            "third_person_camera": self.options.third_person_camera.value,
+            "generic_gear_quality": self.options.generic_gear_quality.value,
+            # "hint_scouts": self.options.hint_scouts.value,
+            # "hint_scouts_dict": self.hint_scouts_dict,
+            "ap_world_version": self.ap_world_version,
         }
 
         return dReturn

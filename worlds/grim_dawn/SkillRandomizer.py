@@ -110,7 +110,16 @@ fgSkills = [
 ]
 
 def gen_random_uniform_range(world: "GrimDawnWorld", key) -> float:
-    #First skip any attributes that are prohibited from being randomized per the options
+    #Ultra rapid fire: Set mana cost and cooldown to 15% value
+    if world.options.ultra_rapid_fire.value == 1:
+        if (world.options.skill_balance_preserve_mana.value == 0) and key in ("skillManaCost"):
+            return 0.15
+        if (world.options.skill_balance_preserve_cooldown.value == 0) and key in ("skillCooldownTime","cooldownTime"):
+            return 0.15
+    #Skip everything if balance rando is off
+    if world.options.skill_balance_randomizer.value == 0:
+        return 1
+    #Skip any attributes that are prohibited from being randomized per the options
     if world.options.skill_balance_preserve_damage.value and key in ("offensiveSlowBleedingMin","weaponDamagePct","offensiveCritDamageModifier","offensiveElementalMin","offensiveDamageMultModifier","offensivePhysicalMin",
                                                              "offensiveSlowBleedingModifier","offensiveSlowPhysicalMin","offensiveSlowPhysicalModifier","conversionPercentage","offensivePhysicalModifier","offensiveColdMax",
                                                              "characterOffensiveAbility","offensiveTotalDamageModifier","offensivePhysicalMax","retaliationPhysicalMin","offensiveSlowPhysicalMax","offensiveFireMin",

@@ -26,7 +26,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Gr
     ("Flooded Passage Destroy Blockade",                    ItemClassification.progression,                  219992,                       1,                            None),
     ("Lower Crossing Destroy Blockade",                     ItemClassification.progression,                  219993,                       1,                            None),
     ("East Marsh Bridge Repair",                            ItemClassification.progression,                  219994,                       1,                            None),
-    ("Warden Boss Door Unlock",                             ItemClassification.progression,                  219995,                       1,                            lambda world: (world.options.progressive_progression.value == False)),
+    ("Warden Boss Door Unlock",                             ItemClassification.progression,                  219995,                       1,                            lambda world: (not ((world.options.progressive_progression.value == True) and (world.options.dlc_fg.value == 1) and ((world.options.goal.value > 0))))),
     ("Arkovia Bridge Repair",                               ItemClassification.progression,                  219996,                       1,                            lambda world: (world.options.goal.value >= 2) and (world.options.progressive_progression.value == False)),
     ("Arkovian Foothills Destroy Barricade",                ItemClassification.progression,                  219997,                       1,                            lambda world: (world.options.goal.value >= 2) and (world.options.progressive_progression.value == False)),
     ("New Harbor Destroy Barricade",                        ItemClassification.progression,                  219998,                       1,                            lambda world: (world.options.goal.value >= 2) and ((world.options.secret_chest.value == 1))),
@@ -58,7 +58,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Gr
     ("Crown Hill Destroy Gates",                            ItemClassification.progression,                  220024,                       1,                            lambda world: (world.options.goal.value >= 4) and (world.options.progressive_progression.value == False) and (world.options.dlc_aom.value == 1)),
     ("Crown Hill Open Flesh Barrier",                       ItemClassification.progression,                  220025,                       1,                            lambda world: (world.options.goal.value >= 4) and (world.options.progressive_progression.value == False) and (world.options.dlc_aom.value == 1)),
     ("Fleshworks Open Flesh Barrier",                       ItemClassification.progression,                  220026,                       1,                            lambda world: (world.options.goal.value >= 4) and (world.options.progressive_progression.value == False) and (world.options.dlc_aom.value == 1)),
-    ("Wightmire Bridge Repair",                             ItemClassification.useful,                       220027,                       1,                            None),
+    ("Wightmire Bridge Repair",                             ItemClassification.progression,                  220027,                       1,                            None),
     ("Malmouth Harbor Shortcut",                            ItemClassification.useful,                       220028,                       1,                            lambda world: (world.options.goal.value >= 4) and (world.options.dlc_aom.value == 1)),
     ("Skill Points",                                        ItemClassification.useful,                       220029,                       0,                            lambda world: False),
     ("Aether Crystals",                                     ItemClassification.filler,                       220030,                       0,                            lambda world: False),
@@ -70,7 +70,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Gr
     ("Imbued Silver",                                       ItemClassification.filler,                       220036,                       0,                            lambda world: False),
     ("Spellwoven Threads",                                  ItemClassification.filler,                       220037,                       0,                            lambda world: False),
     ("Ectoplasm",                                           ItemClassification.filler,                       220038,                       0,                            lambda world: False),
-    ("Reinforced Shell",                                    ItemClassification.filler,                       220039,                       0,                            lambda world: False),
+    ("Serrated Shell",                                      ItemClassification.filler,                       220039,                       0,                            lambda world: False),
     ("Riftstone",                                           ItemClassification.filler,                       220040,                       0,                            lambda world: False),
     ("Rigid Shell",                                         ItemClassification.filler,                       220041,                       0,                            lambda world: False),
     ("Severed Claw",                                        ItemClassification.filler,                       220042,                       0,                            lambda world: False),
@@ -140,6 +140,7 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Gr
     ("Camera Shake Trap",                                   ItemClassification.trap,                         220106,                       0,                            None),
     ("Slowness Trap",                                       ItemClassification.trap,                         220107,                       0,                            None),
     ("Scrap",                                               ItemClassification.filler,                       220108,                       0,                            None),
+    ("Literature Trap",                                     ItemClassification.trap,                         220109,                       0,                            None),
 ]
 
 relic_table = [
@@ -173,7 +174,7 @@ _filler_data_table={
     "Imbued Silver":1,
     "Spellwoven Threads":1,
     "Ectoplasm":1,
-    "Reinforced Shell":1,
+    "Serrated Shell":1,
     "Riftstone":1,
     "Rigid Shell":1,
     "Arcane Lens":1,

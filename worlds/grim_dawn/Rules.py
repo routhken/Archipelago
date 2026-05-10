@@ -23,15 +23,17 @@ class GrimDawnRules:
         self.player = world.player
 
         self.region_rules = {
-            "Act 1 -> Devil's Aquifer": lambda state:
+            "Act 1 First Half -> Devil's Aquifer": lambda state:
                 self.has_scrap(state,5) or state.has(world.glitches_item_name,self.player),
-            "Act 1 -> Sunken Reliquary": lambda state:
+            "Act 1 First Half -> Sunken Reliquary": lambda state:
                 state.has("Flooded Passage Destroy Blockade",self.player),
-            "Act 1 -> East Marsh": lambda state:
+            "Act 1 First Half -> Act 1 Second Half": lambda state:
+                state.has("Wightmire Bridge Repair",self.player) or not world.options.block_flooded_passage.value,
+            "Act 1 Second Half -> East Marsh": lambda state:
                 state.has("East Marsh Bridge Repair",self.player),
-            "Act 1 -> Warden's Cellar": lambda state:
+            "Act 1 Second Half -> Warden's Cellar": lambda state:
                 state.has("Warden Boss Door Unlock",self.player),
-            "Act 1 -> Act 2": lambda state:
+            "Act 1 First Half -> Act 2": lambda state:
                 state.has("Arkovia Bridge Repair",self.player),
 
             "Act 2 -> Act 3": lambda state:
@@ -49,8 +51,9 @@ class GrimDawnRules:
                 state.has("Homestead Main Doors Unlock",self.player),
             "Act 3 -> Steps of Torment": lambda state:
                 state.has("Forbidden Door Unlock", self.player),
-            "Act 3 -> Act 7": lambda state:
-                state.has("Gloomwald Destroy Blockade",self.player),
+            "Act 1 Second Half -> Act 7": lambda state:
+                (state.has("Gloomwald Destroy Blockade",self.player) and (state.has("Warden Boss Door Unlock",self.player) or state.has_all(["Arkovia Bridge Repair","Arkovian Foothills Destroy Barricade"],self.player))) or 
+                (state.has("Gloomwald Destroy Blockade",self.player) and state.has(world.glitches_item_name,self.player)),
             
             "Homestead Side Doors -> Royal Hive": lambda state:
                 state.has("Royal Hive Queen Door Unlock",self.player),
@@ -98,8 +101,6 @@ class GrimDawnRules:
                 state.has("Fleshworks Open Flesh Barrier", self.player),
             "Act 10 -> Act 11": lambda state:
                 state.has("Vanguard of the Three Door Unlock",self.player),
-            "Act 10 -> Act 7": lambda state:
-                state.has("Gloomwald Destroy Blockade",self.player),
             
             "Act 11 -> Lost Oasis": lambda state:
                 state.has_all(["Valley of the Chosen Destroy Barrier","Forbidden Door Unlock"],self.player),
@@ -137,7 +138,7 @@ class GrimDawnRules:
             "Dangerous Curiosity":                              lambda state: state.has("Devil's Crossing Revered",self.player),
             "Ellena, the First Slith":                          lambda state: state.has("Devil's Crossing Revered",self.player),
             "Guardian of Solael":                               lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
-            "Making a Deal":                                    lambda state: state.can_reach_location("Warden Krieg",self.player) and state.can_reach_location("The Amalgamation",self.player),
+            "Making a Deal":                                    lambda state: state.has("Homestead Revered",self.player) and state.can_reach_location("Warden Krieg",self.player) and state.can_reach_location("The Amalgamation",self.player),
             "Death's Vigil - Kymon's Chosen Faction Quest 1":   lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Death's Vigil - Kymon's Chosen Faction Quest 2":   lambda state: state.has("Homestead Side Doors Unlock",self.player),
             "Noveria Stormfire - Master Ravok":                 lambda state: state.has("Homestead Side Doors Unlock",self.player),

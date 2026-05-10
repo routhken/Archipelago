@@ -8,14 +8,15 @@ class GrimDawnRegionData(NamedTuple):
 
 
 region_data_table: Dict[str, GrimDawnRegionData] = {
-    "Menu":                     GrimDawnRegionData(connecting_regions=["Act 1"]),
-    "Act 1":                    GrimDawnRegionData(connecting_regions=["Sunken Reliquary","East Marsh","Act 2","Devil's Aquifer","Warden's Cellar"]),
+    "Menu":                     GrimDawnRegionData(connecting_regions=["Act 1 First Half"]),
+    "Act 1 First Half":         GrimDawnRegionData(connecting_regions=["Sunken Reliquary","Act 2","Devil's Aquifer","Act 1 Second Half"]),
+    "Act 1 Second Half":        GrimDawnRegionData(connecting_regions=["East Marsh","Warden's Cellar","Act 7"]),
     "Devil's Aquifer":          GrimDawnRegionData(connecting_regions=[]),
     "Sunken Reliquary":         GrimDawnRegionData(connecting_regions=[]),
     "East Marsh":               GrimDawnRegionData(connecting_regions=["Temple of the Three"]),
     "Warden's Cellar":          GrimDawnRegionData(connecting_regions=["Act 10"]),
     "Act 2":                    GrimDawnRegionData(connecting_regions=["Act 3"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
-    "Act 3":                    GrimDawnRegionData(connecting_regions=["Devil's Aquifer","Steps of Torment","Port Valbury","Four Hills Secret","Tyrant's Hold","Homestead Side Doors","Act 4","Act 7"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
+    "Act 3":                    GrimDawnRegionData(connecting_regions=["Devil's Aquifer","Steps of Torment","Port Valbury","Four Hills Secret","Tyrant's Hold","Homestead Side Doors","Act 4"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
     "Steps of Torment":         GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2) and (multiworld.worlds[player].options.forbidden_dungeons)),
     "Four Hills Secret":        GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2) and (multiworld.worlds[player].options.secret_chest)),
     "Tyrant's Hold":            GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 2)),
@@ -41,7 +42,7 @@ region_data_table: Dict[str, GrimDawnRegionData] = {
     "Crown Hill":               GrimDawnRegionData(connecting_regions=["Fleshworks"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 4)),
     "Fleshworks":               GrimDawnRegionData(connecting_regions=["Sanctum of Flesh"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 4)),
     "Sanctum of Flesh":         GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.goal.value >= 4)),
-    "Act 10":                   GrimDawnRegionData(connecting_regions=["Act 7","Act 11","Devil's Aquifer"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg)),
+    "Act 10":                   GrimDawnRegionData(connecting_regions=["Act 11","Devil's Aquifer"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg)),
     "Act 11":                   GrimDawnRegionData(connecting_regions=["Devil's Aquifer","Lost Oasis","Tomb of the Eldritch Sun"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg.value)),
     "Lost Oasis":               GrimDawnRegionData(connecting_regions=[],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg) and (multiworld.worlds[player].options.forbidden_dungeons)),
     "Tomb of the Eldritch Sun": GrimDawnRegionData(connecting_regions=["The Eldritch Gate"],can_create=lambda multiworld, player: (multiworld.worlds[player].options.dlc_fg)),

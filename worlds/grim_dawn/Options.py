@@ -55,7 +55,7 @@ class GrimDawnForbiddenDungeons(Toggle):
     display_name="Forbidden Dungeons"
 
 class GrimDawnOneShot(Toggle):
-    """Enable One Shot Chests as locations"""
+    """Enable One Shot (aka Exalted) Chests as locations"""
     display_name="One Shot Chests"
 
 class GrimDawnFactionQuests(Toggle):
@@ -81,6 +81,12 @@ class GrimDawnLore(Toggle):
     """
     display_name="Lore"
 
+class GrimDawnBlockFloodedPassage(Toggle):
+    """
+    If enabled, blocks the exit in Flooded Passage, spliting act 1 in two and logically requiring Wightmire Bridge Repair to proceed.
+    """
+    display_name="Block Flooded Passage Exit"
+
 class GrimDawnProgressiveProgression(Toggle):
     """If enabled, will convert major progression items into generic progression items so that major progression will always be unlocked in order.
     For example, Arkovia Bridge Repair and Arkovian Foothills Barricade Destroy will be converted into two Progressive Main Campaign items
@@ -98,7 +104,9 @@ class GrimDawnFGDLC(Toggle):
 
 class GrimDawnSkillShuffle(Toggle):
     """Randomize player class's skills. Player class skills are divided into groups and the skill groups are shuffled among themselves.
-    Therefore active skills are shuffled amoung themselves, passive skills which reserve mana are shuffled among themselves, etc."""
+    Therefore active skills are shuffled amoung themselves, passive skills which reserve mana are shuffled among themselves, etc.
+    There is no guaranteed usability between skills and modifiers shuffled this way, for example a modifier which increases projectile
+    damage will likely have no effect on Horn of Gandarr."""
     display_name="Skill Shuffler"
 
 class GrimDawnSkillBalance(Toggle):
@@ -210,6 +218,16 @@ class GrimDawnSBPreserveSpeed(Toggle):
     Has no effect if Skill/Devotion Balance Randomizer is disabled."""
     display_name="Skill Balance Preserve Speed"
 
+class GrimDawnPetsLiveForever(Toggle):
+    """If enabled, all pets, totems and traps live a very long time.
+    If skill balance rando is also enabled, this takes priority."""
+    display_name="Summons Live Forever"
+
+class GrimDawnUltraRapidFire(Toggle):
+    """If enabled, all mana costs and cooldowns are reduced by 85% for players and enemies.
+    If skill balance rando is also enabled, this takes priority."""
+    display_name="Ultra Rapid Fire"
+
 class GrimDawnStartingSkillPoints(Toggle):
     """If enabled, you will receive 1 level up and 3 skill points when you first connect to the multiworld."""
     display_name="Starting Skill Points"
@@ -217,6 +235,10 @@ class GrimDawnStartingSkillPoints(Toggle):
 class GrimDawnFreeSkillRespec(Toggle):
     """If enabled, makes the skill respec NPCs cost nothing."""
     display_name="Free Skill Respec"
+
+class GrimDawnDevotionShrinesCostAether(Toggle):
+    """If enabled, devotion shrines that require an offering to restore will only require aether crystals, excluding the Mogdrogen shrine."""
+    display_name="Easy Shrine Offerings"
 
 class GrimDawnEnemyRandomizer(Toggle):
     """Randomize most non-boss enemies."""
@@ -228,7 +250,7 @@ class GrimDawnEnemyDangerous(Toggle):
 
 class GrimDawnEnemyBuffs(Choice):
     """
-    Increase enemy total speed, size, and add levels to their skills. Does not apply to bosses. Has no effect if enemy rando is disabled.
+    Increase enemy total speed, size, and add levels to their skills.
     weakest - 40% decreased action speed and size, -3 to all skills
     weaker - 15% decreased action speed and size, -1 to all skills
     none - no buffs
@@ -244,6 +266,31 @@ class GrimDawnEnemyBuffs(Choice):
     option_strongest = 4
     
     default = 2
+
+class GrimDawnThirdPersonCamera(Toggle):
+    """Changes the camera position to be behind you like in a 3rd person shooter/platformer."""
+    display_name="Third Person Camera"
+
+class GrimDawnGenericGearQuality(Choice):
+    """
+    Adjust the chance of generic gear drops to be more or less likey to have rare affixes.
+    Only affects loot that rolls as a generic gear drop, does not change the odds of loot rolling as
+    currency, crafting materia, epic/legendary gear, or monsters/events with scripted rare gear drops.
+    Becomes more noticeable beyond level 10.
+    """
+    display_name="Generic Gear Quality"
+
+    option_ruthless = 0
+    option_sparse = 1
+    option_unchanged = 2
+    option_generous = 3
+    option_luxurious = 4
+    
+    default = 2
+
+# class GrimDawnHintScouts(Toggle):
+#     """If enabled, certain NPCs will reveal if a region (for example Wightmire) contains a progression item or not."""
+#     display_name="Hint Scouts"
 
 class TrapPercentage(Range):
     """
@@ -264,7 +311,6 @@ class TrapWeights(OptionCounter):
     """
     Specify the weights determining how many copies of each trap item will be in your itempool.
     If you don't want a specific type of trap, you can set the weight for it to 0.
-    If you set all trap weights to 0, you will get no traps, bypassing the "Trap Percentage" option.
     """
     display_name = "Trap Weights"
     valid_keys = _default_trap_weights.keys()
@@ -283,6 +329,7 @@ class GrimDawnOptions(PerGameCommonOptions):
     secret_chest: GrimDawnSecretChest
     devotion_shrine: GrimDawnDevotionShrines
     lore: GrimDawnLore
+    block_flooded_passage: GrimDawnBlockFloodedPassage
     progressive_progression: GrimDawnProgressiveProgression
     faction: GrimDawnFactionQuests
     dlc_aom: GrimDawnAoMDLC
@@ -302,10 +349,16 @@ class GrimDawnOptions(PerGameCommonOptions):
     skill_balance_preserve_defense: GrimDawnSBPreserveDefense
     skill_balance_preserve_summons: GrimDawnSBPreserveSummon
     skill_balance_preserve_speed: GrimDawnSBPreserveSpeed
+    pets_forever: GrimDawnPetsLiveForever
+    ultra_rapid_fire: GrimDawnUltraRapidFire
     starting_skill_points: GrimDawnStartingSkillPoints
     free_skill_respec: GrimDawnFreeSkillRespec
+    easy_shrine_cost: GrimDawnDevotionShrinesCostAether
     enemy_randomizer: GrimDawnEnemyRandomizer
     dangerous_enemies: GrimDawnEnemyDangerous
+    third_person_camera: GrimDawnThirdPersonCamera
+    generic_gear_quality: GrimDawnGenericGearQuality
+    # hint_scouts: GrimDawnHintScouts
     buff_enemies: GrimDawnEnemyBuffs
     trap_percent: TrapPercentage
     trap_weights: TrapWeights
