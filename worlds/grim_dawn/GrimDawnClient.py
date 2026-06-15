@@ -462,7 +462,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
             levelModifier = 3
         for targetName in enemyListNonBoss:
             #If enemy rando is disabled or editing a summoned enemy, just pull info from the same file
-            if (not targetName.endswith("summon.dbr")) or (slot_data.get("enemy_randomizer",0) == 1):
+            if (not targetName.endswith("summon.dbr")) and (slot_data.get("enemy_randomizer",0) == 1):
                 path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage",slot_data["enemy_table"][index])
                 print(" Enemy Rando: Source -> Target: " + slot_data["enemy_table"][index] + " -> " + targetName, end='\r\n')
             else:
