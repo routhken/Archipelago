@@ -20,7 +20,9 @@ from Utils import messagebox
 DEBUG = False
 GAMENAME = "Grim Dawn"
 ITEMS_HANDLING = 0b000
-minimumSupportedVersion = 2.5
+minimumSupportedVersion = 2.5 #2.6 exists but it's all bug fixes
+apworldVersion = "0.4.1"
+supportedAPworldVersions = ("0.4.0","0.4.2")
 
 class GrimDawnCommandProcessor(ClientCommandProcessor):
     def _cmd_debug_patch(self):
@@ -459,8 +461,8 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
             speedMultiplier = 1.40
             levelModifier = 3
         for targetName in enemyListNonBoss:
-            #If enemy rando is disabled, just pull info from the same file
-            if slot_data.get("enemy_randomizer",0) == 1:
+            #If enemy rando is disabled or editing a summoned enemy, just pull info from the same file
+            if (not targetName.endswith("summon.dbr")) or (slot_data.get("enemy_randomizer",0) == 1):
                 path1 = os.path.join(installPath,"mods",patchedMod,"records","creatures","enemies","tempStorage",slot_data["enemy_table"][index])
                 print(" Enemy Rando: Source -> Target: " + slot_data["enemy_table"][index] + " -> " + targetName, end='\r\n')
             else:
@@ -705,11 +707,23 @@ class ProxyGameContext(CommonContext):
 
             if "ap_world_version" in (args["slot_data"]):
                 hostVersion = args["slot_data"]["ap_world_version"]
-                if hostVersion != "0.4.0":
-                    #Host version is newer than client version
-                    logger.info("Apworld version mismatch. Host apworld version is higher than yours. Features might be missing and compatability is not guaranteed.")
-                    logger.info(f"Host apworld version: {hostVersion}")
-                    logger.info(f"Your apworld version: 0.4.0")
+                if hostVersion != apworldVersion:
+                    # #Host version is different than client version
+                    # hostVersions = hostVersion.split(".")
+                    # clientVersions = apworldVersion.split(".")
+                    # versionDifference = (int(hostVersions[0]) * 1000000) + (int(clientVersions[0]) * -1000000) + (int(hostVersions[1]) * 1000) + (int(clientVersions[1]) * -1000) + (int(hostVersions[1])) + (int(clientVersions[1]) * -1)
+                    # if versionDifference > 0:
+                    #     #Host version is newer
+                    #     logger.info("Apworld version mismatch. Host apworld version is higher than yours. Features might be missing and compatability is not guaranteed.")
+                    # else:
+                    #     #Host version is older
+                    #     logger.info("Apworld version mismatch. Host apworld version is lower than yours. Features might be missing and compatability is not guaranteed.")
+                    if not (hostVersion in supportedAPworldVersions):
+                        logger.info("Apworld version mismatch. Host apworld version is different than yours. Features might be missing and compatability is not guaranteed.")
+                        logger.info(f"Host apworld version: {hostVersion}")
+                        logger.info(f"Your apworld version: {apworldVersion}")
+                else:
+                    logger.info(f"Host and your apworld version match: {apworldVersion}")
             else:
                 #Doesn't exist yet, so must be older than 0.4.0
                 logger.info("Host apworld version older than 0.4.0 and is incompatible with your apworld")

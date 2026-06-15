@@ -282,7 +282,8 @@ class GrimDawnWorld(World):
         #     self.hint_scouts_dict = {}
         # else:
         #     self.hint_scouts_dict = self.scout_hints()
-        self.ap_world_version = "0.4.0" #release version
+        from .GrimDawnClient import apworldVersion
+        self.ap_world_version = apworldVersion #release version
 
     def fill_slot_data(self) -> Dict[str,Any]:
         dReturn = {
