@@ -1,6 +1,7 @@
 import asyncio
 from .EnemyRandomizer import enemyListNonBoss, enemyDangerous
 from .SkillRandomizer import skillGroups
+from .RequiredFiles import verify_required_files
 from CommonClient import (
     CommonContext,
     gui_enabled,
@@ -646,65 +647,7 @@ class ProxyGameContext(CommonContext):
 
     # Third  confirm that all the required files for archipelago grim dawn are installed correctly
 
-        if not os.path.isfile(os.path.join(installPath,"arzedit.exe")):
-            logger.info("arzedit is not in your Grim Dawn install directory.")
-            logger.info(r"Expected path: ...\Grim Dawn\arzedit.exe")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","Archipelago.arz")):
-            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\Archipelago.arz")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Conversations.arc")):
-            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Conversations.arc")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Quests.arc")):
-            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Quests.arc")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Scripts.arc")):
-            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Scripts.arc")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"lua51.dll")):
-            logger.info("Missing lua51.dll in your Grim Dawn install directory")
-            logger.info(r"Expected path: ...\Grim Dawn\lua51.dll")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"real_lua51.dll")):
-            logger.info("Missing real_lua51.dll in your Grim Dawn install directory")
-            logger.info(r"Expected path: ...\Grim Dawn\real_lua51.dll")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if not os.path.isfile(os.path.join(installPath,"lua-apclientpp.dll")):
-            logger.info("Missing lua-apclientpp.dll in your Grim Dawn install directory")
-            logger.info(r"Expected path: ...\Grim Dawn\lua-apclientpp.dll")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        #Check if DLC files exist when DLC is enabled in slot data
-        if (bool(args["slot_data"]["dlc_aom"])) and not os.path.isfile(os.path.join(installPath,"gdx1","database","GDX1.arz")):
-            logger.info("Missing Ashes of Malmouth DLC in your Grim Dawn install directory while enabled in this slot")
-            logger.info(r"Expected path: ...\Grim Dawn\gdx1\database\GDX1.arz")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
-            dontContinue = True
-
-        if (bool(args["slot_data"]["dlc_fg"])) and not os.path.isfile(os.path.join(installPath,"gdx2","database","GDX2.arz")):
-            logger.info("Missing Forgotten Gods DLC in your Grim Dawn install directory while enabled in this slot")
-            logger.info(r"Expected path: ...\Grim Dawn\gdx2\database\GDX2.arz")
-            logger.info(f"Current Grim Dawn install directory: {installPath}")
+        if not verify_required_files(installPath, args["slot_data"]):
             dontContinue = True
 
         if "ap_world_version" in (args["slot_data"]):
