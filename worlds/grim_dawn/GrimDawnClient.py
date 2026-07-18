@@ -610,136 +610,138 @@ class ProxyGameContext(CommonContext):
         
     def on_package(self, cmd: str, args: dict):
         super().on_package(cmd, args)
-        if cmd == 'Connected':
-            from Utils import async_start
-            self.slot_data = args["slot_data"]
-            from worlds.LauncherComponents import launch_subprocess
-        # First  confirm the path to the grim dawn executable upon startup
-            from . import GrimDawnWorld
-            installPath = GrimDawnWorld.settings.grimDawnInstallPath
-            print(f"Grim Dawn install path is: {installPath}")
+        if cmd != 'Connected':
+            return
 
-        # Second confirm that the mod is a supported version for this apworld
-            dontContinue = False
-            
-            #isfile returns true if the file is found, join adds a slash (os specific) between the arguments
-            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","ver.txt")):
-                logger.info("Missing mod files. Make sure you are using the latest mod.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\ver.txt")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+        from Utils import async_start
+        self.slot_data = args["slot_data"]
+        from worlds.LauncherComponents import launch_subprocess
+    # First  confirm the path to the grim dawn executable upon startup
+        from . import GrimDawnWorld
+        installPath = GrimDawnWorld.settings.grimDawnInstallPath
+        print(f"Grim Dawn install path is: {installPath}")
+
+    # Second confirm that the mod is a supported version for this apworld
+        dontContinue = False
+
+        #isfile returns true if the file is found, join adds a slash (os specific) between the arguments
+        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","ver.txt")):
+            logger.info("Missing mod files. Make sure you are using the latest mod.")
+            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\ver.txt")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        #Version file found, now read the file to find the version number
+        else:
+            modVersion = 0
+            f_ver = open(os.path.join(installPath,"mods","archipelago","database","ver.txt"), 'r')
+            for line in f_ver:
+                if line.startswith(("version,")):
+                    words = line.split(",")
+                    modVersion = float(words[1])
+            f_ver.close()
+            if modVersion < minimumSupportedVersion:
+                logger.info(f"Mod version {modVersion} not supported, need at least v{minimumSupportedVersion}")
                 dontContinue = True
 
-            #Version file found, now read the file to find the version number
+    # Third  confirm that all the required files for archipelago grim dawn are installed correctly
+
+        if not os.path.isfile(os.path.join(installPath,"arzedit.exe")):
+            logger.info("arzedit is not in your Grim Dawn install directory.")
+            logger.info(r"Expected path: ...\Grim Dawn\arzedit.exe")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","Archipelago.arz")):
+            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
+            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\Archipelago.arz")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Conversations.arc")):
+            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
+            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Conversations.arc")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Quests.arc")):
+            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
+            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Quests.arc")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Scripts.arc")):
+            logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
+            logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Scripts.arc")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"lua51.dll")):
+            logger.info("Missing lua51.dll in your Grim Dawn install directory")
+            logger.info(r"Expected path: ...\Grim Dawn\lua51.dll")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"real_lua51.dll")):
+            logger.info("Missing real_lua51.dll in your Grim Dawn install directory")
+            logger.info(r"Expected path: ...\Grim Dawn\real_lua51.dll")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if not os.path.isfile(os.path.join(installPath,"lua-apclientpp.dll")):
+            logger.info("Missing lua-apclientpp.dll in your Grim Dawn install directory")
+            logger.info(r"Expected path: ...\Grim Dawn\lua-apclientpp.dll")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        #Check if DLC files exist when DLC is enabled in slot data
+        if (bool(args["slot_data"]["dlc_aom"])) and not os.path.isfile(os.path.join(installPath,"gdx1","database","GDX1.arz")):
+            logger.info("Missing Ashes of Malmouth DLC in your Grim Dawn install directory while enabled in this slot")
+            logger.info(r"Expected path: ...\Grim Dawn\gdx1\database\GDX1.arz")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if (bool(args["slot_data"]["dlc_fg"])) and not os.path.isfile(os.path.join(installPath,"gdx2","database","GDX2.arz")):
+            logger.info("Missing Forgotten Gods DLC in your Grim Dawn install directory while enabled in this slot")
+            logger.info(r"Expected path: ...\Grim Dawn\gdx2\database\GDX2.arz")
+            logger.info(f"Current Grim Dawn install directory: {installPath}")
+            dontContinue = True
+
+        if "ap_world_version" in (args["slot_data"]):
+            hostVersion = args["slot_data"]["ap_world_version"]
+            if hostVersion != apworldVersion:
+                # #Host version is different than client version
+                # hostVersions = hostVersion.split(".")
+                # clientVersions = apworldVersion.split(".")
+                # versionDifference = (int(hostVersions[0]) * 1000000) + (int(clientVersions[0]) * -1000000) + (int(hostVersions[1]) * 1000) + (int(clientVersions[1]) * -1000) + (int(hostVersions[1])) + (int(clientVersions[1]) * -1)
+                # if versionDifference > 0:
+                #     #Host version is newer
+                #     logger.info("Apworld version mismatch. Host apworld version is higher than yours. Features might be missing and compatability is not guaranteed.")
+                # else:
+                #     #Host version is older
+                #     logger.info("Apworld version mismatch. Host apworld version is lower than yours. Features might be missing and compatability is not guaranteed.")
+                if not (hostVersion in supportedAPworldVersions):
+                    logger.info("Apworld version mismatch. Host apworld version is different than yours. Features might be missing and compatability is not guaranteed.")
+                    logger.info(f"Host apworld version: {hostVersion}")
+                    logger.info(f"Your apworld version: {apworldVersion}")
             else:
-                modVersion = 0
-                f_ver = open(os.path.join(installPath,"mods","archipelago","database","ver.txt"), 'r')
-                for line in f_ver:
-                    if line.startswith(("version,")):
-                        words = line.split(",")
-                        modVersion = float(words[1])
-                f_ver.close()
-                if modVersion < minimumSupportedVersion:
-                    logger.info(f"Mod version {modVersion} not supported, need at least v{minimumSupportedVersion}")
-                    dontContinue = True
+                logger.info(f"Host and your apworld version match: {apworldVersion}")
+        else:
+            #Doesn't exist yet, so must be older than 0.4.0
+            logger.info("Host apworld version older than 0.4.0 and is incompatible with your apworld")
+            dontContinue = True
 
-        # Third  confirm that all the required files for archipelago grim dawn are installed correctly
+        if dontContinue == True:
+            logger.info("Patching aborted.")
+            logger.info("If the current install directory is wrong, you can change it in the host.yaml in your archipelago install folder.")
+            return
 
-            if not os.path.isfile(os.path.join(installPath,"arzedit.exe")):
-                logger.info("arzedit is not in your Grim Dawn install directory.")
-                logger.info(r"Expected path: ...\Grim Dawn\arzedit.exe")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-
-            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","Archipelago.arz")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\Archipelago.arz")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Conversations.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Conversations.arc")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Quests.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Quests.arc")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Scripts.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Scripts.arc")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"lua51.dll")):
-                logger.info("Missing lua51.dll in your Grim Dawn install directory")
-                logger.info(r"Expected path: ...\Grim Dawn\lua51.dll")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"real_lua51.dll")):
-                logger.info("Missing real_lua51.dll in your Grim Dawn install directory")
-                logger.info(r"Expected path: ...\Grim Dawn\real_lua51.dll")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"lua-apclientpp.dll")):
-                logger.info("Missing lua-apclientpp.dll in your Grim Dawn install directory")
-                logger.info(r"Expected path: ...\Grim Dawn\lua-apclientpp.dll")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            #Check if DLC files exist when DLC is enabled in slot data
-            if (bool(args["slot_data"]["dlc_aom"])) and not os.path.isfile(os.path.join(installPath,"gdx1","database","GDX1.arz")):
-                logger.info("Missing Ashes of Malmouth DLC in your Grim Dawn install directory while enabled in this slot")
-                logger.info(r"Expected path: ...\Grim Dawn\gdx1\database\GDX1.arz")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-
-            if (bool(args["slot_data"]["dlc_fg"])) and not os.path.isfile(os.path.join(installPath,"gdx2","database","GDX2.arz")):
-                logger.info("Missing Forgotten Gods DLC in your Grim Dawn install directory while enabled in this slot")
-                logger.info(r"Expected path: ...\Grim Dawn\gdx2\database\GDX2.arz")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-
-            if "ap_world_version" in (args["slot_data"]):
-                hostVersion = args["slot_data"]["ap_world_version"]
-                if hostVersion != apworldVersion:
-                    # #Host version is different than client version
-                    # hostVersions = hostVersion.split(".")
-                    # clientVersions = apworldVersion.split(".")
-                    # versionDifference = (int(hostVersions[0]) * 1000000) + (int(clientVersions[0]) * -1000000) + (int(hostVersions[1]) * 1000) + (int(clientVersions[1]) * -1000) + (int(hostVersions[1])) + (int(clientVersions[1]) * -1)
-                    # if versionDifference > 0:
-                    #     #Host version is newer
-                    #     logger.info("Apworld version mismatch. Host apworld version is higher than yours. Features might be missing and compatability is not guaranteed.")
-                    # else:
-                    #     #Host version is older
-                    #     logger.info("Apworld version mismatch. Host apworld version is lower than yours. Features might be missing and compatability is not guaranteed.")
-                    if not (hostVersion in supportedAPworldVersions):
-                        logger.info("Apworld version mismatch. Host apworld version is different than yours. Features might be missing and compatability is not guaranteed.")
-                        logger.info(f"Host apworld version: {hostVersion}")
-                        logger.info(f"Your apworld version: {apworldVersion}")
-                else:
-                    logger.info(f"Host and your apworld version match: {apworldVersion}")
-            else:
-                #Doesn't exist yet, so must be older than 0.4.0
-                logger.info("Host apworld version older than 0.4.0 and is incompatible with your apworld")
-                dontContinue = True
-            
-            if dontContinue == True:
-                logger.info("Patching aborted.")
-                logger.info("If the current install directory is wrong, you can change it in the host.yaml in your archipelago install folder.")
-
-            else:
-                logger.info("Grim Dawn Archipelago installation found.")
-                logger.info("Patching game. Please wait for a confirmation message to appear before starting a save file.")
-                launch_subprocess(patch_game, "patchgame", (self.username, self.server_address, self.password, installPath, args["slot_data"],))
-                #self.patch_game(self.username, self.server_address, self.password, args["slot_data"])
-                #await self.update_death_link(args["slot_data"]["deathlink"])
-                async_start(self.update_death_link(bool(args["slot_data"]["deathlink"])))
+        logger.info("Grim Dawn Archipelago installation found.")
+        logger.info("Patching game. Please wait for a confirmation message to appear before starting a save file.")
+        launch_subprocess(patch_game, "patchgame", (self.username, self.server_address, self.password, installPath, args["slot_data"],))
+        #self.patch_game(self.username, self.server_address, self.password, args["slot_data"])
+        #await self.update_death_link(args["slot_data"]["deathlink"])
+        async_start(self.update_death_link(bool(args["slot_data"]["deathlink"])))
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
