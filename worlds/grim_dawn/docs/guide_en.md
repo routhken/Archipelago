@@ -18,6 +18,8 @@
 16. The patch will remember the last connect credentials given through the client, so if you are connecting to the same slot and port again, then you don't need to run the client again.
 17. OPTIONAL to use the tracker, you will first need to download poptracker from https://poptracker.github.io and simply extract it somewhere. Get the grim dawn pack from https://github.com/routhken/Grim_Dawn_tracker/releases don't extract it, just put the zip file in poptracker/packs folder. Open poptracker and open the grim dawn pack
 
+The Grim Dawn thread in the Archipelago discord server is the best place to ask questions, get help, and provide feedback. Go to https://archipelago.gg and click the discord link.
+
 # Linux Instructions
 
 Instructions provided by Altener:
