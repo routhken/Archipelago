@@ -1,6 +1,6 @@
 # Grim Dawn AP Installation Instructions (Windows)
 
-1. Install Grim Dawn from steam.
+1. Install Grim Dawn from Steam.
 2. In the Grim Dawn install directory, rename the file "lua51.dll" to "real_lua51.dll"
 3. Download the lua51.dll file from Heinermann and place it in the install directory. https://github.com/heinermann/GrimDawnLuaUnlocker/releases/download/1.0/lua51.dll
 4. Download the lua51.7z under "lua-apclientpp v0.4.9" from Black Sliver's github https://github.com/black-sliver/lua-apclientpp/releases/tag/v0.4.9 Make sure these files actually download, sometimes they get flagged as dangerous by your browser.
@@ -11,11 +11,12 @@
 9. Download the grim_dawn.apworld https://github.com/routhken/Archipelago/releases and place it in your Archipelago apworld directory "...\Archipelago\custom_worlds" make sure there is no duplicate apworld in lib/worlds.
 10. Open the archipelago launcher, click Generate Template Options to create a template yaml for you to edit settings. Put the yaml in "...\Archipelago\Players" and click Generate.
 11. If you live in the US skip to step 12, otherwise go Control Panel -> Change date, time or number formats -> Format drop down menu -> English (United States). You can set it back once patching is done.
-12. In the archipelago launcher, open the Grim Dawn Client, and connect to your slot through the client. The first time you try to connect it will ask you to locate your Grim Dawn install directory, probably something like "C:\Steam\steamapps\common\Grim Dawn". If everything is in the correct place, the client will say installation found, patching game please wait 30 seconds before loading a character. If you have a lot of apworlds in your custom_worlds folder, the client might be unresponsive for a while before it patches the game.
-13. Launch the game using the 32-bit launcher, either by using the 32-bit launcher in Steam, or launching from the Grim Dawn executable in the main Grim Dawn install directory (not in the x64 folder). At the main menu, select the Custom Game tab -> Custom Game bubble -> "patchedArchipelago ~ world001.map"
-14. The game should connect to the server as soon as you load into a world. If not, talk to Jarvis or Bourbon.
-15. The patch will remember the last connect credentials given through the client, so if you are connecting to the same slot and port again, then you don't need to run the client again.
-16. OPTIONAL to use the tracker, you will first need to download poptracker from https://github.com/black-sliver/PopTracker/releases and simply extract it somewhere. Get the grim dawn pack from https://github.com/routhken/Grim_Dawn_tracker/releases don't extract it, just put the zip file in poptracker/packs folder. Open poptracker and open the grim dawn pack
+12. In the archipelago launcher, open the Grim Dawn Client, and connect to your slot through the client. The first time you try to connect it will ask you to locate your Grim Dawn install directory, probably something like "C:\Steam\steamapps\common\Grim Dawn". If everything is in the correct place, the client will say installation found, patching game please for a confirmation message to appear before loading a character. The client might be unresponsive for a while before it patches the game.
+13. Launch the game using the 32-bit launcher. Since July 2026 a hotifx made 64-bit the default, so you must launch through Steam by going to your Steam library and right click Grim Dawn -> Properties -> General -> Launch Option drop down window -> Grim Dawn (x86) Legacy. Now you can launch through Steam. Launching from the Grim Dawn executable in your install folder will NOT work, nor will a desktop shortcut. It has to be launched through Steam.
+14. At the main menu, select the Custom Game tab -> Custom Game bubble -> "patchedArchipelago ~ world001.map"
+15. The game should connect to the server as soon as you load into a world. If not, talk to Jarvis or Bourbon.
+16. The patch will remember the last connect credentials given through the client, so if you are connecting to the same slot and port again, then you don't need to run the client again.
+17. OPTIONAL to use the tracker, you will first need to download poptracker from https://poptracker.github.io and simply extract it somewhere. Get the grim dawn pack from https://github.com/routhken/Grim_Dawn_tracker/releases don't extract it, just put the zip file in poptracker/packs folder. Open poptracker and open the grim dawn pack
 
 # Linux Instructions
 
