@@ -75,7 +75,6 @@ class GrimDawnRules:
             "Tomb of the Watchers -> Edge of Madness": lambda state:
                 state.has("Loghorrean Seal Unlock",self.player),
             
-            
             "Act 7 -> Nane's Hideout": lambda state:
                 state.has("Nane's Hideout Destroy Barricade",self.player),
             "Act 7 -> Ancient Grove": lambda state:
@@ -109,8 +108,23 @@ class GrimDawnRules:
             "Tomb of the Eldritch Sun -> The Eldritch Gate": lambda state:
                 state.has("Eldritch Gate Destroy Barrier", self.player),
 
+            "Act 4 -> Frostveil Highlands": lambda state:
+                state.has("Fort Ikon Doorway Unlock", self.player),
+            "Frostveil Highlands -> Icebound Passage": lambda state:
+                state.has("Mark of Passage", self.player),
+            "Kurnhold -> Voldur River": lambda state:
+                state.has("High Cheiftain's Blessing", self.player),
+            "Ulo Springs -> Kruu'Sul Crags": lambda state:
+                state.has("Magma Sphere", self.player),
+            "Ulo Springs -> Ravager's Redoubt": lambda state:
+                state.has("Magma Sphere", self.player),
+            "Dread Wastes -> Glacial Grotto": lambda state:
+                state.has("Heart of the Void", self.player),
+            "Aurora Pinnacle -> Roof of the World": lambda state:
+                state.has("Ritual of Cleansing", self.player),
+            "Dread Wastes -> Bloodbound Bastion": lambda state:
+                state.has_all(["Magma Sphere","Kurn Revered"], self.player),
         }
-
         
         self.location_rules = {
             #Act 1 Locations

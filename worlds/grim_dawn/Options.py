@@ -9,10 +9,11 @@ class GrimDawnGoal(Choice):
     """
     The goal to accomplish in order to complete the game.
     Beat Warden - Find the Warden's Lab and defeat Warden Krieg
-    Beat Korvaak - Find the Tomb of the Eldritch Sun and defeat Korvaak (requires Forgotten Gods DLC)
+    Beat Korvaak - Enter the Tomb of the Eldritch Sun and defeat Korvaak (requires Forgotten Gods DLC)
     Beat Ravna - Find the Royal Hive under the Infested Croplands and defeat Swarm Queen Ravna
-    Beat Loghorrean - Find the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
+    Beat Loghorrean - Journey to the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
     Beat Master of Flesh - Find the Fleshworks in the ruined city and defeat The Master of Flesh (requires Ashes of Malmouth DLC)
+    Beat Beronath - Reach the Roof of the World and defeat Beronath (requires Fangs of Asterkarn DLC)
     Beat All Bosses - Find and defeat all of the above bosses (requires both DLC)
     Emblem Hunt - Find the Aetherial Emblems scattered throughout the multiworld
     """
@@ -23,6 +24,7 @@ class GrimDawnGoal(Choice):
     option_beat_ravna = 2
     option_beat_loghorrean = 3
     option_beat_master_of_flesh = 4
+    option_beat_beronath = 5
     option_beat_all_bosses = 50
     option_emblem_hunt = 51
 
@@ -101,6 +103,12 @@ class GrimDawnFGDLC(Toggle):
     """Enable locations inside the Forgotten Gods DLC (required for Korvaak goal)
     Beware that Forgotten Gods also requires you to own and have installed Ashes of Malmouth, even though you can still disable Ashes of Malmouth locations with the option above."""
     display_name="DLC: Forgotten Gods"
+
+class GrimDawnFoADLC(Toggle):
+    """Enable locations inside the Fangs of Asterkarn DLC (required for Beronath goal)
+    Beware that Fangs of Asterkarn also requires you to own and have installed both the Ashes of Malmouth and Forgotten Gods DLC
+    even though you can still disable Ashes of Malmouth locations with the options above."""
+    display_name="DLC: Fangs of Asterkarn"
 
 class GrimDawnSkillShuffle(Toggle):
     """Randomize player class's skills. Player class skills are divided into groups and the skill groups are shuffled among themselves.
@@ -334,6 +342,7 @@ class GrimDawnOptions(PerGameCommonOptions):
     faction: GrimDawnFactionQuests
     dlc_aom: GrimDawnAoMDLC
     dlc_fg: GrimDawnFGDLC
+    dlc_foa: GrimDawnFoADLC
     skill_shuffler: GrimDawnSkillShuffle
     skill_balance_randomizer: GrimDawnSkillBalance
     devotion_balance_randomizer: GrimDawnDevotionBalance

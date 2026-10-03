@@ -645,64 +645,49 @@ class ProxyGameContext(CommonContext):
         # Third  confirm that all the required files for archipelago grim dawn are installed correctly
 
             if not os.path.isfile(os.path.join(installPath,"arzedit.exe")):
-                logger.info("arzedit is not in your Grim Dawn install directory.")
-                logger.info(r"Expected path: ...\Grim Dawn\arzedit.exe")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: arzedit is not in your Grim Dawn install folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\arzedit.exe")
                 dontContinue = True
 
             if not os.path.isfile(os.path.join(installPath,"mods","archipelago","database","Archipelago.arz")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\database\Archipelago.arz")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: Archipelago.arz is not in your mod database folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\mods\archipelago\database\Archipelago.arz")
                 dontContinue = True
             
             if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Conversations.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Conversations.arc")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
-                dontContinue = True
-            
-            if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Quests.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Quests.arc")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: Conversations.arc is not in your mod resources folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\mods\archipelago\resources\Conversations.arc")
                 dontContinue = True
             
             if not os.path.isfile(os.path.join(installPath,"mods","archipelago","resources","Scripts.arc")):
-                logger.info("Archipelago mod for Grim Dawn is not correctly installed. Missing mod files.")
-                logger.info(r"Expected path: ...\Grim Dawn\mods\archipelago\resources\Scripts.arc")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: Scripts.arc is not in your mod resources folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\mods\archipelago\resources\Scripts.arc")
                 dontContinue = True
             
             if not os.path.isfile(os.path.join(installPath,"lua51.dll")):
-                logger.info("Missing lua51.dll in your Grim Dawn install directory")
-                logger.info(r"Expected path: ...\Grim Dawn\lua51.dll")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: lua51.dll is not in your Grim Dawn install folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\lua51.dll")
                 dontContinue = True
             
             if not os.path.isfile(os.path.join(installPath,"real_lua51.dll")):
-                logger.info("Missing real_lua51.dll in your Grim Dawn install directory")
-                logger.info(r"Expected path: ...\Grim Dawn\real_lua51.dll")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: real_lua51.dll is not in your Grim Dawn install folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\real_lua51.dll")
                 dontContinue = True
             
             if not os.path.isfile(os.path.join(installPath,"lua-apclientpp.dll")):
-                logger.info("Missing lua-apclientpp.dll in your Grim Dawn install directory")
-                logger.info(r"Expected path: ...\Grim Dawn\lua-apclientpp.dll")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info("Missing file: lua-apclientpp.dll is not in your Grim Dawn install folder.")
+                logger.info(r"Expected file location: ...\Grim Dawn\lua-apclientpp.dll")
                 dontContinue = True
             
             #Check if DLC files exist when DLC is enabled in slot data
             if (bool(args["slot_data"]["dlc_aom"])) and not os.path.isfile(os.path.join(installPath,"gdx1","database","GDX1.arz")):
                 logger.info("Missing Ashes of Malmouth DLC in your Grim Dawn install directory while enabled in this slot")
-                logger.info(r"Expected path: ...\Grim Dawn\gdx1\database\GDX1.arz")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info(r"Expected file location: ...\Grim Dawn\gdx1\database\GDX1.arz")
                 dontContinue = True
 
             if (bool(args["slot_data"]["dlc_fg"])) and not os.path.isfile(os.path.join(installPath,"gdx2","database","GDX2.arz")):
                 logger.info("Missing Forgotten Gods DLC in your Grim Dawn install directory while enabled in this slot")
-                logger.info(r"Expected path: ...\Grim Dawn\gdx2\database\GDX2.arz")
-                logger.info(f"Current Grim Dawn install directory: {installPath}")
+                logger.info(r"Expected file location: ...\Grim Dawn\gdx2\database\GDX2.arz")
                 dontContinue = True
 
             if "ap_world_version" in (args["slot_data"]):
@@ -731,7 +716,8 @@ class ProxyGameContext(CommonContext):
             
             if dontContinue == True:
                 logger.info("Patching aborted.")
-                logger.info("If the current install directory is wrong, you can change it in the host.yaml in your archipelago install folder.")
+                logger.info(f"Your current Grim Dawn install directory is: {installPath}")
+                logger.info("If that current install directory does not point to the Grim Dawn folder, you can change it in the host.yaml in your archipelago install folder.")
 
             else:
                 logger.info("Grim Dawn Archipelago installation found.")

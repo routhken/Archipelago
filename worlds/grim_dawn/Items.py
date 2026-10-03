@@ -141,6 +141,26 @@ _item_data_list: list[tuple[str,ItemClassification,int,int,Optional[Callable[[Gr
     ("Slowness Trap",                                       ItemClassification.trap,                         220107,                       0,                            None),
     ("Scrap",                                               ItemClassification.filler,                       220108,                       0,                            None),
     ("Literature Trap",                                     ItemClassification.trap,                         220109,                       0,                            None),
+    
+    ("Fort Ikon Doorway Unlock",                            ItemClassification.progression,                  220110,                       1,                            None),
+    ("Mark of Passage",                                     ItemClassification.progression,                  220111,                       1,                            None),
+    ("High Cheiftain's Blessing",                           ItemClassification.progression,                  220112,                       1,                            None),
+    ("Heart of the Void",                                   ItemClassification.progression,                  220113,                       1,                            None),
+    ("Ritual of Cleansing",                                 ItemClassification.progression,                  220114,                       1,                            None),
+    ("Progressive Fangs of Asterkarn",                      ItemClassification.progression,                  220115,                       0,                            None),
+    ("Magma Sphere",                                        ItemClassification.progression,                  220116,                       1,                            None),
+    ("Kurn Revered",                                        ItemClassification.progression,                  220117,                       1,                            None),
+    ("Noktukari Revered",                                   ItemClassification.progression,                  220118,                       1,                            None),
+    #Kurn Weapons Crate
+    #Gulder's Shield
+    #Blackheart's Heart
+    #Cleansed Kurn Shrine x3
+    # ("replace_me",                                          ItemClassification.trap,                         220116,                       0,                            None),
+    # ("replace_me",                                          ItemClassification.trap,                         220115,                       0,                            None),
+    # ("replace_me",                                          ItemClassification.trap,                         220116,                       0,                            None),
+    # ("replace_me",                                          ItemClassification.trap,                         220115,                       0,                            None),
+    # ("replace_me",                                          ItemClassification.trap,                         220115,                       0,                            None),
+    # ("replace_me",                                          ItemClassification.trap,                         220116,                       0,                            None),
 ]
 
 relic_table = [
