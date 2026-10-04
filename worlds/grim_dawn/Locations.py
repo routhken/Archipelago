@@ -737,7 +737,6 @@ _location_data_list: list[tuple[str,str,int,Optional[Callable[[GrimDawnWorld], b
     ("Hrohn Everkeep",                                      "Icebound Passage",             220703,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Kurn Supply Ledger",                                  "Freyoll Valley",               220704,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Igron Worldbreaker",                                  "Freyoll Valley",               220705,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
-    ("Kurn Weapons Crate",                                  "Freyoll Valley",               220706,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Kurn Supplies",                                       "Kurnhold",                     220706,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Kurn Shrine #1",                                      "Voldur River",                 220707,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Drudd Blackheart",                                    "Blackheart's Hideout",         220708,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
@@ -788,8 +787,8 @@ _location_data_list: list[tuple[str,str,int,Optional[Callable[[GrimDawnWorld], b
     ("The Mead Must Flow",                                  "Voldur River",                 220753,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Hounds of Chthon",                                    "Dread Wastes",                 220754,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Veilwalker Utaro turn in quest",                      "Utak Kunar",                   220755,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
-    ("Root of Bargoll",                                     "Act 7",                        220756,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
-    ("The First Flame",                                     "Tomb of the Eldritch Sun",     220757,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
+    ("Root of Bargoll",                                     "Act 7",                        220756,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1) and (world.options.dlc_aom.value == 1)),
+    ("The First Flame",                                     "Tomb of the Eldritch Sun",     220757,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1) and (world.options.dlc_fg.value == 1)),
     ("Ulderthorm Tempestborn",                              "Glacial Grotto",               220758,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Black Lodge First Room",                              "Black Lodge",                  220759,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Black Lodge Second Room",                             "Black Lodge",                  220760,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
@@ -911,6 +910,7 @@ _location_data_list: list[tuple[str,str,int,Optional[Callable[[GrimDawnWorld], b
     ("Finree's Journal - Page 3",                           "Ravager's Redoubt",            220876,                       lambda world: (world.options.lore.value == 1) and (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("Ulo the Keeper of the Brews",                         "Voldur River",                 220877,                       lambda world: (world.options.lore.value == 1) and (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
     ("The Wind-Walker",                                     "Bitter Wind Pass",             220878,                       lambda world: (world.options.lore.value == 1) and (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
+    ("Kurn Weapons Crate",                                  "Freyoll Valley",               220879,                       lambda world: (world.options.goal.value >= 3) and (world.options.dlc_foa.value == 1)),
 ]
 
 

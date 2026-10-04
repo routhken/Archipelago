@@ -95,9 +95,12 @@ class GrimDawnWorld(World):
         if name == self.glitches_item_name:
             return GrimDawnItem(self.glitches_item_name, ItemClassification.progression, None, self.player)
         return GrimDawnItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.local_relic_table = relic_table.copy()
     
     def generate_early(self) -> None:
-        self.local_relic_table = relic_table.copy()
         self.random.shuffle(self.local_relic_table) #only need to shuffle this once per world
         if (not self.options.dlc_fg) and self.options.goal == 1:
             raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled.")
@@ -130,7 +133,7 @@ class GrimDawnWorld(World):
             else:
                 main_quantity = 7
             
-            if (self.options.dlc_aom == True) and ((self.options.goal == "beat_master_of_flesh") or (self.options.goal == "beat_all_bosses") or (self.options.goal == "emblem_hunt")):
+            if (self.options.dlc_aom == True) and ((self.options.goal == "beat_master_of_flesh") or (self.options.goal == "beat_all_bosses") or (self.options.goal == "emblem_hunt") or (self.options.goal == "beat_beronath")):
                 aom_quantity = 6
             
             if (self.options.dlc_fg == True) and (self.options.goal != "beat_warden"):
@@ -158,9 +161,12 @@ class GrimDawnWorld(World):
                 item_pool.append(self.create_item("Aetherial Emblem"))
 
         # Fill a specified amount of empty locations with trap items.
-        amountOfTraps = ((total_locations - len(item_pool)) * self.options.trap_percent) // 100
-        for _ in range(amountOfTraps):
-            item_pool.append(self.create_trap())
+        # First check if all trap weights are set to zero
+        weights = list(self.options.trap_weights.values())
+        if not all([ v == 0 for v in weights]):
+            amountOfTraps = ((total_locations - len(item_pool)) * self.options.trap_percent) // 100
+            for _ in range(amountOfTraps):
+                item_pool.append(self.create_trap())
 
         # Fill any empty locations with filler items.
         while len(item_pool) < total_locations:
@@ -226,6 +232,12 @@ class GrimDawnWorld(World):
             self.multiworld.completion_condition[self.player] = lambda state: (state.can_reach("Master of Flesh","Location",self.player) and state.can_reach("The Loghorrean","Location",self.player) and state.can_reach("Swarm Queen Ravna","Location",self.player) and state.can_reach("Manifestation of Korvaak, the Eldritch Sun","Location",self.player) and state.can_reach("Warden Krieg","Location",self.player))
         elif self.options.goal == "emblem_hunt":
             self.multiworld.completion_condition[self.player] = lambda state: state.has("Aetherial Emblem",self.player,self.options.required_emblems.value)
+        # Visualize regions
+        # from Utils import visualize_regions
+        # state = self.multiworld.get_all_state()
+        # state.update_reachable_regions(self.player)
+        # visualize_regions(self.get_region("Menu"), "my_world.puml", show_entrance_names=True,
+        #                 regions_to_highlight=state.reachable_regions[self.player])
 
     # When getting progressive progression, this function checks for special interaction
     def collect_item(self,state,item,remove = False) -> str | None:
