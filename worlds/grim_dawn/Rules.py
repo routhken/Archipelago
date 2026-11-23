@@ -118,11 +118,13 @@ class GrimDawnRules:
                 state.has("Magma Sphere", self.player),
             "Ulo Springs -> Ravager's Redoubt": lambda state:
                 state.has("Magma Sphere", self.player),
+            "Dread Wastes -> The World Tear": lambda state:
+                self.has_item(state,"Brazier of Blood",3),
             "Dread Wastes -> Glacial Grotto": lambda state:
                 state.has("Heart of the Void", self.player),
             "Aurora Pinnacle -> Roof of the World": lambda state:
                 state.has("Ritual of Cleansing", self.player),
-            "Dread Wastes -> Bloodbound Bastion": lambda state:
+            "Utak Kunar -> Bloodbound Bastion": lambda state:
                 state.has_all(["Magma Sphere","Kurn Revered"], self.player),
         }
         
@@ -198,10 +200,38 @@ class GrimDawnRules:
             "Nearan's Work Log":                                lambda state: state.can_reach_location("Warden Krieg",self.player) and state.can_reach_location("The Amalgamation",self.player) and state.can_reach_location("The Loghorrean",self.player),
             "The Hidden Path Devotion Shrine":                  lambda state: state.has("Lower Crossing Destroy Blockade",self.player),
 
+            "Icebound Passage Secret Chest":                    lambda state: state.has("Magma Sphere",self.player),
+            "Ritual of Cleansing":                              lambda state: state.has_all(["Essence of Bargoll","Embers of the First Flame","Heart of the Void"],self.player),
+            "Thieving Grobles?":                                lambda state: state.has("Kurn Weapons Crate",self.player),
+            "Vessera Gulder Father's Shield":                   lambda state: state.has("Gulder's Shield",self.player),
+            "A Black Heart":                                    lambda state: state.has_all(["Blackheart's Heart","High Cheiftain's Blessing"],self.player),
+            "Cleanse the Land":                                 lambda state: self.has_item(state,"Cleansed Kurn Shrine",3) and state.has("High Cheiftain's Blessing",self.player),
+            "Evernight":                                        lambda state: state.has("Hypporaven Bait",self.player),
+            "The Night Hunt":                                   lambda state: state.has("Hypporaven Bait",self.player),
+            "Chillborn Curse":                                  lambda state: state.has("High Cheiftain's Blessing",self.player) and (state.has("Fulminated Wood",self.player) or state.has("Hemlock Berries",self.player)),
+            "Mogdrogen Duel":                                   lambda state: state.can_reach_location("Ritual of Cleansing",self.player) and state.can_reach_location("Beronath, Corruptor of Asterkarn",self.player),
+            "Old Wounds":                                       lambda state: state.can_reach_location("Johnny Scar",self.player) and state.can_reach_location("Tomakar the Lost",self.player) and state.can_reach_location("Bolvar, the Bloodbinder",self.player) and state.can_reach_location("Bloodfeast the Ruthless",self.player),
+            "Aurora Pinnacle Exalted Chest":                    lambda state: state.has("Magma Sphere",self.player),
+            "Prodromus, Herald of the End Times":               lambda state: state.has("Ritual of Cleansing",self.player),
+            "Runesong":                                         lambda state: state.has("Magma Sphere",self.player),
+            "Glacier's Edge Secret Chest #1":                   lambda state: state.has("Magma Sphere",self.player),
+            "Glacier's Edge Secret Chest #2":                   lambda state: state.has("Magma Sphere",self.player),
+            "Corpsebreaker the Insatiable":                     lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Old Alliances":                                    lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Trial of Blood":                                   lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Jaha Rhinhorn":                                    lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Legacy of War":                                    lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Vok Bloodspill":                                   lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Warlord Gradda Ironeye":                           lambda state: state.can_reach_location("Old Wounds",self.player),
+            "Fulminated Wood":                                  lambda state: state.can_reach_location("Skirig's Warning",self.player),
+
         }
 
     def has_scrap(self,state,q) -> bool:
         return (state.count("5 Scrap",self.player)*5) >= q
+    
+    def has_item(self,state,item,q) -> bool:
+        return (state.count(item,self.player)) >= q
 
     def set_grim_dawn_rules(self) -> None:
         multiworld = self.world.multiworld

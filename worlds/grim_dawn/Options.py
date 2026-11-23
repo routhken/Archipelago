@@ -14,7 +14,7 @@ class GrimDawnGoal(Choice):
     Beat Loghorrean - Journey to the Tomb of the Watchers under the Necropolis and defeat The Loghorrean
     Beat Master of Flesh - Find the Fleshworks in the ruined city and defeat The Master of Flesh (requires Ashes of Malmouth DLC)
     Beat Beronath - Reach the Roof of the World and defeat Beronath (requires Fangs of Asterkarn DLC)
-    Beat All Bosses - Find and defeat all of the above bosses (requires both DLC)
+    Beat All Bosses - Find and defeat all of the above bosses (requires all 3 DLC expansions)
     Emblem Hunt - Find the Aetherial Emblems scattered throughout the multiworld
     """
     display_name = "Goal"
@@ -28,7 +28,7 @@ class GrimDawnGoal(Choice):
     option_beat_all_bosses = 50
     option_emblem_hunt = 51
 
-    default = 0
+    default = 3
 
 class GrimDawnMaxEmblems(Range):
     """
@@ -276,8 +276,14 @@ class GrimDawnEnemyBuffs(Choice):
     default = 2
 
 class GrimDawnThirdPersonCamera(Toggle):
-    """Changes the camera position to be behind you like in a 3rd person shooter/platformer."""
+    """Changes the camera position to be behind you like in a 3rd person shooter/platformer.
+    This is a novelty/meme setting that generally makes the game harder to play and cannot be turned off."""
     display_name="Third Person Camera"
+
+class GrimDawnCustomGear(Toggle):
+    """Adds custom made gear to the item pool that you can receive. Includes several uniques
+    inspired by Path of Exile."""
+    display_name="Custom Gear"
 
 class GrimDawnGenericGearQuality(Choice):
     """
@@ -366,6 +372,7 @@ class GrimDawnOptions(PerGameCommonOptions):
     enemy_randomizer: GrimDawnEnemyRandomizer
     dangerous_enemies: GrimDawnEnemyDangerous
     third_person_camera: GrimDawnThirdPersonCamera
+    custom_gear: GrimDawnCustomGear
     generic_gear_quality: GrimDawnGenericGearQuality
     # hint_scouts: GrimDawnHintScouts
     buff_enemies: GrimDawnEnemyBuffs

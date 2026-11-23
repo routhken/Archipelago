@@ -16,7 +16,8 @@ skillGroups = [
     "playerclass06/totem1.dbr","playerclass07/arcaneseal1.dbr","playerclass07/concussiverune1.dbr","playerclass07/icerune.dbr","playerclass07/purifyingflame1.dbr",
     "playerclass07/voiceofcommand1.dbr","playerclass08/callofthegrave.dbr","playerclass08/lifetap1.dbr","playerclass08/ravenousearth1.dbr","playerclass08/soulscythe1.dbr",
     "playerclass08/reaper1.dbr","playerclass08/summon_blightbeast1.dbr","playerclass08/summon_skeleton1.dbr","playerclass08/soultransfer.dbr","playerclass09/aegis1.dbr","playerclass09/ascension1.dbr",
-    "playerclass09/eyeofreckoning1.dbr","playerclass09/judgment1.dbr","playerclass09/righteousfervor1.dbr","playerclass09/summon_celestialguardian1.dbr","playerclass09/viremight1.dbr",],
+    "playerclass09/eyeofreckoning1.dbr","playerclass09/judgment1.dbr","playerclass09/righteousfervor1.dbr","playerclass09/summon_celestialguardian1.dbr","playerclass09/viremight1.dbr","playerclass10/leap1.dbr","playerclass10/wereraven1.dbr",
+    "playerclass10/werewolf1.dbr","playerclass10/rallyingcry1.dbr","playerclass10/bonechillingcry1.dbr","playerclass10/onslaught1.dbr","playerclass10/windsofasterkarn1.dbr",],
 
     #Buffs that add an effect to active skill, usually come with additional mana cost
     #SKILL ACTIVE BUFFS
@@ -35,28 +36,30 @@ skillGroups = [
      "playerclass08/pets/petskill_skeleton_modifier.dbr","playerclass09/aegis2.dbr","playerclass09/aegis3.dbr","playerclass09/ascension2.dbr","playerclass09/eyeofreckoning2.dbr","playerclass09/judgment2.dbr","playerclass09/judgment3.dbr",
      "playerclass09/righteousfervor2.dbr","playerclass09/righteousfervor3.dbr","playerclass09/pets/petskill_celestialguardian_celestialwrath1_buff.dbr","playerclass09/viremight2.dbr","playerclass09/viremight3.dbr","playerclass03/pets/petskill_hellhound_breathefire.dbr",
      "playerclass03/pets/petskill_hellhound_fireclaw.dbr","playerclass03/pets/petskill_hellhound_hellfireaura_buff.dbr","playerclass03/pets/petskill_raven_heal1_buff.dbr","playerclass03/pets/petskill_raven_stormspirit1_buff.dbr",
-     "playerclass03/pets/petskill_raven_stormstrike1.dbr",],
+     "playerclass03/pets/petskill_raven_stormstrike1.dbr","playerclass10/leap2.dbr","playerclass10/werewolf2.dbr","playerclass10/werewolf3.dbr","playerclass10/wereraven2.dbr","playerclass10/wereraven3.dbr","playerclass10/rallyingcry2.dbr",
+     "playerclass10/onslaught2.dbr","playerclass10/onslaught3.dbr","playerclass10/windsofasterkarn2.dbr",],
 
     #Skills that are divided into two separate files in the code
     #SKILL TWO PARTS
     ["playerclass03/bloodofdreeg1_buff.dbr","playerclass03/curse1_buff.dbr","playerclass03/pox1_buff.dbr","playerclass04/bladetrap1_buff.dbr","playerclass05/chillingsurge_buff.dbr","playerclass06/devouringswarm1_buff.dbr",
-    "playerclass07/hunteraura1_buff.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/illomen1_buff.dbr","playerclass08/soulsiphon1_buff.dbr",],
+    "playerclass07/hunteraura1_buff.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/wordofpain1_buff.dbr","playerclass08/illomen1_buff.dbr","playerclass08/soulsiphon1_buff.dbr","playerclass10/rallyingcry1_buff.dbr",
+    "playerclass10/bonechillingcry1_buff.dbr",],
 
     #Skills that automatically reserve mana once allocated, that are divided into two files
     #SKILL AURAS TWO PARTS
     ["playerclass01/fieldcommand1buff.dbr","playerclass02/blastshield1_buff.dbr","playerclass04/veilofshadows1_buff.dbr","playerclass05/elementalinfusion1_buff.dbr",
-     "playerclass06/natureblessing1_buff.dbr","playerclass07/auracensure1_buff.dbr","playerclass07/auraconviction1_buff.dbr","playerclass09/presenceofvirtue1_buff.dbr",],
+     "playerclass06/natureblessing1_buff.dbr","playerclass07/auracensure1_buff.dbr","playerclass07/auraconviction1_buff.dbr","playerclass09/presenceofvirtue1_buff.dbr","playerclass10/amatokpact1_buff.dbr",],
 
     #Skills that automatically reserve mana once allocated
     #SKILL AURAS
     ["playerclass01/counterstrike1.dbr","playerclass02/vindictiveflame1.dbr","playerclass03/bondsofbysmiel1.dbr","playerclass03/possession1.dbr",
-     "playerclass03/witchfire1.dbr","playerclass05/sphereofprotection1.dbr","playerclass08/spectralarmor1.dbr",],
+     "playerclass03/witchfire1.dbr","playerclass05/sphereofprotection1.dbr","playerclass08/spectralarmor1.dbr","playerclass10/amatokpact1.dbr",],
 
     #Buffs that add an effect to aura reserves, usually come with additional mana reservation
     #SKILL AURA BUFFS
     ["playerclass01/fieldcommand2.dbr","playerclass02/vindictiveflame2.dbr","playerclass02/blastshield2.dbr","playerclass03/bondsofbysmiel2.dbr","playerclass03/witchfire2.dbr","playerclass04/veilofshadows2.dbr",
      "playerclass05/elementalinfusion2.dbr","playerclass05/elementalinfusion3.dbr","playerclass05/sphereofprotection2.dbr","playerclass06/naturesblessing2.dbr","playerclass06/naturesblessing3.dbr","playerclass08/spectralarmor2_buff.dbr",
-     "playerclass09/presenceofvirtue2.dbr","playerclass09/presenceofvirtue3.dbr",],
+     "playerclass09/presenceofvirtue2.dbr","playerclass09/presenceofvirtue3.dbr","playerclass10/amatokpact2.dbr","playerclass10/amatokpact3.dbr",],
 
     #Skills that always apply their effect at no cost
     #SKILL PASSIVES
@@ -66,7 +69,8 @@ skillGroups = [
      "playerclass04/wpattack5.dbr","playerclass05/passive01.dbr","playerclass05/passive02.dbr","playerclass05/passive03.dbr","playerclass05/passive04.dbr","playerclass06/passive01.dbr","playerclass06/primalbond01.dbr",
      "playerclass06/stormcaller1.dbr","playerclass06/weaponpool01.dbr","playerclass06/weaponpool02.dbr","playerclass07/passive01.dbr","playerclass07/passive02.dbr","playerclass07/pets/petskill_relictraining.dbr","playerclass07/wpattack01.dbr",
      "playerclass07/wpattack02.dbr","playerclass07/wpattack03.dbr","playerclass08/weaponpool01.dbr","playerclass08/weaponpool02.dbr","playerclass08/masterofdeath1.dbr","playerclass09/passive01.dbr","playerclass09/passive02.dbr",
-     "playerclass09/divinemandate1.dbr","playerclass09/pathofthethree1.dbr","playerclass09/wpattack01.dbr","playerclass09/wpattack02.dbr",],
+     "playerclass09/divinemandate1.dbr","playerclass09/pathofthethree1.dbr","playerclass09/wpattack01.dbr","playerclass09/wpattack02.dbr","playerclass10/passive01.dbr","playerclass10/passive02.dbr","playerclass10/passive03.dbr",
+     "playerclass10/passive04.dbr","playerclass10/bloodborne1.dbr","playerclass10/heartofastekarn1.dbr","playerclass10/wpattack01.dbr","playerclass10/wpattack02.dbr",],
 
     #Skills that transform another skill
     #SKILL TRANSFORMS
@@ -75,8 +79,9 @@ skillGroups = [
      "playerclass04/ringofsteel_mod0.dbr","playerclass04/phantomblade_mod0.dbr","playerclass04/nightbladeenchant1b.dbr","playerclass05/aetherray1b.dbr","playerclass05/elementalinfusion1b.dbr","playerclass05/razorwind1b.dbr",
      "playerclass06/savagery1b.dbr","playerclass06/savagestrike1b.dbr","playerclass06/stormtotem01b_petmodifier.dbr","playerclass07/arcaneseal1b.dbr","playerclass07/hunteraura1b.dbr","playerclass07/lightningnet1b.dbr",
      "playerclass07/purifyingflame1b.dbr","playerclass08/lifetap1b.dbr","playerclass08/soulscythe1b.dbr","playerclass08/soulsiphon1b.dbr","playerclass08/summon_blightbeast1b.dbr","playerclass09/aegis1b.dbr","playerclass09/righteousfervor1b.dbr",
-     "playerclass09/summon_celestialguardian1b.dbr","playerclass09/viremight1b.dbr",]
+     "playerclass09/summon_celestialguardian1b.dbr","playerclass09/viremight1b.dbr","playerclass10/werewolf1b.dbr","playerclass10/wereraven1b.dbr","playerclass10/rallyingcry1b.dbr","playerclass10/onslaught1b.dbr",]
 ]
+
 undecided = ["playerclass01/cadence3.dbr","playerclass01/fieldcommand1.dbr","playerclass02/blastshield1.dbr","playerclass02/mortartrap2_petmod.dbr","playerclass02/mortartrap3_petmod.dbr","playerclass02/thermitemines2_petmod.dbr",
              "playerclass03/bloodofdreeg1.dbr","playerclass03/bondsofbysmiel1_petbonus.dbr","playerclass03/bondsofbysmiel2_petbonus.dbr","playerclass03/curse1.dbr","playerclass03/evileye2x.dbr","playerclass03/pox1.dbr",
              "playerclass03/witchfire1b_petbonus.dbr","playerclass04/bladetrap1.dbr","playerclass04/eviscerate2.dbr","playerclass04/veilofshadows1.dbr","playerclass05/elementalinfusion1b_petbonus.dbr",
@@ -84,7 +89,8 @@ undecided = ["playerclass01/cadence3.dbr","playerclass01/fieldcommand1.dbr","pla
              "playerclass06/natureblessing1_petbonus.dbr","playerclass07/arcaneseal1b_old.dbr","playerclass07/auracensure1.dbr","playerclass07/auraconviction1.dbr","playerclass07/hunteraura1.dbr",
              "playerclass07/lightningnet1.dbr","playerclass07/wordofpain1.dbr","playerclass08/callofthegrave_petbonus.dbr","playerclass08/illomen1.dbr","playerclass08/masterofdeath1_petbonus.dbr","playerclass08/soulscythe3.dbr",
              "playerclass08/soulscythe3_buff_petbonus.dbr","playerclass08/soulsiphon1.dbr","playerclass08/reapspirit1.dbr","playerclass08/spectralarmor2.dbr","playerclass09/presenceofvirtue1.dbr",
-             "playerclass09/summon_celestialguardian2b_petmodifier.dbr",]
+             "playerclass09/summon_celestialguardian2b_petmodifier.dbr","playerclass10/wereraven1_skill01_icicles.dbr","playerclass10/wereraven1_skill02_icering.dbr","playerclass10/werewolf1_skill01_claws.dbr",
+             "playerclass10/werewolf1_skill02_charge.dbr",]
 
 aomSkills = [
      "playerclass07/arcaneseal1.dbr","playerclass07/concussiverune1.dbr","playerclass07/hunteraura1_buff.dbr","playerclass07/icerune.dbr","playerclass07/lightningnet1_buff.dbr","playerclass07/purifyingflame1.dbr",
@@ -107,6 +113,15 @@ fgSkills = [
      "playerclass09/presenceofvirtue1_buff.dbr","playerclass09/presenceofvirtue2.dbr","playerclass09/presenceofvirtue3.dbr","playerclass09/passive01.dbr","playerclass09/passive02.dbr",
      "playerclass09/divinemandate1.dbr","playerclass09/pathofthethree1.dbr","playerclass09/wpattack01.dbr","playerclass09/wpattack02.dbr","playerclass09/aegis1b.dbr","playerclass09/righteousfervor1b.dbr",
      "playerclass09/summon_celestialguardian1b.dbr","playerclass09/viremight1b.dbr",
+]
+
+foaSkills = [
+     "playerclass10/amatokpact1.dbr","playerclass10/amatokpact1_buff.dbr","playerclass10/amatokpact2.dbr","playerclass10/amatokpact3.dbr","playerclass10/bloodborne1.dbr","playerclass10/bonechillingcry1.dbr",
+     "playerclass10/bonechillingcry1_buff.dbr","playerclass10/heartofastekarn1.dbr","playerclass10/leap1.dbr","playerclass10/leap2.dbr","playerclass10/onslaught1.dbr","playerclass10/onslaught1b.dbr","playerclass10/onslaught2.dbr",
+     "playerclass10/onslaught3.dbr","playerclass10/passive01.dbr","playerclass10/passive02.dbr","playerclass10/passive03.dbr","playerclass10/passive04.dbr","playerclass10/rallyingcry1.dbr","playerclass10/rallyingcry1_buff.dbr",
+     "playerclass10/rallyingcry1b.dbr","playerclass10/rallyingcry2.dbr","playerclass10/wereraven1.dbr","playerclass10/wereraven1_skill01_icicles.dbr","playerclass10/wereraven1_skill02_icering.dbr","playerclass10/wereraven1b.dbr",
+     "playerclass10/wereraven2.dbr","playerclass10/wereraven3.dbr","playerclass10/werewolf1.dbr","playerclass10/werewolf1_skill01_claws.dbr","playerclass10/werewolf1_skill02_charge.dbr","playerclass10/werewolf1b.dbr",
+     "playerclass10/werewolf2.dbr","playerclass10/werewolf3.dbr","playerclass10/windsofasterkarn1.dbr","playerclass10/windsofasterkarn2.dbr","playerclass10/wpattack01.dbr","playerclass10/wpattack02.dbr",
 ]
 
 def gen_random_uniform_range(world: "GrimDawnWorld", key) -> float:
@@ -616,41 +631,41 @@ def generateSkillPatchTable(world: "GrimDawnWorld"):
             "pets/petskill_celestialguardian_celestialwrath1b_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","offensivePoisonMin","defensivePoison","defensiveLife","defensiveBleeding")},
         },
         "playerclass10": {
-            "aegis1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","sparkMaxNumber","sparkChance","skillManaCost","skillCooldownTime","ragDollAmplification","projectileLaunchNumber","projectileExplosionRadius","offensiveTauntMin","offensiveStunMin","offensivePhysicalMin","offensiveFireMin")},
-            "aegis1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationDamagePct","offensiveDamageMultModifier","conversionPercentage2")},
-            "aegis2.dbr": {key: gen_random_uniform_range(world,key) for key in ("sparkMaxNumber","sparkGap","sparkChance","skillManaCost","offensiveCritDamageModifier","explosionRadius")},
-            "aegis3.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCostReduction","skillCooldownReductionChance","skillCooldownReduction","retaliationDamagePct","offensiveSlowFireMin","offensiveSlowFireDurationMin")},
-            "ascension1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","skillCooldownTime","skillActiveDuration","retaliationTotalDamageModifier","retaliationFireMin","offensiveTotalDamageModifier","damageAbsorption")},
-            "ascension2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","defensiveTrap","defensiveStun","defensiveSlowManaLeach","defensiveSlowLifeLeach","defensivePetrify","defensiveFreeze","characterOffensiveAbilityModifier")},
-            "divinemandate1.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowPhysicalModifier","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationModifier","offensiveSlowPhysicalDurationMin","offensiveSlowFireModifier","offensivePhysicalModifier","offensiveFireModifier","offensiveCritDamageModifier","defensiveTotalSpeedResistance")},
-            "eyeofreckoning1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","timeBetweenAttacks","skillTargetRadius","skillManaCost","rotationSpeedMultiplier","ragDollAmplification","offensivePhysicalMin","offensivePhysicalMax","offensiveFireMin","duration")},
-            "eyeofreckoning2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillProjectileNumber","projectilePiercingChance","projectilePeriod","projectileExplosionRadius","offensiveTotalDamageReductionPercentMin","offensiveTotalDamageReductionPercentDurationMin","offensivePhysicalMin","offensiveLightningMin")},
-            "judgment1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","skillManaCost","skillCooldownTime","ragDollAmplification","offensiveTauntMin","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationMin","offensivePhysicalMin","offensiveKnockdownMin","expansionTime")},
-            "judgment2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","offensiveSlowRunSpeedMin","offensiveSlowRunSpeedDurationMin","offensiveSlowPhysicalModifier","offensiveSlowDefensiveAbilityMin","offensiveSlowDefensiveAbilityDurationMin","offensivePhysicalModifier")},
-            "judgment3.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","skillActiveDuration","retaliationDamagePct","offensiveSlowFireMin","offensiveSlowFireDurationMin","offensiveFireMin","offensiveFireMax")},
-            "passive01.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier","offensivePhysicalMin","defensiveProtection")},
-            "passive02.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillCooldownTime","skillActiveDuration","lifeMonitorPercent","defensivePhysical","defensiveAllMaxResist","characterHealIncreasePercent","characterDefensiveAbilityModifier")},
-            "pathofthethree1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillCooldownReduction","offensiveSlowPoisonModifier","offensiveSlowPoisonMin","offensiveSlowPoisonDurationModifier","offensiveSlowPoisonDurationMin","offensiveSlowLifeModifier","offensivePoisonModifier","offensiveLifeModifier","conversionPercentage2","conversionPercentage")},
-            "presenceofvirtue1_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","retaliationPhysicalMin","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationMin","offensiveSlowPhysicalChance","offensiveSlowBleedingMin","offensiveSlowBleedingDurationMin","offensiveSlowBleedingChance","offensiveGlobalChance","characterOffensiveAbility","characterManaRegen","characterManaLimitReserve")},
-            "presenceofvirtue2.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveBlockModifier","defensiveBlockAmountModifier","characterManaLimitReserve","characterLifeModifier","characterHealIncreasePercent")},
-            "presenceofvirtue3.dbr": {key: gen_random_uniform_range(world,key) for key in ("retaliationTotalDamageModifier","offensivePhysicalMin","offensivePhysicalMax","defensivePercentReflectionResistance","defensivePercentCurrentLife","characterManaLimitReserve")},
-            "righteousfervor1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","skillManaCost","skillChargeTime","skillChargeMultipliers","skillChargeDuration","offensiveSlowFireModifier","offensiveSlowFireMin","offensiveSlowFireDurationMin","offensivePhysicalModifier","offensivePhysicalMin")},
-            "righteousfervor1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("conversionPercentage2","conversionPercentage")},
-            "righteousfervor2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","defensiveProtectionModifier","defensiveElementalResistance","characterDefensiveAbility","characterAttackSpeedModifier")},
-            "righteousfervor3.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","retaliationDamagePct","offensiveSlowPhysicalModifier","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationMin","offensiveFireModifier")},
-            "summon_celestialguardian1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost","petLimit")},
-            "summon_celestialguardian1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("conversionPercentage2","conversionPercentage")},
-            "viremight1.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","waveDistance","timeBetweenAttacks","skillManaCost","skillCooldownTime","secondarySkillDistance","ragDollAmplification","offensiveTauntMin","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationMin","offensivePhysicalMin","maxMoveRatio","endRadiusMultiplier","characterRunSpeedModifier")},
-            "viremight1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveKnockdownMin","conversionPercentage")},
-            "viremight2.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillActiveDuration","projectileExplosionRadius","offensiveSlowTotalSpeedMin","offensiveSlowTotalSpeedDurationMin","offensiveSlowFireMin","offensiveSlowFireDurationMin","offensiveFireMin")},
-            "viremight3.dbr": {key: gen_random_uniform_range(world,key) for key in ("waveDistance","skillManaCost","skillCooldownTime","offensiveSlowPhysicalModifier","offensiveSlowPhysicalDurationModifier","offensiveSlowBleedingMin","offensiveSlowBleedingDurationMin")},
-            "wpattack01.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","skillTargetNumber","skillTargetAngle","skillProjectileNumber","skillChanceWeight","ragDollAmplification","racialBonusPercentDamage","projectilePiercingChance","offensiveStunMin","offensivePhysicalMin","offensiveFireMin")},
-            "wpattack02.dbr": {key: gen_random_uniform_range(world,key) for key in ("weaponDamagePct","waveTime","waveStartWidth","waveEndWidth","waveDistance","waveDepth","skillChanceWeight","offensiveSlowPhysicalMin","offensiveSlowPhysicalDurationMin","offensivePhysicalResistanceReductionAbsoluteMin","offensivePhysicalResistanceReductionAbsoluteDurationMin","offensivePhysicalMin")},
-            "pets/petskill_celestialguardian_bladearc1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetNumber","skillTargetAngle","ragDollAmplification","offensiveSlowFireMin","offensiveSlowFireDurationMin","offensivePhysicalMin","offensivePhysicalMax","offensiveFireMin")},
-            "pets/petskill_celestialguardian_bladearc1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetNumber","skillTargetAngle","ragDollAmplification","offensiveSlowPoisonMin","offensiveSlowPoisonDurationMin","offensivePoisonMin","offensiveLifeMin","offensiveLifeMax")},
-            "pets/petskill_celestialguardian_bladearc1c.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetNumber","skillTargetAngle","ragDollAmplification","offensiveSlowFireMin","offensiveSlowFireDurationMin","offensivePhysicalMin","offensivePhysicalMax","offensiveFireMin")},
-            "pets/petskill_celestialguardian_celestialwrath1_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","offensiveFireMin","defensivePhysical","defensiveElementalResistance","defensiveBleeding")},
-            "pets/petskill_celestialguardian_celestialwrath1b_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillTargetRadius","offensivePoisonMin","defensivePoison","defensiveLife","defensiveBleeding")},
+            "amatokpact1_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterDefensiveAbility","characterManaLimitReserve","defensiveProtection","offensiveColdMax","offensiveColdMin","skillTargetRadius")},
+            "amatokpact2.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterAttackSpeedModifier","characterManaLimitReserve","characterSpellCastSpeedModifier","offensiveChaosModifier","offensivePierceModifier","offensiveSlowBleedingModifier")},
+            "amatokpact3.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterManaLimitReserve","defensiveLife","defensivePoison","offensiveColdModifier","offensiveSlowColdDurationMin","offensiveSlowColdMin","offensiveSlowColdModifier")},
+            "bloodborne1.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterHealIncreasePercent","offensiveChaosModifier","offensiveCritDamageModifier","offensivePierceModifier","offensiveSlowBleedingDurationMin","offensiveSlowBleedingDurationModifier","offensiveSlowBleedingMin","offensiveSlowBleedingModifier")},
+            "bonechillingcry1_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterDefensiveAbility","defensiveBleeding","defensiveChaos","defensiveCold","defensivePierce","expansionTime","skillActiveDuration","skillCooldownTime","skillManaCost","skillTargetRadius")},
+            "heartofastekarn1.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterOffensiveAbilityModifier","conversionPercentage","defensiveTotalSpeedResistance","offensiveColdMax","offensiveColdMin","offensiveColdModifier","offensiveSlowColdDurationModifier","offensiveSlowColdModifier")},
+            "leap1.dbr": {key: gen_random_uniform_range(world,key) for key in ("expansionTime","maxMoveRatio","offensivePhysicalMin","offensivePierceMin","offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin","skillCooldownTime","skillManaCost","skillTargetRadius","waveDistance","weaponDamagePct")},
+            "leap2.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePierceMin","offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin","projectileDamageRange1Max","projectileDamageRange1Scale","projectileDamageRange2Max","projectileDamageRange2Min","projectileDamageRange2Scale","projectileDamageRange3Max","projectileDamageRange3Min","projectileDamageRange3Scale","projectileLaunchNumber","projectileLaunchRotation","projectilePiercingChance")},
+            "onslaught1.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveColdMin","skillComboChargeDuration","skillComboChargeLevel","skillManaCost","weaponDamagePct")},
+            "onslaught1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("conversionPercentage","conversionPercentage2")},
+            "onslaught2.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin","offensiveTotalDamageReductionPercentDurationMin","offensiveTotalDamageReductionPercentMin","skillManaCost")},
+            "onslaught3.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveColdModifier","offensiveSlowBleedingDurationModifier","offensiveSlowBleedingModifier","skillComboChargeLevel","skillManaCost")},
+            "passive01.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin","offensiveSlowBleedingModifier","skillComboChargeSpendReduction")},
+            "passive02.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterManaRegen","onHitActivationChance","skillActiveDuration","skillCooldownTime","skillLifePercentBuffDuration")},
+            "passive03.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterOffensiveAbilityModifier","damageAbsorptionPercent","lifeMonitorPercent","skillActiveDuration","skillCooldownTime")},
+            "passive04.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterAttackSpeedMaxModifier","characterSpellCastSpeedMaxModifier","offensiveDamageMultModifier","refreshDurationAmount","refreshDurationChance","refreshDurationMax")},
+            "rallyingcry1_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterOffensiveAbility","characterRunSpeedModifier","skillActiveDuration","skillCooldownTime","skillLifePercent","skillManaCost","skillTargetRadius")},
+            "rallyingcry1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillCooldownTime",)},
+            "rallyingcry2.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterRunSpeedMaxModifier","defensiveTotalSpeedResistance","defensiveTrap","offensiveCritDamageModifier","skillManaCost")},
+            "wereraven1_skill01_icicles.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveColdMax","offensiveColdMin","offensivePierceMin","skillManaCost","waveDepth","waveDistance","waveEndWidth","waveStartWidth","waveTime")},
+            "wereraven1_skill02_icering.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveColdMin","offensiveFreezeMin","offensivePierceMin","offensiveSlowColdDurationMin","offensiveSlowColdMin","projectileDamageRange1Max","projectileDamageRange1Scale","projectileDamageRange2Max","projectileDamageRange2Min","projectileDamageRange2Scale","projectileDamageRange3Max","projectileDamageRange3Min","projectileDamageRange3Scale","projectileExplosionRadius","projectileLaunchNumber","projectileLaunchRotation","projectilePiercingChance","skillCooldownTime","skillManaCost")},
+            "wereraven1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost",)},
+            "wereraven1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("conversionPercentage",)},
+            "wereraven2.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveColdMin","offensiveSlowColdDurationMin","offensiveSlowColdMin","offensiveSlowTotalSpeedDurationMin","offensiveSlowTotalSpeedMin","skillManaCost","waveDistance","waveEndWidth")},
+            "wereraven3.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveChaosModifier","offensiveColdModifier","offensivePierceModifier","offensiveSlowColdDurationModifier","offensiveSlowColdModifier","refreshCooldownAmount","refreshCooldownChance")},
+            "werewolf1_skill01_claws.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePierceMin","skillManaCost","skillTargetAngle","skillTargetNumber","weaponDamagePct")},
+            "werewolf1_skill02_charge.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterRunSpeedModifier","endRadiusMultiplier","maxMoveRatio","offensiveKnockdownMin","offensivePierceMin","offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin","ragDollAmplification","secondarySkillDistance","skillCooldownTime","skillManaCost","skillTargetRadius","timeBetweenAttacks","waveDistance","weaponDamagePct")},
+            "werewolf1.dbr": {key: gen_random_uniform_range(world,key) for key in ("skillManaCost",)},
+            "werewolf1b.dbr": {key: gen_random_uniform_range(world,key) for key in ("conversionPercentage",)},
+            "werewolf2.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveCritDamageModifier","offensiveLifeLeechMin","offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin")},
+            "werewolf3.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowDefensiveAbilityDurationMin","offensiveSlowDefensiveAbilityMin","refreshCooldownAmount","refreshCooldownChance")},
+            "windsofasterkarn1.dbr": {key: gen_random_uniform_range(world,key) for key in ("duration","explosionRadius","offensiveColdMax","offensiveColdMin","offensiveSlowColdDurationMin","offensiveSlowColdMin","offensiveSlowTotalSpeedDurationMin","offensiveSlowTotalSpeedMin","radiusEffectSize","radiusIncrement","rotationSpeedMultiplier","skillManaCost","skillTargetRadius","timeBetweenAttacks","timeBetweenGrow")},
+            "windsofasterkarn2.dbr": {key: gen_random_uniform_range(world,key) for key in ("dropHeight","dropRadius","dropVariation","numProjectiles","offensiveColdMin","projectileExplosionRadius","projectilePeriod")},
+            "wpattack01.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePierceMin","offensiveSlowBleedingDurationMin","offensiveSlowBleedingMin","projectilePiercingChance","ragDollAmplification","skillChanceWeight","skillProjectileNumber","skillTargetNumber","weaponDamagePct")},
+            "wpattack02.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveColdMin","offensivePierceMin","skillChanceWeight","waveDepth","waveDistance","waveEndWidth","waveStartWidth","waveTime","weaponDamagePct")},
         }
     }
 
@@ -685,19 +700,19 @@ def generateDevotionPatchTable(world: "GrimDawnWorld"):
             "tier1_29e_skill.dbr": {key: gen_random_uniform_range(world,key) for key in ("damageAbsorption","skillCooldownTime")},
             "tier1_35c.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterHealIncreasePercent","characterLife","characterLifeRegenModifier")},
             "tier1_43a.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterDexterity","characterLifeRegen")},
-            "tier1_43a_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier")},
-            "tier1_43b.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveElementalResistance")},
+            "tier1_43a_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier",)},
+            "tier1_43b.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveElementalResistance",)},
             "tier1_43b_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveElementalResistance","offensiveSlowBleedingModifier")},
             "tier1_43c.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingDurationModifier","offensiveSlowBleedingModifier")},
-            "tier1_43c_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier")},
-            "tier1_43d.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingModifier")},
-            "tier1_43d_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingModifier")},
+            "tier1_43c_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier",)},
+            "tier1_43d.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingModifier",)},
+            "tier1_43d_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveSlowBleedingModifier",)},
             "tier1_44a.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveProtection","offensivePierceModifier")},
             "tier1_44b.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterDefensiveAbility","defensiveElementalResistance")},
             "tier1_44c.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLife","characterManaRegen")},
             "tier1_44d.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensivePhysical","offensivePierceMin","offensivePierceModifier")},
             "tier1_45a.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterStrength","defensiveProtection")},
-            "tier1_45b.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveBlockAmountModifier")},
+            "tier1_45b.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveBlockAmountModifier",)},
             "tier1_45c.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveBleeding","defensiveProtectionModifier")},
             "tier1_45d.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveBlockAmountModifier","defensiveStun","retaliationPoisonMin")},
             "tier1_46a.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLife","characterMana")},
@@ -733,7 +748,7 @@ def generateDevotionPatchTable(world: "GrimDawnWorld"):
             "tier2_32d_skill_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterOffensiveAbility","contagionInterval","contagionLimit","contagionMaxSpread","contagionRadius","defensiveCold","defensivePoison","offensiveColdMin","offensivePoisonMin","skillActiveDuration","skillCooldownTime")},
             "tier2_34e_skill.dbr": {key: gen_random_uniform_range(world,key) for key in ("damageAbsorption","offensiveAetherMin","offensiveFireMin","offensiveSlowFireDurationMin","offensiveSlowFireMin","retaliationFireMin","retaliationTotalDamageModifier","skillActiveDuration","skillCooldownTime","skillTargetRadius")},
             "tier2_36f_skill_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterDefensiveAbility","characterManaRegen","characterOffensiveAbility","defensiveTotalSpeedResistance","defensiveTrap","skillActiveDuration","skillCooldownTime","skillManaPercent","skillTargetRadius")},
-            "tier2_37a.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePhysicalModifier")},
+            "tier2_37a.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePhysicalModifier",)},
             "tier2_37b.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterDefensiveAbility","defensivePoison")},
             "tier2_37c.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePhysicalMax","offensivePhysicalMin","offensivePhysicalModifier","offensiveSlowPhysicalModifier")},
             "tier2_37d_skill.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveProtection","offensivePhysicalMax","offensivePhysicalMin","offensivePhysicalModifier","offensivePierceModifier","offensiveSlowPhysicalModifier","retaliationPhysicalMax","retaliationPhysicalMin","skillActiveDuration","skillCooldownTime")},
@@ -769,11 +784,11 @@ def generateDevotionPatchTable(world: "GrimDawnWorld"):
             "tier3_17f_skill.dbr": {key: gen_random_uniform_range(world,key) for key in ("petLimit","skillCooldownTime","spawnObjectsTimeToLive")},
             "tier3_18f_skill_buff.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveLife","defensiveSlowLifeLeach","offensiveAetherMin","offensiveLifeMin","skillActiveDuration")},
             "tier3_19a.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLife","offensiveTotalDamageModifier")},
-            "tier3_19a_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier")},
+            "tier3_19a_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensiveTotalDamageModifier",)},
             "tier3_19b.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLifeModifier","characterManaRegen")},
-            "tier3_19b_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLifeModifier")},
-            "tier3_19c.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveChaos")},
-            "tier3_19c_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveChaos")},
+            "tier3_19b_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterLifeModifier",)},
+            "tier3_19c.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveChaos",)},
+            "tier3_19c_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("defensiveChaos",)},
             "tier3_19d.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterOffensiveAbilityModifier","offensiveTotalDamageModifier")},
             "tier3_19d_petbonus.dbr": {key: gen_random_uniform_range(world,key) for key in ("characterOffensiveAbilityModifier","offensiveTotalDamageModifier")},
             "tier3_19e_skill.dbr": {key: gen_random_uniform_range(world,key) for key in ("offensivePetrifyChance","offensivePetrifyMin","offensiveSlowDefensiveAbilityDurationMin","offensiveSlowDefensiveAbilityMin","offensiveSlowOffensiveAbilityDurationMin","offensiveSlowOffensiveAbilityMin","projectileExplosionRadius","projectileLaunchNumber","projectileLaunchRotation","projectilePiercingChance","skillCooldownTime","weaponDamagePct")},
@@ -816,6 +831,9 @@ def generateSkillShuffleTable(world: "GrimDawnWorld"):
     if world.options.dlc_fg == False:
         for skillSet in enemyCuratedSets:
             skillSet.difference_update(set(fgSkills))
+    if world.options.dlc_foa == False:
+        for skillSet in enemyCuratedSets:
+            skillSet.difference_update(set(foaSkills))
 
     #Third, convert to a sorted nestedlist
     enemyCuratedList = []

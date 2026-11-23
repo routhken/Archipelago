@@ -2,7 +2,7 @@ from typing import List, Any, Dict, ClassVar
 from settings import Group, FolderPath
 from BaseClasses import Region, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic,filler_table,filler_weights,relic_table
+from .Items import GrimDawnItem, item_data_table, item_table,get_unique_relic,get_unique_gear,filler_table,filler_weights,relic_table,gear_table
 from .Locations import GrimDawnLocation, location_data_table, location_table, locked_locations
 from .Options import GrimDawnOptions
 from .Regions import region_data_table
@@ -68,6 +68,7 @@ class GrimDawnWorld(World):
     location_name_to_id = location_table
     item_name_to_id = item_table
     local_relic_table: List[str]
+    local_gear_table: List[str]
     settings: ClassVar[GrimDawnSettings]
     skill_balance_table: Dict[str, Dict[str, Dict[str, any]]]
     # UT Support
@@ -99,15 +100,21 @@ class GrimDawnWorld(World):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.local_relic_table = relic_table.copy()
+        self.local_gear_table = gear_table.copy()
     
     def generate_early(self) -> None:
-        self.random.shuffle(self.local_relic_table) #only need to shuffle this once per world
+        #only need to shuffle these once per world
+        self.random.shuffle(self.local_relic_table)
+        self.random.shuffle(self.local_gear_table)
+
         if (not self.options.dlc_fg) and self.options.goal == 1:
-            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: FG enabled.")
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection 'Beat Korvaak' is invalid without DLC: FG enabled.")
         if (not self.options.dlc_aom) and self.options.goal == 4:
-            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without DLC: AoM enabled.")
-        if ((not self.options.dlc_fg) or (not self.options.dlc_aom)) and self.options.goal == 50:
-            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection is invalid without both DLC: AoM and DLC: FG enabled.")
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection 'Beat Master of Flesh' is invalid without DLC: AoM enabled.")
+        if (not self.options.dlc_foa) and self.options.goal == 5:
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection 'Beat Beronath' is invalid without DLC: FoA enabled.")
+        if ((not self.options.dlc_fg) or (not self.options.dlc_aom) or (not self.options.dlc_foa)) and self.options.goal == 50:
+            raise OptionError(f"[Grim Dawn - '{self.multiworld.get_player_name(self.player)}'] Goal selection 'All Bosses' is invalid without all three DLC settings enabled.")
 
     def create_items(self) -> None:
         item_pool: List[GrimDawnItem] = []
@@ -121,8 +128,9 @@ class GrimDawnWorld(World):
         if self.options.progressive_progression == True:
             # Create generic progression items to replace the named ones
             main_quantity = 0
-            fg_quantity = 0
             aom_quantity = 0
+            fg_quantity = 0
+            foa_quantity = 0
 
             if (self.options.goal == "beat_warden") or (self.options.goal == "beat_korvaak"):
                 pass
@@ -138,13 +146,18 @@ class GrimDawnWorld(World):
             
             if (self.options.dlc_fg == True) and (self.options.goal != "beat_warden"):
                 fg_quantity = 4
+            
+            if (self.options.dlc_foa == True) and ((self.options.goal == "beat_loghorrean") or (self.options.goal == "beat_master_of_flesh") or (self.options.goal == "beat_all_bosses") or (self.options.goal == "emblem_hunt") or (self.options.goal == "beat_beronath")):
+                foa_quantity = 5
 
             for _ in range(main_quantity):
                 item_pool.append(self.create_item("Progressive Main Campaign"))
-            for _ in range(fg_quantity):
-                item_pool.append(self.create_item("Progressive Forgotten Gods"))
             for _ in range(aom_quantity):
                 item_pool.append(self.create_item("Progressive Ashes of Malmouth"))
+            for _ in range(fg_quantity):
+                item_pool.append(self.create_item("Progressive Forgotten Gods"))
+            for _ in range(foa_quantity):
+                item_pool.append(self.create_item("Progressive Fangs of Asterkarn"))
 
         if self.options.goal == "emblem_hunt":
             # Handle having more max emblems than total filler space available
@@ -213,23 +226,29 @@ class GrimDawnWorld(World):
             filler_name = get_unique_relic(self)
             if filler_name == "":
                 return "Extra EXP"
+        elif filler_name == "Gear":
+            filler_name = get_unique_gear(self)
+            if filler_name == "":
+                return "Extra EXP"
         return filler_name
 
     def set_rules(self) -> None:
         grimDawnRules = GrimDawnRules(self)
         grimDawnRules.set_grim_dawn_rules()
         if self.options.goal == "beat_warden":
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Warden Krieg","Location",self.player)#.has("Warden Boss Door Unlock",self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Warden Krieg","Location",self.player)
         elif self.options.goal == "beat_korvaak":
             self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Manifestation of Korvaak, the Eldritch Sun","Location",self.player)
         elif self.options.goal == "beat_ravna":
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Swarm Queen Ravna","Location",self.player)#.has_all(["Royal Hive Queen Door Unlock","Homestead Side Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Swarm Queen Ravna","Location",self.player)
         elif self.options.goal == "beat_loghorrean":
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Loghorrean","Location",self.player)#.has_all(["Loghorrean Seal Unlock","Tomb of the Watchers Door Unlock","Fort Ikon Destroy Blockade","Fort Ikon Gate Unlock","Homestead Main Doors Unlock","Arkovian Foothills Destroy Barricade","Arkovia Bridge Repair"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Loghorrean","Location",self.player)
         elif self.options.goal == "beat_master_of_flesh":
-            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Master of Flesh","Location",self.player)#  .has_all(["Crown Hill Destroy Gates","Crown Hill Open Flesh Barrier","Fleshworks Open Flesh Barrier","Candle District Door Unlock","Altar of Rattosh Portal","Gloomwald Destroy Blockade"],self.player)
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Master of Flesh","Location",self.player)
+        elif self.options.goal == "beat_beronath":
+            self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("Beronath, Corruptor of Asterkarn","Location",self.player)
         elif self.options.goal == "beat_all_bosses":
-            self.multiworld.completion_condition[self.player] = lambda state: (state.can_reach("Master of Flesh","Location",self.player) and state.can_reach("The Loghorrean","Location",self.player) and state.can_reach("Swarm Queen Ravna","Location",self.player) and state.can_reach("Manifestation of Korvaak, the Eldritch Sun","Location",self.player) and state.can_reach("Warden Krieg","Location",self.player))
+            self.multiworld.completion_condition[self.player] = lambda state: (state.can_reach("Beronath, Corruptor of Asterkarn","Location",self.player) and state.can_reach("Master of Flesh","Location",self.player) and state.can_reach("The Loghorrean","Location",self.player) and state.can_reach("Swarm Queen Ravna","Location",self.player) and state.can_reach("Manifestation of Korvaak, the Eldritch Sun","Location",self.player) and state.can_reach("Warden Krieg","Location",self.player))
         elif self.options.goal == "emblem_hunt":
             self.multiworld.completion_condition[self.player] = lambda state: state.has("Aetherial Emblem",self.player,self.options.required_emblems.value)
         # Visualize regions
@@ -254,13 +273,16 @@ class GrimDawnWorld(World):
         prog_main = ["Arkovia Bridge Repair", "Arkovian Foothills Destroy Barricade", "Homestead Main Doors Unlock", "Fort Ikon Gate Unlock", "Fort Ikon Destroy Blockade", "Tomb of the Watchers Door Unlock", "Loghorrean Seal Unlock"]
         prog_aom = ["Gloomwald Destroy Blockade", "Altar of Rattosh Portal", "Steelcap District Door Unlock", "Crown Hill Destroy Gates", "Crown Hill Open Flesh Barrier", "Fleshworks Open Flesh Barrier"]
         prog_fg = ["Warden Boss Door Unlock", "Vanguard of the Three Door Unlock", "Path of Ascension Destroy Barrier", "Eldritch Gate Destroy Barrier"]
+        prog_foa = ["Fort Ikon Doorway Unlock", "Mark of Passage", "High Cheiftain's Blessing", "Heart of the Void", "Ritual of Cleansing"]
 
         if item.name == "Progressive Main Campaign":
             return handle_list(prog_main)
-        elif item.name == "Progressive Forgotten Gods":
-            return handle_list(prog_fg)
         elif item.name == "Progressive Ashes of Malmouth":
             return handle_list(prog_aom)
+        elif item.name == "Progressive Forgotten Gods":
+            return handle_list(prog_fg)
+        elif item.name == "Progressive Fangs of Asterkarn":
+            return handle_list(prog_foa)
         return super().collect_item(state,item,remove)
 
     # def write_spoiler(self, spoiler_handle):
@@ -302,24 +324,24 @@ class GrimDawnWorld(World):
             "goal":self.options.goal.value,
             "max_emblems":self.options.max_emblems.value,
             "required_emblems":self.options.required_emblems.value,
-            "deathlink":self.options.death_link.value,
             "forbidden_dungeons": self.options.forbidden_dungeons.value,
-            "faction": self.options.faction.value,
             "one_shot": self.options.one_shot.value,
             "secret_chest": self.options.secret_chest.value,
             "devotion_shrine": self.options.devotion_shrine.value,
             "lore": self.options.lore.value,
             "block_flooded_passage": self.options.block_flooded_passage.value,
             "progressive_progression":self.options.progressive_progression.value,
+            "faction": self.options.faction.value,
             "dlc_aom": self.options.dlc_aom.value,
             "dlc_fg": self.options.dlc_fg.value,
+            "dlc_foa": self.options.dlc_foa.value,
             "skill_shuffler": self.options.skill_shuffler.value,
             "skill_shuffle_table": self.skill_shuffle_table,
             "skill_balance_randomizer": self.options.skill_balance_randomizer.value,
             "devotion_balance_randomizer": self.options.devotion_balance_randomizer.value,
+            "devotion_balance_table": self.devotion_balance_table,
             "skill_balance_range": self.options.skill_balance_range.value,
             "skill_balance_table": self.skill_balance_table,
-            "devotion_balance_table": self.devotion_balance_table,
             "skill_balance_weight": self.options.skill_balance_weight.value,
             "skill_balance_preserve_damage": self.options.skill_balance_preserve_damage.value,
             "skill_balance_preserve_area": self.options.skill_balance_preserve_area.value,
@@ -339,11 +361,13 @@ class GrimDawnWorld(World):
             "enemy_randomizer": self.options.enemy_randomizer.value,
             "enemy_table": self.enemy_table,
             "dangerous_enemies": self.options.dangerous_enemies.value,
-            "buff_enemies": self.options.buff_enemies.value,
             "third_person_camera": self.options.third_person_camera.value,
+            "custom_gear": self.options.custom_gear.value,
             "generic_gear_quality": self.options.generic_gear_quality.value,
             # "hint_scouts": self.options.hint_scouts.value,
             # "hint_scouts_dict": self.hint_scouts_dict,
+            "buff_enemies": self.options.buff_enemies.value,
+            "deathlink":self.options.death_link.value,
             "ap_world_version": self.ap_world_version,
         }
 
